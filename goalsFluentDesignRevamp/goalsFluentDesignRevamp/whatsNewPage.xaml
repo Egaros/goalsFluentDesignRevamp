@@ -1,0 +1,105 @@
+﻿<Page x:Class="goalsFluentDesignRevamp.whatsNewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:goalsFluentDesignRevamp"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <CommonNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin"
+                    Value="10,5" />
+            <Setter Property="TextWrapping"
+                    Value="Wrap" />
+        </Style>
+
+        <Style x:Key="headerTextBlock"
+               TargetType="TextBlock">
+            <Setter Property="Margin"
+                    Value="10" />
+            <Setter Property="FontWeight"
+                    Value="SemiBold" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
+              BorderThickness="0,0,0,1">
+            <TextBlock Name="titleTextBlock"
+                       Text="WHAT'S NEW?"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Margin="10" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <ScrollViewer>
+
+                <StackPanel>
+
+                    <TextBlock Text="Farewell (for now)"
+                               Style="{StaticResource headerTextBlock}" />
+                    <TextBlock Text="I really enjoy developing this app but due to upcoming exams and pressure to get into university, I have to fully concentrate on academic work." />
+                    <TextBlock Text="Expect the next update to come around the end of June. Till then, keep working on your goals ;)" />
+                    <TextBlock Text="New Features"
+                               Style="{StaticResource headerTextBlock}" />
+                    <TextBlock Text="* Goal History is finally here! You can now track each step you took towards your goal!" />
+                    <TextBlock Text="* Added Sound Effects throughout the app. Please let me know what you think of them in the feedback hub." />
+                    <TextBlock Text="* Updated the edit items icon to the standard one." />
+                    <TextBlock Text="Bug Fixes"
+                               Style="{StaticResource headerTextBlock}" />
+                    <TextBlock Text="* Fixed critical bug when pinning tiles." />
+                    <TextBlock Text="* Highlight under selected pivot header is now symmetrical." />
+                    <TextBlock Text="* Backstack is cleared on main menu so you'll no longer accidently go back to the page before the main menu" />
+                    <TextBlock Text="Coming Soon"
+                               Style="{StaticResource headerTextBlock}" />
+                    <TextBlock Text="* OneDrive Syncing" />
+                    <TextBlock Text="Make sure you SEND FEEDBACK if you want your idea to become part of the app!"
+                               TextAlignment="Center"
+                               FontWeight="SemiBold"
+                               FontSize="16"
+                               Margin="10,20,10,0" />
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Button Style="{ThemeResource TextBlockButtonStyle}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Name="contiueButton"
+                    Click="contiueButton_Click"
+                    Margin="0,10,0,0">
+                <Button.Content>
+                    <StackPanel>
+                        <FontIcon x:Name="fontIcon3"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  Glyph="&#xE0AE;" />
+                        <TextBlock Text="Continue"
+                                   Margin="10"
+                                   Visibility="Visible" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Grid>
+</Page>
