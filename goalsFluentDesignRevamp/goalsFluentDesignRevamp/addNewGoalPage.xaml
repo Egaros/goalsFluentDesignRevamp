@@ -4,6 +4,7 @@
       xmlns:local="using:goalsFluentDesignRevamp"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
    
@@ -16,7 +17,7 @@
 
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource CommandBarBackground}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="phoneCommandBar">
@@ -50,31 +51,34 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition Height="200" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
+        <controls:DropShadowPanel>
+            <Grid BorderThickness="0,0,0,1.5"
+                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                  Canvas.ZIndex="20">
+                <Grid.BorderBrush>
+                    <SolidColorBrush Color="Gray"
+                                     Opacity="0.3" />
+                </Grid.BorderBrush>
 
-            <TextBlock Name="titleTextBlock"
-                       Text="ADD NEW GOAL"
-                       FontSize="16"
-                       FontWeight="SemiBold"
-                       Margin="10" />
-        </Grid>
-        <Grid Grid.Row="1"
-              BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="2">
+                <TextBlock Name="titleTextBlock"
+                           Text="ADD NEW GOAL"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="20" />
+            </Grid>
+        </controls:DropShadowPanel>
+        <Grid Grid.Row="1">
+            <controls:DropShadowPanel
+                Margin="5"
+                BlurRadius="10"
+                HorizontalAlignment="Center">
             <Image Name="goalImage"
                    Stretch="Uniform" />
+            </controls:DropShadowPanel>
             <TextBlock Name="noImagePlaceholderTextBlock"
                        Text="Currently No Image Selected"
                        HorizontalAlignment="Center"
@@ -100,9 +104,7 @@
                 </Button.Content>
             </Button>
         </Grid>
-        <ScrollViewer Grid.Row="3"
-                      BorderThickness="0,1,0,0"
-                      BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}">
+        <Grid Grid.Row="2">
             <StackPanel>
                 <TextBox Name="nameTextBox"
                          Header="Name Of Item:">
@@ -132,12 +134,16 @@
                            TextWrapping="Wrap"
                            Margin="10" />
             </StackPanel>
-        </ScrollViewer>
-    </Grid>
-    <Page.BottomAppBar>
-        <CommandBar Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                    CommandBarOverflowPresenterStyle="{ThemeResource bestCommandBarOverflowPresenterStyle}">
+
+            <controls:DropShadowPanel Margin="20"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Bottom"
+                                      x:Name="mainCommandBar"
+                                      BlurRadius="10"
+                                      ShadowOpacity="0.8"
+                                      Canvas.ZIndex="20">
+                <Grid  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+        <StackPanel  Orientation="Horizontal">
             <AppBarButton Name="confirmNewGoalBottom"
                           Icon="Accept"
                           Label="Finish"
@@ -149,6 +155,13 @@
                           Click="cancelButton_Click"
                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
 
-        </CommandBar>
-    </Page.BottomAppBar>
+        </StackPanel>
+            </Grid>
+        </controls:DropShadowPanel>
+        </Grid>
+    </Grid>
+  
+   
+       
+   
 </Page>

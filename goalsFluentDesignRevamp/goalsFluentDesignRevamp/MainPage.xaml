@@ -678,13 +678,10 @@
                                 Value="Collapsed" />
                         <Setter Target="historyLabel.Visibility"
                                 Value="Collapsed" />
-
                         <Setter Target="mainCommandBar.HorizontalAlignment"
                                 Value="Center" />
                         <Setter Target="mainCommandBar.Margin"
-                                Value="0,0,0,20" />
-                        <Setter Target="feedbackButtonText.Visibility"
-                                Value="Collapsed" />
+                                Value="20" />
                         <Setter Target="feedbackButton.Width"
                                 Value="68" />
 
@@ -702,12 +699,8 @@
                                 Value="Visible" />
                         <Setter Target="historyLabel.Visibility"
                                 Value="Visible" />
-                        <Setter Target="mainCommandBar.Margin"
-                                Value="20" />
                         <Setter Target="mainCommandBar.HorizontalAlignment"
                                 Value="Left" />
-                        <Setter Target="feedbackButtonText.Visibility"
-                                Value="Collapsed" />
                         <Setter Target="feedbackButton.Width"
                                 Value="68" />
 
@@ -727,8 +720,8 @@
                                 Value="Visible" />
                         <Setter Target="historyLabel.Visibility"
                                 Value="Visible" />
-                        <Setter Target="feedbackButton.Width"
-                                Value="168" />
+                        <Setter Target="mainCommandBar.HorizontalAlignment"
+                                Value="Left" />
 
                     </VisualState.Setters>
                 </VisualState>
@@ -916,40 +909,37 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Bottom"
                                       Margin="20"
-                                      Name="mainCommandBar"
+                                      x:Name="mainCommandBar"
                                       Canvas.ZIndex="20">
-                <Grid>
+                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
                     <StackPanel Orientation="Horizontal"
-                           
-                            Height="48"
-                            Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                           HorizontalAlignment="Center"
+                            Height="60">
 
                     <AppBarButton Name="feedbackButton"
-                                  Click="feedbackButton_Click">
+                                  Click="feedbackButton_Click"
+                                  Label="Feedback"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
                         <StackPanel Orientation="Horizontal"
                                     VerticalAlignment="Center"
                                     Height="36">
-                            <FontIcon FontFamily="Segoe MDL2 Assets"
-                                      Glyph="&#xE939;"
-                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                      Margin="0,0,5,0"
-                                      FontSize="20" />
-                            <TextBlock Name="feedbackButtonText"
-                                       Text="SEND FEEDBACK"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                       FontWeight="SemiBold"
-                                       FontSize="16"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE939;"
+                                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                          Margin="0,0,5,0"
+                                          FontSize="20" />
+                            </StackPanel>
                     </AppBarButton>
 
                     <AppBarButton Name="newGoalButton"
                                   Click="newGoalButton_Click"
                                   Icon="Add"
-                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}" 
+                                  Label ="New Goal"/>
                     <AppBarButton Name="editListButton"
                                   Click="editListButton_Click"
-                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                  Label="Select Items">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets"
                                       Glyph="&#xE133;" />
@@ -969,12 +959,14 @@
                     <AppBarButton Name="privacyPolicyButton"
                                   Click="privacyPolicyButton_Click"
                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                  Icon="ReportHacked">
+                                  Icon="ReportHacked"
+                                  Label="Priv. Policy">
                     </AppBarButton>
                     <AppBarButton Name="reviewButton"
                                   Click="reviewButton_Click"
                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                  Icon="OutlineStar" />
+                                  Icon="OutlineStar"
+                                  Label="Rate App"/>
                 </StackPanel>
             </Grid>
             </controls:DropShadowPanel>

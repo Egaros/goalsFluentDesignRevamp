@@ -21,7 +21,7 @@ using Microsoft.Services.Store.Engagement;
 using Windows.Networking.Connectivity;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-
+using Microsoft.Toolkit.Uwp;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace goalsFluentDesignRevamp

@@ -4,6 +4,7 @@
       xmlns:local="using:goalsFluentDesignRevamp"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -18,7 +19,7 @@
         </Style>
 
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource CommandBarBackground}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="phoneCommandBar">
@@ -52,32 +53,39 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="200" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <TextBlock Name="titleTextBlock"
-                       Margin="10"
-                       Text="PLACEHOLDER TEXT"
-                       FontSize="16"
-                       FontWeight="SemiBold" />
-        </Grid>
-        <Grid Grid.Row="1"
-              BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="2"
-              BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <Image Name="goalImage"
+        <controls:DropShadowPanel>
+            <Grid BorderThickness="0,0,0,1.5"
+                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                  Canvas.ZIndex="20">
+                <Grid.BorderBrush>
+                    <SolidColorBrush Color="Gray"
+                                     Opacity="0.3" />
+                </Grid.BorderBrush>
+                <TextBlock Name="titleTextBlock"
+                           Margin="20"
+                           Text="PLACEHOLDER TEXT"
+                           FontSize="16"
+                           FontWeight="SemiBold" />
+            </Grid>
+        </controls:DropShadowPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.BorderBrush>
+                <SolidColorBrush Color="Gray"
+                                 Opacity="0.3" />
+            </Grid.BorderBrush>
+            <controls:DropShadowPanel BlurRadius="10"
+                                      Grid.Row="1"
+                                      HorizontalAlignment="Center"
+                                      Margin="5">
+                <Image Name="goalImage"
                    Stretch="Uniform"
-                   Source="ms-appx:/Assets/noImage.png" />
+                   Source="ms-appx:/Assets/noImage.png" 
+                   />
+            </controls:DropShadowPanel>
             <Button Name="changeImageButton"
                     Style="{ThemeResource TextBlockButtonStyle}"
                     HorizontalAlignment="Center"
@@ -95,8 +103,9 @@
                 </Button.Content>
             </Button>
         </Grid>
+       
 
-        <ScrollViewer Grid.Row="3">
+        <ScrollViewer Grid.Row="2">
             <Grid>
                 <StackPanel>
                     <StackPanel>
@@ -167,34 +176,44 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-    </Grid>
-    <Page.BottomAppBar>
-        <CommandBar Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    Name="mainCommandBar"
-                    CommandBarOverflowPresenterStyle="{ThemeResource bestCommandBarOverflowPresenterStyle}">
+        <controls:DropShadowPanel Margin="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Bottom"
+                                  x:Name="mainCommandBar"
+                                  BlurRadius="10"
+                                  ShadowOpacity="0.8"
+                                  Canvas.ZIndex="20"
+                                  Grid.Row="2">
+            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+        <StackPanel 
+                    
+                    Orientation="Horizontal">
             <AppBarButton Name="finishChangesButton"
                           Click="finishChangesButton_Click"
                           Icon="Accept"
-                          Label="Finish Changes"
+                          Label="Finish"
                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
             <AppBarButton Name="cancelButton"
                           Click="cancelButton_Click"
                           Icon="Cancel"
-                          Label="Cancel Changes"
+                          Label="Cancel"
                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
             <AppBarButton Name="pinTileButton"
                           Click="pinTileButton_Click"
-                          Label="Pin to Start Screen"
+                          Label="Pin to Start"
                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                           Icon="Pin" />
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Name="deleteButton"
-                              Click="deleteButton_Click"
-                              Label="Delete"
-                              Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
-            </CommandBar.SecondaryCommands>
+            <AppBarButton Name="deleteButton"
+                          Click="deleteButton_Click"
+                          Icon="Delete"
+                          Label="Delete"
+                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
 
-        </CommandBar>
-    </Page.BottomAppBar>
+        </StackPanel>
+        </Grid>
+        </controls:DropShadowPanel>
+    </Grid>
+
+   
+    
 </Page>

@@ -406,6 +406,7 @@ namespace goalsFluentDesignRevamp
                var accentColorBrush = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]).Color;
                 ApplicationViewTitleBar formattableTitleBar = appView.TitleBar;
                 formattableTitleBar.ButtonBackgroundColor = Colors.Transparent;
+                formattableTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 formattableTitleBar.ButtonForegroundColor = accentColorBrush;
                 CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
                 coreTitleBar.ExtendViewIntoTitleBar = true;

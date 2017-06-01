@@ -51,27 +51,20 @@
 
         <Grid Grid.Row="1">
             <ScrollViewer>
-
                 <StackPanel>
-
-                    <TextBlock Text="Farewell (for now)"
+                    <TextBlock Text="Partially Back!"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="I really enjoy developing this app but due to upcoming exams and pressure to get into university, I have to fully concentrate on academic work." />
-                    <TextBlock Text="Expect the next update to come around the end of June. Till then, keep working on your goals ;)" />
+                    <TextBlock Text="Taking advantage of a week off :D" />
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Goal History is finally here! You can now track each step you took towards your goal!" />
-                    <TextBlock Text="* Added Sound Effects throughout the app. Please let me know what you think of them in the feedback hub." />
-                    <TextBlock Text="* Updated the edit items icon to the standard one." />
-                    <TextBlock Text="Bug Fixes"
-                               Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Fixed critical bug when pinning tiles." />
-                    <TextBlock Text="* Highlight under selected pivot header is now symmetrical." />
-                    <TextBlock Text="* Backstack is cleared on main menu so you'll no longer accidently go back to the page before the main menu" />
+                    <TextBlock Text="* Started to implement elements of fluent design starting off with depth. Others will probably be implemented when the Fall Creators Update API is released." />
+                    <TextBlock Text="* New name because Windows Store search algorithms make the app hard to find. Now the app is called 'Track Goal$'"/>
+                    <!--<TextBlock Text="Bug Fixes"
+                               Style="{StaticResource headerTextBlock}" />-->
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
                     <TextBlock Text="* OneDrive Syncing" />
-                    <TextBlock Text="Make sure you SEND FEEDBACK if you want your idea to become part of the app!"
+                    <TextBlock Text="Make sure you FEEDBACK HUB button if you want your idea to become part of the app!"
                                TextAlignment="Center"
                                FontWeight="SemiBold"
                                FontSize="16"

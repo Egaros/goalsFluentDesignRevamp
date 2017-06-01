@@ -25,6 +25,7 @@ using Windows.UI.Composition;
 using Windows.UI;
 using System.Numerics;
 using goalsFluentDesignRevamp.Control;
+using Microsoft.Toolkit.Uwp;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -39,7 +40,6 @@ namespace goalsFluentDesignRevamp
         public ObservableCollection<goal.completedGoal> completedGoalsToDisplay;
         public ObservableCollection<history> historyToDisplay = new ObservableCollection<history>();
         StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
-        private Compositor _compositor;
 
         public MainPage()
         {
