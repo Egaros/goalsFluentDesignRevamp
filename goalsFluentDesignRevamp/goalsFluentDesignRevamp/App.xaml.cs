@@ -38,7 +38,7 @@ namespace goalsFluentDesignRevamp
     sealed partial class App : Application
     {
         public static Navigation NavService { get; set; }
-        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        public static Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         private bool newSaveFilesNeeded = false;
         public bool isTaskRegistered = false;
         private StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
@@ -60,6 +60,7 @@ namespace goalsFluentDesignRevamp
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            Application.Current.Resuming += new EventHandler<Object>(OnResuming);
             createScreenOrientationEvenHandlers();
 
 
@@ -68,7 +69,11 @@ namespace goalsFluentDesignRevamp
             checkIfYouCanLoadFiles();
             if (newSaveFilesNeeded == true)
             {
+                //If new save files are needed, you can assume that this is the first time the app has been opened on a device
+                //Or started from scratch so set last synced ticks to 0 here
                 createSaveFiles();
+                createImageFolder();
+                localSettings.Values["lastTimeSynced"] = "Haven't synced with OneDrive yet.";
             }
             else
             {
@@ -83,6 +88,12 @@ namespace goalsFluentDesignRevamp
             {
                 loadHistory();
             }
+        }
+
+        private async void createImageFolder()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            await localFolder.CreateFolderAsync("ImageFolder", CreationCollisionOption.OpenIfExists);
         }
 
         private void createScreenOrientationEvenHandlers()
@@ -178,7 +189,9 @@ namespace goalsFluentDesignRevamp
 
             // TODO: Initialize root frame just like in OnLaunched
             StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             engagementManager.RegisterNotificationChannelAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             requestAccessForBackgroundTasksOnSpecialActivation();
             unregisterBackgroundTasks();
             var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
@@ -382,7 +395,9 @@ namespace goalsFluentDesignRevamp
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             engagementManager.RegisterNotificationChannelAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             await BackgroundExecutionManager.RequestAccessAsync();
             unregisterBackgroundTasks();
             var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
@@ -541,25 +556,23 @@ namespace goalsFluentDesignRevamp
             deferral.Complete();
         }
 
-        //private void OnBackRequested(object sender, BackRequestedEventArgs e)
-        //{
-        //    Frame rootFrame = Window.Current.Content as Frame;
+
+        private void OnResuming(object sender, object e)
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>
+            {
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar")) { 
+                    var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                    statusBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["SystemControlForegroundAccentBrush"]).Color;
+                    statusBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"]).Color;
+                }
+
+            });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
 
 
-        //    if (rootFrame.CurrentSourcePageType == typeof(MainPage))
-        //    {
-        //        if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-        //        {
-        //            Application.Current.Exit();
-        //        }
-        //    }
-        //else
-        //{
-        //    if (rootFrame.CanGoBack)
-        //    {
-        //        e.Handled = true;
-        //        App.NavService.NavigateBack();
-        //    }
     }
 }
 

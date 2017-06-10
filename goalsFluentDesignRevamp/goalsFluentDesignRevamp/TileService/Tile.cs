@@ -174,19 +174,26 @@ namespace goalsFluentDesignRevamp.TileService
             else
             {
                 SecondaryTile tile = GenerateSecondaryTile(tileIDtoUse, name);
-                await tile.RequestCreateAsync();
+               bool allowedToPin = await tile.RequestCreateAsync();
                 // Get its updater
+                if (allowedToPin)
+                {
                 var updater = TileUpdateManager.CreateTileUpdaterForSecondaryTile(tileIDtoUse);
 
                 // And send the notification
                 updater.Update(notification);
+                }
             }
 
 
 
         }
 
-
+        internal static bool checkIfTileIsPinned(string tileID)
+        {
+            bool isPinned = SecondaryTile.Exists(tileID);
+            return isPinned;
+        }
 
         private static SecondaryTile GenerateSecondaryTile(string tileId, string displayName)
         {
@@ -198,10 +205,10 @@ namespace goalsFluentDesignRevamp.TileService
             return tile;
         }
 
-        public static void updateExistingTile(string name, string progress, string description, string imagePath)
+        public static void updateExistingTile(string name, string progress, string description, string imagePath, string tileID)
         {
             string percentage = progress.Remove(0, 9);
-            string tileIDtoUse = name.Replace(" ", "");
+            string tileIDtoUse = tileID;
             // Construct the tile content
             var content = new TileContent()
             {
@@ -347,13 +354,13 @@ namespace goalsFluentDesignRevamp.TileService
                 }
             };
 
-            if (SecondaryTile.Exists(tileIDtoUse))
-            {
+            
                 var notification = new TileNotification(content.GetXml());
                 var updater = TileUpdateManager.CreateTileUpdaterForSecondaryTile(tileIDtoUse);
                 updater.Update(notification);
-            }
+
         }
+        
     }
 
 }

@@ -26,6 +26,7 @@ using Windows.UI;
 using System.Numerics;
 using goalsFluentDesignRevamp.Control;
 using Microsoft.Toolkit.Uwp;
+using goalsFluentDesignRevamp.Services;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -36,11 +37,12 @@ namespace goalsFluentDesignRevamp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public ObservableCollection<goal> goalsToDisplay;
-        public ObservableCollection<goal.completedGoal> completedGoalsToDisplay;
-        public ObservableCollection<history> historyToDisplay = new ObservableCollection<history>();
+        public  ObservableCollection<goal> goalsToDisplay;
+        public  ObservableCollection<goal.completedGoal> completedGoalsToDisplay;
+        public  ObservableCollection<history> historyToDisplay = new ObservableCollection<history>();
         StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
-
+        bool archiveEditingMode = false;
+        goal.completedGoal goalInContextContainer;
         public MainPage()
         {
             this.InitializeComponent();
@@ -76,7 +78,7 @@ namespace goalsFluentDesignRevamp
             }
         }
 
-
+        
 
 
 
@@ -178,11 +180,7 @@ namespace goalsFluentDesignRevamp
             {
                 foreach (goal.completedGoal item in completedGoalGridView.SelectedItems)
                 {
-                    String historicalEvent = $"You quit the goal: {item.name}";
-                    history.makeHistory(item.name, historicalEvent, DateTime.Now, eventType.DeletedGoal);
-                    history.saveHistory();
                     completedGoalsToDisplay.Remove(item);
-
                 }
             } while (completedGoalGridView.SelectedItems.Count != 0);
 
@@ -216,7 +214,7 @@ namespace goalsFluentDesignRevamp
             cancelButton.Visibility = Visibility.Visible;
             newGoalButton.Visibility = Visibility.Collapsed;
             editListButton.Visibility = Visibility.Collapsed;
-
+            archiveEditingMode = true;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -233,6 +231,7 @@ namespace goalsFluentDesignRevamp
             newGoalButton.Visibility = Visibility.Visible;
             editListButton.Visibility = Visibility.Visible;
             completedGoalGridView.SelectionMode = ListViewSelectionMode.None;
+            archiveEditingMode = false;
         }
 
         private void mainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -245,7 +244,10 @@ namespace goalsFluentDesignRevamp
             }
             if (mainPivot.SelectedItem == archivePivotItem)
             {
+                if (archiveEditingMode == false)
+                {
                 editListButton.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -257,6 +259,35 @@ namespace goalsFluentDesignRevamp
             completedGoalGridView.SelectionMode = ListViewSelectionMode.Multiple;
         }
 
+        private void deleteGoalFromContext(object sender, RoutedEventArgs e)
+        {
+            goal.completedGoal goalToDelete = goalInContextContainer;
+            completedGoalsToDisplay.Remove(goalToDelete);
+            goal.completedGoal.listOfCompletedGoals = completedGoalsToDisplay;
+            goal.saveGoals();
+            if (completedGoalsToDisplay.Count == 0)
+            {
+                completedGoalGridView.Visibility = Visibility.Collapsed;
+                noCompletedGoalsTextBlock.Visibility = Visibility.Visible;
+
+            }
+            
+        }
+
+        private void completedGoalView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            GridView gridView = (GridView)sender;
+            archiveContextMenu.ShowAt(gridView, e.GetPosition(gridView));
+            var goalInContext = ((FrameworkElement)e.OriginalSource).DataContext;
+            goalInContextContainer = (goal.completedGoal)goalInContext;
+
+        }
+
+        private void MenuFlyout_Closed(object sender, object e)
+        {
+            completedGoalGridView.SelectedItem = null;
+            completedGoalGridView.SelectionMode = ListViewSelectionMode.None;
+        }
 
         
     }

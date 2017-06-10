@@ -44,22 +44,7 @@ namespace goalsFluentDesignRevamp
 
         }
 
-        
 
-        private void navigateToMainPage()
-        {
-
-            App.NavService.NavigateTo(typeof(MainPage), "adShown");
-
-        }
-
-
-        public static bool IsInternet()
-        {
-            ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
-            bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
-            return internet;
-        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -120,14 +105,15 @@ namespace goalsFluentDesignRevamp
             selectedGoal.targetReached = selectedGoal.target - targetRemaining;
             decimal percentage = Math.Round((selectedGoal.targetReached / selectedGoal.target) * 100);
             selectedGoal.progress = $"Progress: {percentage}%";
-            tile.updateExistingTile(selectedGoal.name, selectedGoal.progress, selectedGoal.description, selectedGoal.imagePath);
             string historicalEvent = String.Format("Added {0:C} towards {1}.", amountSubmitted, selectedGoal.name);
             history.makeHistory(selectedGoal.name, historicalEvent, DateTime.Now, eventType.PositiveUpdate);
-
+            determineImageToSetToGoal();
+            tryToUpdateTile();
+           
 
             if (selectedGoal.targetReached == selectedGoal.target)
             {
-                determineImageToSetToGoal();
+                
                 goal.makeCompletedGoal(selectedGoal, DateTime.Now);
                 goal.saveGoals();
                 historicalEvent = $"You achieved the goal: {selectedGoal.name}";
@@ -140,7 +126,6 @@ namespace goalsFluentDesignRevamp
             else
             {
 
-                determineImageToSetToGoal();
                 goal.replaceGoal(selectedGoal);
                 logger.Log("Goals Updated");
                 goal.saveGoals();
@@ -155,7 +140,14 @@ namespace goalsFluentDesignRevamp
 
         }
 
-       
+        private void tryToUpdateTile()
+        {
+            bool tileExists = tile.checkIfTileIsPinned(selectedGoal.tileID);
+            if (tileExists)
+            {
+                tile.updateExistingTile(selectedGoal.name, selectedGoal.progress, selectedGoal.description, selectedGoal.imagePath, selectedGoal.tileID);
+            }
+        }
 
         private void determineImageToSetToGoal()
         {
@@ -205,20 +197,13 @@ namespace goalsFluentDesignRevamp
             {
                 StorageFile usedFile = await file.CopyAsync(imageFolder, file.Name, NameCollisionOption.ReplaceExisting);
                 filePath = usedFile.Path.ToString();
-                goalImage.Source = new BitmapImage(new Uri(filePath, UriKind.Absolute));
+                goalImage.Source = new BitmapImage(new Uri(filePath, UriKind.Relative));
                 logger.Log("Times Image changed after goal creation");
             }
         }
 
         private void pinTileButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Around end of June when you come back, remove this and if statement. It's only there for compaitablilty reasons
-            //It basically fixes the bug and insures every goal has a tileID
-            if (selectedGoal.tileID == null)
-            {
-
-                selectedGoal.tileID = goal.generateUniqueID();
-            }
             try
             {
                 tile.makeOrUpdateGoalTile(selectedGoal.name, selectedGoal.tileID, selectedGoal.progress, selectedGoal.description, selectedGoal.imagePath);

@@ -4,6 +4,7 @@
       xmlns:local="using:goalsFluentDesignRevamp"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
     <Page.Transitions>
@@ -33,43 +34,54 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+   
+    <Grid Background="{ThemeResource CommandBarBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <TextBlock Name="titleTextBlock"
+        <controls:DropShadowPanel>
+        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderThickness="0,0,0,1.5">
+                <Grid.BorderBrush>
+                    <SolidColorBrush Color="Gray"
+                                     Opacity="0.3" />
+                </Grid.BorderBrush>
+                <TextBlock Name="titleTextBlock"
                        Text="WHAT'S NEW?"
                        FontSize="16"
                        FontWeight="SemiBold"
-                       Margin="10" />
+                       Margin="20"
+                       Canvas.ZIndex="20"/>
         </Grid>
-
-        <Grid Grid.Row="1">
+            </controls:DropShadowPanel>
+                <Grid Grid.Row="1">
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="Partially Back!"
-                               Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="Taking advantage of a week off :D" />
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Started to implement elements of fluent design starting off with depth. Others will probably be implemented when the Fall Creators Update API is released." />
-                    <TextBlock Text="* New name because Windows Store search algorithms make the app hard to find. Now the app is called 'Track Goal$'"/>
+                    <TextBlock Text="* Adding new goals is now much easier now with the new form helper bar" />
+                    <TextBlock Text="* Started to add in context menus (Menus that appear after right-click). You can now delete completed goals using this menu now" />
+                    <TextBlock Text="* Grids will now reorder themselves smoothly when resizing the app" />
                     <!--<TextBlock Text="Bug Fixes"
                                Style="{StaticResource headerTextBlock}" />-->
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* OneDrive Syncing" />
-                    <TextBlock Text="Make sure you FEEDBACK HUB button if you want your idea to become part of the app!"
+                    <TextBlock Text="* OneDrive Syncing - Already Started work on it!" />
+                    <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to improve this app!"
                                TextAlignment="Center"
                                FontWeight="SemiBold"
                                FontSize="16"
                                Margin="10,20,10,0" />
-
+                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE939;"
+                                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                          Margin="0,10,5,0"
+                                          FontSize="60" />
+                    <TextBlock Text="Feedback Button Icon" 
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
 
             </ScrollViewer>

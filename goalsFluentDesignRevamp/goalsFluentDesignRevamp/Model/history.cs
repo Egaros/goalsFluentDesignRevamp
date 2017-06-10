@@ -80,7 +80,7 @@ namespace goalsFluentDesignRevamp.Model
         {
             bool fileLocked = true;
             //saves historys
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile newFile;
 
 
@@ -120,7 +120,7 @@ namespace goalsFluentDesignRevamp.Model
         public async static Task<ObservableCollection<history>> loadHistory()
         {
             bool fileLocked = true;
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             ObservableCollection<history> savedHistory = new ObservableCollection<history>();
 
             StorageFile savedFile = await localFolder.GetFileAsync("history.json");

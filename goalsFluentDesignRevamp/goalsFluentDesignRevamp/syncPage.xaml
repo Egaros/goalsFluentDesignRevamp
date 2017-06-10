@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="goalsFluentDesignRevamp.syncPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:goalsFluentDesignRevamp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource CommandBarBackground}">
+      
+        
+        <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="Visible"
+                    Name="connectMenu">
+                <Image Source="Assets/onedriveLogo.png"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Height="75"
+                       Width="237" />
+
+                <TextBlock Text="Sync data between devices using OneDrive"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           FontWeight="SemiBold" />
+                <Button Name="connectButton"
+                    Click="connectButton_Click"
+                    Content="Connect to OneDrive" 
+                    HorizontalAlignment="Center"
+                        Margin="0,10,0,0"/>
+        </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Name="syncDashboard"
+                        Visibility="Collapsed">
+                <Image Height="100"
+                       Width="100"
+                       Source="Assets/onedriveCloudLogo.png" />
+                <TextBlock Text="syncStatusText"
+                           Name="syncStatusTextBlock" 
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           FontSize="18"/>
+                <ProgressRing Name="syncProgressRing" Height="75"
+                              Width="75"
+                              Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

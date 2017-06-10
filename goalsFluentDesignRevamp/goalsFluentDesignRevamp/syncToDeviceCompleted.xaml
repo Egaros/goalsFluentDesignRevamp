@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="goalsFluentDesignRevamp.syncToDeviceCompleted"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:goalsFluentDesignRevamp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource CommandBarBackground}">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Image Source="Assets/onedriveCloudLogo.png"
+                   Width="100"
+                   Height="100" />
+            <TextBlock Text="Sync Complete!" TextAlignment="Center"
+                   FontWeight="SemiBold"
+                   FontSize="24"
+                   Margin="0,-20,0,5"/>
+            <TextBlock Text="Changes will be applied after this screen"
+                       TextAlignment="Center"/>
+        </StackPanel>
+        <Button Style="{ThemeResource TextBlockButtonStyle}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Name="contiueButton"
+                Click="contiueButton_Click"
+                Margin="0,0,0,20">
+            <Button.Content>
+                <StackPanel>
+                    <FontIcon x:Name="fontIcon3"
+                              FontFamily="Segoe MDL2 Assets"
+                              Glyph="&#xE0AE;" />
+                    <TextBlock Text="Continue"
+                               Margin="10"
+                               Visibility="Visible" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+</Page>

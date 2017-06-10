@@ -124,6 +124,13 @@
     <Compile Include="selectedGoalPage.xaml.cs">
       <DependentUpon>selectedGoalPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\onedrive.cs" />
+    <Compile Include="syncPage.xaml.cs">
+      <DependentUpon>syncPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="syncToDeviceCompleted.xaml.cs">
+      <DependentUpon>syncToDeviceCompleted.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TileService\Tile.cs" />
     <Compile Include="whatsNewPage.xaml.cs">
       <DependentUpon>whatsNewPage.xaml</DependentUpon>
@@ -152,6 +159,8 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\noImage.png" />
+    <Content Include="Assets\onedriveLogo.png" />
+    <Content Include="Assets\onedriveCloudLogo.png" />
     <Content Include="Assets\selectClick.mp3" />
     <Content Include="Assets\selectModeClick.mp3" />
     <Content Include="Assets\SmallTile.scale-100.png" />
@@ -166,6 +175,7 @@
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-125.png" />
     <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
@@ -230,6 +240,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="syncPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="syncToDeviceCompleted.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="whatsNewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -237,12 +255,18 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.2.3</Version>
+      <Version>5.3.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.SDK">
       <Version>10.1705.16001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>1.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Services">
+      <Version>1.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
       <Version>1.4.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">

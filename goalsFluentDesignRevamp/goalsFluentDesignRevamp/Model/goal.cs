@@ -88,6 +88,17 @@ namespace goalsFluentDesignRevamp.Model
             fileLocked = true;
         }
 
+        public async static Task<List<StorageFile>> getGoalDataFilesReadyForSyncing()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var savedGoals = await localFolder.GetFileAsync("golaso.json");
+            var savedCompletedGoals = await localFolder.GetFileAsync("noGolaso.json");
+            var savedHistory = await localFolder.GetFileAsync("history.json");
+
+            
+            return new List<StorageFile> { savedGoals, savedCompletedGoals, savedHistory };
+        }
+
         private static async void saveIncompleteGoals()
         {
             bool fileLocked = true;
@@ -127,6 +138,20 @@ namespace goalsFluentDesignRevamp.Model
 
             } while (fileLocked == true);
             fileLocked = true;
+        }
+
+        public async static Task<List<StorageFile>> getImagesReadyForSyncing()
+        {
+
+            var imageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("ImageFolder");
+           var  imagesUsed = await imageFolder.GetFilesAsync();
+
+            List<StorageFile> listOfImagesToSync = new List<StorageFile>();
+            foreach (var  file in imagesUsed)
+            {
+                listOfImagesToSync.Add(file);
+            }
+            return listOfImagesToSync;
         }
 
         public static async Task<ObservableCollection<goal>> loadGoals()

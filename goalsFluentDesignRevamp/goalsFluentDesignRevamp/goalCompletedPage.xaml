@@ -61,7 +61,7 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    <Grid  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
           Name="goalCompletedScreen">
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
