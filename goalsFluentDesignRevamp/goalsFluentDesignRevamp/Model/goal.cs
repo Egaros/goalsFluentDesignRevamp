@@ -20,6 +20,8 @@ namespace goalsFluentDesignRevamp.Model
         public decimal targetReached { get; set; }
         public string progress { get; set; }
         public string tileID { get; set; }
+        public DateTime startTime { get; set; } = DateTime.Now;
+        public DateTime endTime { get; set; } = new DateTime(1, 1, 1);
 
         public class completedGoal : goal
         {
@@ -40,9 +42,9 @@ namespace goalsFluentDesignRevamp.Model
 
         public static void saveGoals()
         {
-            saveIncompleteGoals();
-            saveCompleteGoals();
-
+             saveIncompleteGoals();
+             saveCompleteGoals();
+           
             //saves completedGoals
 
 
@@ -86,6 +88,7 @@ namespace goalsFluentDesignRevamp.Model
 
             } while (fileLocked == true);
             fileLocked = true;
+           
         }
 
         public async static Task<List<StorageFile>> getGoalDataFilesReadyForSyncing()
@@ -138,6 +141,7 @@ namespace goalsFluentDesignRevamp.Model
 
             } while (fileLocked == true);
             fileLocked = true;
+           
         }
 
         public async static Task<List<StorageFile>> getImagesReadyForSyncing()

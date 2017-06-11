@@ -49,7 +49,7 @@ namespace goalsFluentDesignRevamp
             loadHistory();
             loadGoals();
             checkIfDeviceHasFeedbackHub();
-
+            
 
         }
 
@@ -109,10 +109,14 @@ namespace goalsFluentDesignRevamp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             decideIfTutorialTextWillShow();
-
+            testUI();
         }
 
-        
+        private void testUI()
+        {
+            
+           
+        }
 
         private void hideMainMenu()
         {
@@ -171,7 +175,7 @@ namespace goalsFluentDesignRevamp
             logger.Log("Times Review button is clicked");
         }
 
-        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        private  void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             App.SFXSystem.Source = App.deleteClickSFXSource;
             App.SFXSystem.Play();

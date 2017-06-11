@@ -69,7 +69,6 @@ namespace goalsFluentDesignRevamp
 
                
                 long cloudSyncDateInTicks = long.Parse(statusFileContents);
-                long localSyncDateInTicks = long.Parse(syncDataFromLocalContents);
                 
 
                 List<StorageFile> goalDataToSync = await goal.getGoalDataFilesReadyForSyncing();
@@ -86,13 +85,13 @@ namespace goalsFluentDesignRevamp
 
                 else
                 {
-                    downloadDataFromCloud(rootFolder, imageFolder, goalDataToSync, cloudData);
+                    //the "complete" variable must be there. Without it, the app will start skipping code for no reason :'(
+                   bool complete = await downloadDataFromCloud(rootFolder, imageFolder, goalDataToSync, cloudData);
                     recordLastTimeSynced(rootFolder);
-                    goal.listOfGoals = await goal.loadGoals();
-                    goal.listOfCompletedGoals = await goal.loadCompletedGoals();
-                    history.listOfHistory = await history.loadHistory();
+                    //goal.listOfGoals = await goal.loadGoals();
+                    //goal.listOfCompletedGoals = await goal.loadCompletedGoals();
+                    //history.listOfHistory = await history.loadHistory();
                     hideProgressRing();
-                    await Task.Delay(300);
                     App.NavService.NavigateTo(typeof(syncToDeviceCompleted));
                 }
 
@@ -145,19 +144,21 @@ namespace goalsFluentDesignRevamp
         private void recordLastTimeSynced(OneDriveStorageFolder rootFolder)
         {
             DateTime lastTimeSynced = DateTime.Now;
-            App.localSettings.Values["lastTimeSynced"] = lastTimeSynced.Ticks.ToString();
+            App.localSettings.Values["lastTimeSynced"] = lastTimeSynced.ToString();
             onedrive.writeCurrentTimeToStatusFile(lastTimeSynced, rootFolder);
         }
 
-        private async void downloadDataFromCloud(OneDriveStorageFolder rootFolder, OneDriveStorageFolder imageFolder, List<StorageFile> goalDataToSync, List<OneDriveStorageFile> cloudData)
+        private async Task<bool> downloadDataFromCloud(OneDriveStorageFolder rootFolder, OneDriveStorageFolder imageFolder, List<StorageFile> goalDataToSync, List<OneDriveStorageFile> cloudData)
         {
             //Outline: Download and replace all goal data and images. Update the imagePath of each goal in case the user changes user name
             //on another computer (Things happen). You'll create a relativeUri using the images you've downloaded. Then you save one last time and update
             var localFolder = ApplicationData.Current.LocalFolder;
-            syncStatusTextBlock.Text = "Removing old data from your current device";
-            List<StorageFile> newImageData = new List<StorageFile>();
-            bool imageFolderIsEmpty = onedrive.checkIfImageFolderIsEmpty(imageFolder);
             retrieveGoalDataFromCloud(localFolder, cloudData);
+            syncStatusTextBlock.Text = "Removing old data from your current device";
+
+
+            List<StorageFile> newImageData = new List<StorageFile>();
+            bool imageFolderIsEmpty = await onedrive.checkIfImageFolderIsEmpty(imageFolder);
             if (!imageFolderIsEmpty)
             {
 
@@ -165,85 +166,95 @@ namespace goalsFluentDesignRevamp
             }
             updateImageUriForNewGoalData(newImageData, localFolder);
             syncStatusTextBlock.Text = "Sync Complete!";
-
+            return true;
         }
 
         private async void updateImageUriForNewGoalData(List<StorageFile> newImageData, StorageFolder localFolder)
         {
             //TODO: Go through every image name and check listOfGoals and listOfCompletedGoals for the imageURI containing the same image name (with the minimal characters being used for max accuracy)
-            //Then you update the URI so it's "{localFolder}/{ImageFolder}/{associatedGoalImage}.{Image File Extenstion}"
+            //Then you update the URI so it's $"{localFolder}/{ImageFolder}/{associatedGoalImage}.{Image File Extenstion}" 
             //All images that do not get matched in listOfGoals or listOfCompletedGoals are deleted!
 
-            var listOfGoals = await goal.loadGoals();
-            var listOfCompletedGoals = await goal.loadCompletedGoals();
 
             if (newImageData.Count != 0)
             {
+             goal.listOfGoals = await goal.loadGoals();
+            goal.listOfCompletedGoals = await goal.loadCompletedGoals();
+
+
                 foreach (var imageFile in newImageData)
                 {
                     bool matched = false;
                     bool noGoalMatch = false;
                     bool noCompletedGoalMatch = false;
-                    foreach (var goalItem in listOfGoals)
+                    foreach (var goalItem in goal.listOfGoals)
                     {
-                        if (goalItem.imagePath.Contains("{imageFile.Name}"))
+                        if (goalItem.imagePath.Contains($"{imageFile.Name}"))
                         {
-                            goalItem.imagePath = "{localFolder.Path}\\ImageFolder\\{imageFile.Name}";
+                            goalItem.imagePath = $"{localFolder.Path}\\ImageFolder\\{imageFile.Name}";
                             matched = true;
                         }
                         
                     }
-                    if (!matched)
+                    if (matched == false)
                     {
                         noGoalMatch = true;
                     }
 
 
-                    foreach (var completedGoalItem in listOfCompletedGoals)
+                    foreach (var completedGoalItem in goal.listOfCompletedGoals)
                     {
-                        if (completedGoalItem.imagePath.Contains("{imageFile.Name}"))
+                        if (completedGoalItem.imagePath.Contains($"{imageFile.Name}"))
                         {
-                            completedGoalItem.imagePath = "{localFolder.Path}\\ImageFolder\\{imageFile.Name}";
+                            completedGoalItem.imagePath = $"{localFolder.Path}\\ImageFolder\\{imageFile.Name}";
                             matched = true;
                         }
 
                        
                     }
-                    if (!matched)
+                    if (matched == false)
                     {
                         noCompletedGoalMatch = true;
                     }
 
-                    if (noGoalMatch  && noCompletedGoalMatch )
+                    if (noGoalMatch == true && noCompletedGoalMatch == true )
                     {
                         await imageFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        //Following Code might cause code to crash
+                        
                     }
                   
                 }
 
             }
-
+              goal.saveGoals();
+            
         }
 
         private async Task<List<StorageFile>> retrievegoalImageDataFromCloud(OneDriveStorageFolder imageFolder, StorageFolder localFolder)
         {
             var localImageFolder = await localFolder.GetFolderAsync("ImageFolder");
+
             List<StorageFile> newGoalImageData = new List<StorageFile>();
 
-            var cloudImageFiles = await imageFolder.GetFilesAsync();
+            List <OneDriveStorageFile> cloudImageFiles = await imageFolder.GetFilesAsync();
+
+
+
+
             foreach (var cloudImageFile in cloudImageFiles)
             {
                 using (var cloudFileStream = await cloudImageFile.OpenAsync())
                 {
                     byte[] buffer = new byte[cloudFileStream.Size];
                     var localBuffer = await cloudFileStream.ReadAsync(buffer.AsBuffer(), (uint)cloudFileStream.Size, InputStreamOptions.ReadAhead);
-                    var newGoalDataFile = await localImageFolder.CreateFileAsync($"{cloudImageFile.Name}", CreationCollisionOption.ReplaceExisting);
-                    using (var localStream = await newGoalDataFile.OpenAsync(FileAccessMode.ReadWrite))
+                    var newGoalImageFile = await localImageFolder.CreateFileAsync($"{cloudImageFile.Name}", CreationCollisionOption.ReplaceExisting);
+                    using (var localStream = await newGoalImageFile.OpenAsync(FileAccessMode.ReadWrite))
                     {
                         await localStream.WriteAsync(localBuffer);
                         await localStream.FlushAsync();
                     }
-                    newGoalImageData.Add(newGoalDataFile);
+                    newGoalImageData.Add(newGoalImageFile);
                 }
             }
             return newGoalImageData;
@@ -307,28 +318,6 @@ namespace goalsFluentDesignRevamp
             hideProgressRing();
         }
 
-        private async void deleteImageFolderContents(OneDriveStorageFolder imageFolder)
-        {
-            bool imageFolderIsEmpty = onedrive.checkIfImageFolderIsEmpty(imageFolder);
-            if (!imageFolderIsEmpty)
-            {
-                var cloudImageFiles = await imageFolder.GetFilesAsync();
-                foreach (var cloudImageFile in cloudImageFiles)
-                {
-                    await cloudImageFile.DeleteAsync();
-                }
-
-            }
-        }
-
-        private async void deleteRootFolderContents(List<OneDriveStorageFile> cloudData)
-        {
-
-            foreach (var cloudFile in cloudData)
-            {
-                await cloudFile.DeleteAsync();
-            }
-        }
 
         private async Task<bool> decideWhetherCloudOrDeviceHasNewerData(List<StorageFile> goalDataToSync, OneDriveStorageFolder rootFolder, long cloudSyncDateInTicks)
         {

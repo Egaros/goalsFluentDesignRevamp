@@ -171,12 +171,23 @@ namespace goalsFluentDesignRevamp.Services
             return new List<OneDriveStorageFile> { cloudGoalData, cloudCompletedGoalData, cloudHistoryData};
         }
 
-        public static bool checkIfImageFolderIsEmpty(OneDriveStorageFolder imageFolder)
+        public async static Task<bool> checkIfImageFolderIsEmpty(OneDriveStorageFolder imageFolder)
         {
             bool isImageFolderEmpty = true;
-            if (imageFolder.OneDriveItem.Folder.ChildCount != 0)
+            var listOfItems = new List<OneDriveStorageFile>();
+            try
+            {
+            listOfItems = await imageFolder.GetFilesAsync();
+            if (listOfItems.Count > 0)
             {
                 isImageFolderEmpty = false;
+            }
+
+            }
+            catch (Exception)
+            {
+
+                
             }
 
             return isImageFolderEmpty;
