@@ -15,7 +15,7 @@
                     VerticalAlignment="Center"
                     Visibility="Visible"
                     Name="connectMenu">
-                <Image Source="Assets/onedriveLogo.png"
+                <Image Source="ms-appx:///Assets/onedriveLogo.png"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
                        Height="75"
@@ -38,7 +38,7 @@
                         Visibility="Collapsed">
                 <Image Height="100"
                        Width="100"
-                       Source="Assets/onedriveCloudLogo.png" />
+                       Source="ms-appx:///Assets/onedriveCloudLogo.png" />
                 <TextBlock Text="syncStatusText"
                            Name="syncStatusTextBlock" 
                            TextAlignment="Center"

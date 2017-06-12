@@ -96,7 +96,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="addNewGoalPage.xaml.cs">
+    <Compile Include="Pages\addNewGoalPage.xaml.cs">
       <DependentUpon>addNewGoalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -111,28 +111,28 @@
     <Compile Include="Control\historyView.xaml.cs">
       <DependentUpon>historyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="goalCompletedPage.xaml.cs">
+    <Compile Include="Pages\goalCompletedPage.xaml.cs">
       <DependentUpon>goalCompletedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\goal.cs" />
     <Compile Include="Model\history.cs" />
     <Compile Include="NavigationService\Navigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="selectedGoalPage.xaml.cs">
+    <Compile Include="Pages\selectedGoalPage.xaml.cs">
       <DependentUpon>selectedGoalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\onedrive.cs" />
-    <Compile Include="syncPage.xaml.cs">
+    <Compile Include="Pages\syncPage.xaml.cs">
       <DependentUpon>syncPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="syncToDeviceCompleted.xaml.cs">
+    <Compile Include="Pages\syncToDeviceCompleted.xaml.cs">
       <DependentUpon>syncToDeviceCompleted.xaml</DependentUpon>
     </Compile>
     <Compile Include="TileService\Tile.cs" />
-    <Compile Include="whatsNewPage.xaml.cs">
+    <Compile Include="Pages\whatsNewPage.xaml.cs">
       <DependentUpon>whatsNewPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -214,7 +214,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="addNewGoalPage.xaml">
+    <Page Include="Pages\addNewGoalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,27 +230,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="goalCompletedPage.xaml">
+    <Page Include="Pages\goalCompletedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="selectedGoalPage.xaml">
+    <Page Include="Pages\selectedGoalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="syncPage.xaml">
+    <Page Include="Pages\syncPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="syncToDeviceCompleted.xaml">
+    <Page Include="Pages\syncToDeviceCompleted.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="whatsNewPage.xaml">
+    <Page Include="Pages\whatsNewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
