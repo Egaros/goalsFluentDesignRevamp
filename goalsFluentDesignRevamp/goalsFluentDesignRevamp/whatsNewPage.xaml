@@ -62,14 +62,18 @@
                 <StackPanel>
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Adding new goals is now much easier now with the new form helper bar" />
-                    <TextBlock Text="* Started to add in context menus (Menus that appear after right-click). You can now delete completed goals using this menu now" />
-                    <TextBlock Text="* Grids will now reorder themselves smoothly when resizing the app" />
+                    <TextBlock Text="* OneDrive Syncing - Working!" />
                     <!--<TextBlock Text="Bug Fixes"
                                Style="{StaticResource headerTextBlock}" />-->
+                    <TextBlock Text="Attention Beta Testers!"
+                               Style="{StaticResource headerTextBlock}" />
+                    <TextBlock Text="* First thing to test should be the OneDrive Syncing. It's available in the last tab of the app. Simply press the button and it will upload/download data from the cloud depending the last synced device."/>
+                    <TextBlock Text="* If you encouter any issues, send them to me using the feedback button. (If it doesn't work the first time, try again)" />
+                    <TextBlock Text="* P.S. Create Goals with these names and see what happens ☺:  'meheni pls', 'poof', '#TeamXbox' and 'Medium Universal'  "  />
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* OneDrive Syncing - Already Started work on it!" />
+                    <TextBlock Text="* Goals With time limits" />
+                    <TextBlock Text="* Drag And Drop" />
                     <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to improve this app!"
                                TextAlignment="Center"
                                FontWeight="SemiBold"

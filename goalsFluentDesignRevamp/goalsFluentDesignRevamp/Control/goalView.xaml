@@ -46,7 +46,8 @@
                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
                     <TextBlock Name="targetTextBlock"
                                Text="{x:Bind goalItem.targetToDisplay}" />
-                    <TextBlock Text="{x:Bind goalItem.progress}" />
+                    <TextBlock Name="progressTextBlock" 
+                        Text="{x:Bind goalItem.progress}" />
                 </StackPanel>
             </Border>
         </Grid>

@@ -37,9 +37,9 @@ namespace goalsFluentDesignRevamp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public  ObservableCollection<goal> goalsToDisplay;
-        public  ObservableCollection<goal.completedGoal> completedGoalsToDisplay;
-        public  ObservableCollection<history> historyToDisplay = new ObservableCollection<history>();
+        public ObservableCollection<goal> goalsToDisplay;
+        public ObservableCollection<goal.completedGoal> completedGoalsToDisplay;
+        public ObservableCollection<history> historyToDisplay = new ObservableCollection<history>();
         StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
         bool archiveEditingMode = false;
         goal.completedGoal goalInContextContainer;
@@ -49,7 +49,7 @@ namespace goalsFluentDesignRevamp
             loadHistory();
             loadGoals();
             checkIfDeviceHasFeedbackHub();
-            
+
 
         }
 
@@ -78,7 +78,7 @@ namespace goalsFluentDesignRevamp
             }
         }
 
-        
+
 
 
 
@@ -109,14 +109,10 @@ namespace goalsFluentDesignRevamp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             decideIfTutorialTextWillShow();
-            testUI();
+
         }
 
-        private void testUI()
-        {
-            
-           
-        }
+
 
         private void hideMainMenu()
         {
@@ -175,7 +171,7 @@ namespace goalsFluentDesignRevamp
             logger.Log("Times Review button is clicked");
         }
 
-        private  void deleteButton_Click(object sender, RoutedEventArgs e)
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             App.SFXSystem.Source = App.deleteClickSFXSource;
             App.SFXSystem.Play();
@@ -250,7 +246,7 @@ namespace goalsFluentDesignRevamp
             {
                 if (archiveEditingMode == false)
                 {
-                editListButton.Visibility = Visibility.Visible;
+                    editListButton.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -275,7 +271,7 @@ namespace goalsFluentDesignRevamp
                 noCompletedGoalsTextBlock.Visibility = Visibility.Visible;
 
             }
-            
+
         }
 
         private void completedGoalView_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -293,7 +289,7 @@ namespace goalsFluentDesignRevamp
             completedGoalGridView.SelectionMode = ListViewSelectionMode.None;
         }
 
-        
+
     }
 
 

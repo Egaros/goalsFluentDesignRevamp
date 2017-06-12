@@ -268,7 +268,9 @@ namespace goalsFluentDesignRevamp
 
         private async void animateFormHelperShowing()
         {
+
             await formHelper.Scale(1f, 1f, 0, 48, 500).StartAsync();
+            
         }
 
         private void hideFormHelper()
@@ -286,12 +288,12 @@ namespace goalsFluentDesignRevamp
         {
 
             await formHelper.Scale(0.01f, 0.01f, 0, 48,500).StartAsync();
-            
+           
             
             
         }
 
-       
+        
 
         private void showCommandBar()
         {
