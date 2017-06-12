@@ -117,7 +117,8 @@
                                        Foreground="Red"
                                        Text="Please enter numbers only e.g. 2 or 5.41"
                                        Visibility="Collapsed"
-                                       TextWrapping="Wrap" />
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Name="targetRemainingTextBlock"
                                    Text="£69.00 left!"

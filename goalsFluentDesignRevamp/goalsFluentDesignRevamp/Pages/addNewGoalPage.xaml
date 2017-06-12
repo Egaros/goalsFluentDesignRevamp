@@ -107,20 +107,23 @@
                 <StackPanel>
                     <TextBox Name="nameTextBox"
                              Header="Name Of Item:"
-                             GotFocus="nameTextBox_GotFocus">
+                             GotFocus="nameTextBox_GotFocus"
+                             AllowDrop="True">
 
                     </TextBox>
 
                     <TextBox Name="targetTextBox"
                              Header="Target To Reach:"
                              InputScope="Number"
-                             GotFocus="targetTextBox_GotFocus">
+                             GotFocus="targetTextBox_GotFocus"
+                             AllowDrop="True">
 
                     </TextBox>
 
                     <TextBox Name="descriptionTextBox"
                              Header="Description:"
-                             GotFocus="descriptionTextBox_GotFocus">
+                             GotFocus="descriptionTextBox_GotFocus"
+                             AllowDrop="True">
 
                     </TextBox>
                     <TextBlock Name="errorTextBlock"

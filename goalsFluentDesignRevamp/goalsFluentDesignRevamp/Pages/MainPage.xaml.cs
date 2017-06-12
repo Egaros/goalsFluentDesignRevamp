@@ -27,6 +27,10 @@ using System.Numerics;
 using goalsFluentDesignRevamp.Control;
 using Microsoft.Toolkit.Uwp;
 using goalsFluentDesignRevamp.Services;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
+using Windows.Storage;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -290,6 +294,46 @@ namespace goalsFluentDesignRevamp
         }
 
 
+        private async void rootGrid_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+            e.DragUIOverride.Caption = "Let go to start creating a new goal."; // Sets custom UI text
+            e.DragUIOverride.IsCaptionVisible = true; // Sets if the caption is visible
+             await mainPivot.Fade(0.1f, 800).StartAsync();
+          
+        }
+
+        private async void rootGrid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var items = await e.DataView.GetStorageItemsAsync();
+                var item = items[0] as StorageFile;
+                
+                var localFolder = ApplicationData.Current.LocalFolder;
+                var newLocalImageFile = await localFolder.CreateFileAsync($"{item.Name}", CreationCollisionOption.ReplaceExisting);
+
+                using (var stream = await item.OpenReadAsync())
+                {
+                    byte[] buffer = new byte[stream.Size];
+                    var localBuffer = await stream.ReadAsync(buffer.AsBuffer(), (uint)stream.Size, InputStreamOptions.ReadAhead);
+                    
+                    using (var localStream = await newLocalImageFile.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        await localStream.WriteAsync(localBuffer);
+                        await localStream.FlushAsync();
+                    }
+                }
+
+                App.NavService.NavigateTo(typeof(addNewGoalPage), newLocalImageFile);
+                
+            }
+        }
+
+        private async void rootGrid_DragLeave(object sender, DragEventArgs e)
+        {
+          bool dab = await mainPivot.Fade(1, 200).StartAsync();
+        }
     }
 
 

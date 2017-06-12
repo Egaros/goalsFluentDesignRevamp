@@ -56,6 +56,26 @@ namespace goalsFluentDesignRevamp
         {
             base.OnNavigatedTo(e);
             animateFormHelperHiding();
+            try
+            {
+                StorageFile droppedImageFile = (StorageFile)e.Parameter;
+                assignDroppedImageToGoalImage(droppedImageFile);
+            }
+            catch (Exception)
+            {
+
+                
+            }
+        }
+
+        private void assignDroppedImageToGoalImage(StorageFile droppedImageFile)
+        {
+
+            filePath = droppedImageFile.Path;
+            goalImage.Source = new BitmapImage(new Uri(filePath, UriKind.Relative));
+            noImagePlaceholderTextBlock.Visibility = Visibility.Collapsed;
+            addImageTextBlock.Text = "Change Image";
+            logger.Log("Drag and drop image to create new goal");
         }
 
         private void confirmNewGoalBottom_Click(object sender, RoutedEventArgs e)

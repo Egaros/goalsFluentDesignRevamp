@@ -13,7 +13,11 @@
 
 
     <Grid Name="rootGrid"
-          Background="{ThemeResource CommandBarBackground}">
+          Background="{ThemeResource CommandBarBackground}"
+           AllowDrop="True"
+          Drop="rootGrid_Drop"
+          DragOver="rootGrid_DragOver"
+          DragLeave="rootGrid_DragLeave">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Phone">
@@ -937,7 +941,7 @@
                     </PivotItem>
                 </Pivot>
             </Grid>
-
+            
             <controls:DropShadowPanel BlurRadius="10"
                                       ShadowOpacity="0.8"
                                       HorizontalAlignment="Center"
@@ -1006,6 +1010,15 @@
                 </StackPanel>
             </Grid>
             </controls:DropShadowPanel>
+
+            <TextBlock Name="dragAndDropHelpTextBlock"
+                Text="Drop image now to create new goal using the image you are dropping"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       FontSize="24"
+                       Visibility="Collapsed"/>
         </Grid>
     </Grid>
 </Page>

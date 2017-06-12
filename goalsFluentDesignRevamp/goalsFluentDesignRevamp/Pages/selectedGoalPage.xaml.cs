@@ -50,6 +50,61 @@ namespace goalsFluentDesignRevamp
         {
             selectedGoal = (goal)e.Parameter;
             showPresenceOfGoalInUI(selectedGoal);
+            bool timeLimitIsReached = checkIfTimeLimitReached();
+            if (timeLimitIsReached)
+            {
+                updateProgressButton.IsEnabled = false;
+                showErrorDialogBox();
+            }
+        }
+
+        private async void showErrorDialogBox()
+        {
+            ContentDialog errorDialog = new ContentDialog
+            {
+                Title = "Goal has reached its time limit 😞",
+                Content = "You must delete this goal now but you can always try again (hopefully soon!)",
+                IsPrimaryButtonEnabled = true,
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Go Back",
+            };
+
+            errorDialog.PrimaryButtonClick += ErrorDialog_PrimaryButtonClick;
+            errorDialog.CloseButtonClick += ErrorDialog_CloseButtonClick;
+            await errorDialog.ShowAsync();
+        }
+
+        private void ErrorDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            App.NavService.NavigateBack();
+        }
+
+        private void ErrorDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            App.SFXSystem.Source = App.deleteClickSFXSource;
+            App.SFXSystem.Play();
+            String historicalEvent = $"You quit the goal: {selectedGoal.name}";
+            history.makeHistory(selectedGoal.name, historicalEvent, DateTime.Now, eventType.DeletedGoal);
+            history.saveHistory();
+            List<goal> goalToRemove = goal.listOfGoals.Where(p => p.name == selectedGoal.name).ToList();
+            goal.listOfGoals.Remove(goalToRemove[0]);
+            goal.saveGoals();
+            App.NavService.NavigateTo(typeof(MainPage));
+        }
+
+        private void showErrorTextBlock()
+        {
+            errorTextBlock.Visibility = Visibility.Visible;
+        }
+
+        private bool checkIfTimeLimitReached()
+        {
+            bool isTimeLimitReached = false;
+            if (selectedGoal.unitsOfTimeRemaining == "No more time left.")
+            {
+                isTimeLimitReached = true;
+            }
+            return isTimeLimitReached;
         }
 
         private void showPresenceOfGoalInUI(goal goal)
