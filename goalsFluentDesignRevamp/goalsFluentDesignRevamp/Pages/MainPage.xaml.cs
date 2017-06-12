@@ -311,7 +311,8 @@ namespace goalsFluentDesignRevamp
                 var item = items[0] as StorageFile;
                 
                 var localFolder = ApplicationData.Current.LocalFolder;
-                var newLocalImageFile = await localFolder.CreateFileAsync($"{item.Name}", CreationCollisionOption.ReplaceExisting);
+                var localImageFolder = await localFolder.GetFolderAsync("ImageFolder");
+                var newLocalImageFile = await localImageFolder.CreateFileAsync($"{item.Name}", CreationCollisionOption.ReplaceExisting);
 
                 using (var stream = await item.OpenReadAsync())
                 {

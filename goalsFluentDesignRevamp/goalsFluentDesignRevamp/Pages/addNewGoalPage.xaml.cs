@@ -71,7 +71,7 @@ namespace goalsFluentDesignRevamp
         private void assignDroppedImageToGoalImage(StorageFile droppedImageFile)
         {
 
-            filePath = droppedImageFile.Path;
+            filePath = droppedImageFile.Path.ToString();
             goalImage.Source = new BitmapImage(new Uri(filePath, UriKind.Relative));
             noImagePlaceholderTextBlock.Visibility = Visibility.Collapsed;
             addImageTextBlock.Text = "Change Image";
