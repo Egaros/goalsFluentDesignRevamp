@@ -12,26 +12,24 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using goalsFluentDesignRevamp.Model;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace goalsFluentDesignRevamp.Control
+namespace goalsFluentDesignRevamp
 {
-    public sealed partial class historyView : UserControl
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class syncToDeviceCompleted : Page
     {
-        public Model.history historyItem { get { return this.DataContext as Model.history; } }
-        public historyView()
+        public syncToDeviceCompleted()
         {
             this.InitializeComponent();
-            this.DataContextChanged += (s, e) => Bindings.Update();
-
-
         }
 
-        
+        private void contiueButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.NavService.NavigateTo(typeof(MainPage));
+        }
     }
 }
-
-
-

@@ -4,9 +4,8 @@
       xmlns:local="using:goalsFluentDesignRevamp"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
-
-   
 
     <Page.Resources>
         <Style TargetType="TextBox">
@@ -15,140 +14,225 @@
         </Style>
 
     </Page.Resources>
+    <ScrollViewer>
+        <Grid Background="{ThemeResource CommandBarBackground}"
+              Name="mainGrid">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="phoneCommandBar">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="phoneCommandBar">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
+                        </VisualState.Setters>
+                    </VisualState>
 
-                    </VisualState.Setters>
-                </VisualState>
+                    <VisualState x:Name="tabletCommandBar">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="600" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
 
-                <VisualState x:Name="tabletCommandBar">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
+                        </VisualState.Setters>
+                    </VisualState>
 
-                    </VisualState.Setters>
-                </VisualState>
+                    <VisualState x:Name="pcCommandBar">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="1000" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
 
-                <VisualState x:Name="pcCommandBar">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
 
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="200" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+            <controls:DropShadowPanel>
+                <Grid BorderThickness="0,0,0,1.5"
+                      Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                      Canvas.ZIndex="20">
+                    <Grid.BorderBrush>
+                        <SolidColorBrush Color="Gray"
+                                         Opacity="0.3" />
+                    </Grid.BorderBrush>
 
-        <Grid BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
+                    <TextBlock Name="titleTextBlock"
+                               Text="ADD NEW GOAL"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Margin="20" />
+                </Grid>
+            </controls:DropShadowPanel>
+            <Grid Grid.Row="1">
+                <controls:DropShadowPanel Margin="5"
+                                          BlurRadius="10"
+                                          HorizontalAlignment="Center">
+                    <Image Name="goalImage"
+                           Stretch="Uniform" />
+                </controls:DropShadowPanel>
+                <TextBlock Name="noImagePlaceholderTextBlock"
+                           Text="Currently No Image Selected"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                           FontWeight="Medium" />
+                <Button Name="addImageButton"
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Margin="10"
+                        Click="addImageButton_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE109;"
+                                      Margin="0,0,5,0" />
+                            <TextBlock Name="addImageTextBlock"
+                                       Text="Add Image"
+                                       FontWeight="Medium" />
+                        </StackPanel>
 
-            <TextBlock Name="titleTextBlock"
-                       Text="ADD NEW GOAL"
-                       FontSize="16"
-                       FontWeight="SemiBold"
-                       Margin="10" />
-        </Grid>
-        <Grid Grid.Row="1"
-              BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
+                    </Button.Content>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="2">
+                <StackPanel>
+                    <TextBox Name="nameTextBox"
+                             Header="Name Of Item:"
+                             GotFocus="nameTextBox_GotFocus">
 
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="2">
-            <Image Name="goalImage"
-                   Stretch="Uniform" />
-            <TextBlock Name="noImagePlaceholderTextBlock"
-                       Text="Currently No Image Selected"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Style="{ThemeResource SubtitleTextBlockStyle}"
-                       FontWeight="Medium" />
-            <Button Name="addImageButton"
-                    Style="{ThemeResource TextBlockButtonStyle}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Margin="10"
-                    Click="addImageButton_Click">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon FontFamily="Segoe MDL2 Assets"
-                                  Glyph="&#xE109;"
-                                  Margin="0,0,5,0" />
-                        <TextBlock Name="addImageTextBlock"
-                                   Text="Add Image"
-                                   FontWeight="Medium" />
+                    </TextBox>
+
+                    <TextBox Name="targetTextBox"
+                             Header="Target To Reach:"
+                             InputScope="Number"
+                             GotFocus="targetTextBox_GotFocus">
+
+                    </TextBox>
+
+                    <TextBox Name="descriptionTextBox"
+                             Header="Description:"
+                             GotFocus="descriptionTextBox_GotFocus">
+
+                    </TextBox>
+                    <TextBlock Name="errorTextBlock"
+                               Foreground="Red"
+                               Text="Please enter numbers only e.g. 2 or 5.41 in the 'Target To Reach' text box"
+                               Visibility="Collapsed"
+                               TextWrapping="Wrap"
+                               Margin="10" />
+                    <TextBlock Name="nameErrorTextBlock"
+                               Foreground="Red"
+                               Text="You already have a goal with this name. Please pick a goal with a different name"
+                               Visibility="Collapsed"
+                               TextWrapping="Wrap"
+                               Margin="10" />
+                </StackPanel>
+
+            </Grid>
+            <controls:DropShadowPanel Margin="20"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Bottom"
+                                      x:Name="mainCommandBar"
+                                      BlurRadius="10"
+                                      ShadowOpacity="0.8"
+                                      Canvas.ZIndex="20"
+                                      Grid.RowSpan="4">
+                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <StackPanel  Orientation="Horizontal">
+                        <AppBarButton Name="confirmNewGoalBottom"
+                                      Icon="Accept"
+                                      Label="Finish"
+                                      Click="confirmNewGoalBottom_Click"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                        <AppBarButton Name="cancelButton"
+                                      Icon="Cancel"
+                                      Label="Cancel"
+                                      Click="cancelButton_Click"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+
                     </StackPanel>
-
-                </Button.Content>
-            </Button>
+                </Grid>
+            </controls:DropShadowPanel>
         </Grid>
-        <ScrollViewer Grid.Row="3"
-                      BorderThickness="0,1,0,0"
-                      BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}">
-            <StackPanel>
-                <TextBox Name="nameTextBox"
-                         Header="Name Of Item:">
-
-                </TextBox>
-
-                <TextBox Name="targetTextBox"
-                         Header="Target To Reach:"
-                         InputScope="Number">
-
-                </TextBox>
-
-                <TextBox Name="descriptionTextBox"
-                         Header="Description:">
-
-                </TextBox>
-                <TextBlock Name="errorTextBlock"
-                           Foreground="Red"
-                           Text="Please enter numbers only e.g. 2 or 5.41 in the 'Target To Reach' text box"
-                           Visibility="Collapsed"
-                           TextWrapping="Wrap"
-                           Margin="10" />
-                <TextBlock Name="nameErrorTextBlock"
-                           Foreground="Red"
-                           Text="You already have a goal with this name. Please pick a goal with a different name"
-                           Visibility="Collapsed"
-                           TextWrapping="Wrap"
-                           Margin="10" />
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+    </ScrollViewer>
     <Page.BottomAppBar>
-        <CommandBar Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                    CommandBarOverflowPresenterStyle="{ThemeResource bestCommandBarOverflowPresenterStyle}">
-            <AppBarButton Name="confirmNewGoalBottom"
-                          Icon="Accept"
-                          Label="Finish"
-                          Click="confirmNewGoalBottom_Click"
-                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
-            <AppBarButton Name="cancelButton"
-                          Icon="Cancel"
-                          Label="Cancel"
-                          Click="cancelButton_Click"
-                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+        <CommandBar OverflowButtonVisibility="Collapsed"
+                    Name="formHelper"
+                    Visibility="Collapsed"
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                    Canvas.ZIndex="30">
+           
+
+            <CommandBar.Content>
+                <StackPanel Height="48"
+                            Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="previousButton"
+                                Click="previousButton_Click"
+                                Style="{ThemeResource TextBlockButtonStyle}"
+                                Padding="12"
+                                AllowFocusOnInteraction="False">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal"
+                                            Height="24">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                                              Glyph="&#xE74A;"
+                                              FontSize="20"
+                                              Margin="0,0,10,0"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Text="Previous"
+                                               VerticalAlignment="Center"
+                                               FontSize="14" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Name="nextButton"
+                                Click="nextButton_Click"
+                                Style="{ThemeResource TextBlockButtonStyle}"
+                                Padding="14"
+                                AllowFocusOnInteraction="False">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal"
+                                            Height="20">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                                              Glyph="&#xE74B;"
+                                              VerticalAlignment="Center"
+                                              FontSize="20"
+                                              Margin="0,0,10,0" />
+                                    <TextBlock Text="Next"
+                                               VerticalAlignment="Center"
+                                               FontSize="14" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </CommandBar.Content>
+
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Name="doneButton"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Click="doneButton_Click"
+                              Style="{ThemeResource TextBlockButtonStyle}">
+                    <AppBarButton.Content>
+                        <TextBlock Text="Done"
+                                   FontSize="14" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
 
         </CommandBar>
     </Page.BottomAppBar>
+
 </Page>

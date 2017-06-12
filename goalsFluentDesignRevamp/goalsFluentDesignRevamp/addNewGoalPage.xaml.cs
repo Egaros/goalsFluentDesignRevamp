@@ -17,6 +17,12 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media.Animation;
 using Microsoft.Services.Store.Engagement;
+using Microsoft.Toolkit.Uwp;
+using Windows.UI.ViewManagement;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using System.Threading.Tasks;
+using Windows.UI.Core;
+using Windows.Phone.UI.Input;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,9 +35,25 @@ namespace goalsFluentDesignRevamp
     {
         string filePath;
         StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
+        bool formHelperIsVisible = false;
+        public enum focusedObject { Name, Target, Description };
+        focusedObject textBoxSelected = new focusedObject();
+
         public addNewGoalPage()
         {
             this.InitializeComponent();
+            InputPane.GetForCurrentView().Hiding += softwareKeyboardHiding;
+        }
+
+        private void softwareKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
+        {
+            hideFormHelper();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            animateFormHelperHiding();
         }
 
         private void confirmNewGoalBottom_Click(object sender, RoutedEventArgs e)
@@ -81,7 +103,7 @@ namespace goalsFluentDesignRevamp
         private async void addImageButton_Click(object sender, RoutedEventArgs e)
         {
             var folder = ApplicationData.Current.LocalFolder;
-            var imageFolder = await folder.CreateFolderAsync("ImageFolder", CreationCollisionOption.OpenIfExists);
+            var imageFolder = await folder.GetFolderAsync("ImageFolder");
             var picker = new Windows.Storage.Pickers.FileOpenPicker();
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
             picker.SuggestedStartLocation =
@@ -95,11 +117,205 @@ namespace goalsFluentDesignRevamp
             {
                 StorageFile usedFile = await file.CopyAsync(imageFolder, file.Name, NameCollisionOption.ReplaceExisting);
                 filePath = usedFile.Path.ToString();
-                goalImage.Source = new BitmapImage(new Uri(filePath, UriKind.Absolute));
+                goalImage.Source = new BitmapImage(new Uri(filePath, UriKind.Relative));
                 noImagePlaceholderTextBlock.Visibility = Visibility.Collapsed;
                 addImageTextBlock.Text = "Change Image";
                 logger.Log("Times image added during goal creation");
             }
+        }
+
+        private void previousButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            switch (textBoxSelected)
+            {
+                case focusedObject.Target:
+                    disablePreviousButton();
+                    selectNameTextBox();
+                    break;
+                case focusedObject.Description:
+                    enableNextButton();
+                    selectTargetTextBox();
+                    break;
+                default:
+                    break;
+            }
+
+           
+        }
+
+        private void nextButton_Click(object sender, RoutedEventArgs e)
+        {
+            switch (textBoxSelected)
+            {
+                case focusedObject.Name:
+                    enablePreviousButton();
+                    selectTargetTextBox();
+                    break;
+                case focusedObject.Target:
+                    disableNextButton();
+                    selectDescriptionTextBox();
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+
+        private void disablePreviousButton()
+        {
+            previousButton.IsEnabled = false;
+        }
+
+        private void disableNextButton()
+        {
+            nextButton.IsEnabled = false;
+        }
+
+        private void enablePreviousButton()
+        {
+            previousButton.IsEnabled = true;
+        }
+
+        private void enableNextButton()
+        {
+            nextButton.IsEnabled = true;
+        }
+
+
+        private void doneButton_Click(object sender, RoutedEventArgs e)
+        {
+            hideSoftwareKyboard();
+            hideFormHelper();
+        }
+
+        private void hideSoftwareKyboard()
+        {
+            var softwareKeyboard = InputPane.GetForCurrentView();
+            softwareKeyboard.TryHide();
+        }
+
+        private void nameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!formHelperIsVisible)
+            {
+            showFormHelper();
+                hideCommandBar();
+            }
+            disablePreviousButton();
+            enableNextButton();
+           
+            textBoxSelected = focusedObject.Name;
+
+            
+            
+        }
+        private void targetTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!formHelperIsVisible)
+            {
+                showFormHelper();
+                hideCommandBar();
+            }
+                enablePreviousButton();
+                enableNextButton();
+            
+            textBoxSelected = focusedObject.Target;
+
+        }
+
+        private void descriptionTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!formHelperIsVisible)
+            {
+                showFormHelper();
+                hideCommandBar();
+            }
+                disableNextButton();
+                enablePreviousButton();
+           
+
+            textBoxSelected = focusedObject.Description;
+           
+        }
+
+        private void selectNameTextBox()
+        {
+            nameTextBox.Focus(FocusState.Programmatic);
+            textBoxSelected = focusedObject.Name;
+        }
+
+        private void selectTargetTextBox()
+        {
+            targetTextBox.Focus(FocusState.Programmatic);
+            textBoxSelected = focusedObject.Target;
+        }
+
+        private void selectDescriptionTextBox()
+        {
+            descriptionTextBox.Focus(FocusState.Programmatic);
+            textBoxSelected = focusedObject.Description;
+        }
+
+
+
+        private void showFormHelper()
+        {
+            animateFormHelperShowing();
+            formHelper.Visibility = Visibility.Visible;
+            formHelperIsVisible = true;
+        }
+
+        private async void animateFormHelperShowing()
+        {
+
+            await formHelper.Scale(1f, 1f, 0, 48, 500).StartAsync();
+            
+        }
+
+        private void hideFormHelper()
+        {
+            
+            showCommandBar();
+            animateFormHelperHiding();
+            formHelper.Visibility = Visibility.Collapsed;
+            formHelperIsVisible = false;
+            mainCommandBar.Focus(FocusState.Programmatic);
+           
+        }
+
+        private async void animateFormHelperHiding()
+        {
+
+            await formHelper.Scale(0.01f, 0.01f, 0, 48,500).StartAsync();
+           
+            
+            
+        }
+
+        
+
+        private void showCommandBar()
+        {
+            animateCommandBarShowing();
+            mainCommandBar.Visibility = Visibility.Visible;
+        }
+
+        private async void animateCommandBarShowing()
+        {
+           await mainCommandBar.Fade(1f).StartAsync();
+        }
+
+        private async void hideCommandBar()
+        {
+            animateCommandBarHiding();
+            await Task.Delay(500);
+            mainCommandBar.Visibility = Visibility.Collapsed;
+        }
+
+        private async void animateCommandBarHiding()
+        {
+           await mainCommandBar.Fade(0.01f).StartAsync();
         }
     }
 }

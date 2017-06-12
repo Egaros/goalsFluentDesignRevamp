@@ -4,6 +4,7 @@
       xmlns:local="using:goalsFluentDesignRevamp"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
     <Page.Transitions>
@@ -33,50 +34,58 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+   
+    <Grid Background="{ThemeResource CommandBarBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
-              BorderThickness="0,0,0,1">
-            <TextBlock Name="titleTextBlock"
+        <controls:DropShadowPanel>
+        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderThickness="0,0,0,1.5">
+                <Grid.BorderBrush>
+                    <SolidColorBrush Color="Gray"
+                                     Opacity="0.3" />
+                </Grid.BorderBrush>
+                <TextBlock Name="titleTextBlock"
                        Text="WHAT'S NEW?"
                        FontSize="16"
                        FontWeight="SemiBold"
-                       Margin="10" />
+                       Margin="20"
+                       Canvas.ZIndex="20"/>
         </Grid>
-
-        <Grid Grid.Row="1">
+            </controls:DropShadowPanel>
+                <Grid Grid.Row="1">
             <ScrollViewer>
-
                 <StackPanel>
-
-                    <TextBlock Text="Farewell (for now)"
-                               Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="I really enjoy developing this app but due to upcoming exams and pressure to get into university, I have to fully concentrate on academic work." />
-                    <TextBlock Text="Expect the next update to come around the end of June. Till then, keep working on your goals ;)" />
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Goal History is finally here! You can now track each step you took towards your goal!" />
-                    <TextBlock Text="* Added Sound Effects throughout the app. Please let me know what you think of them in the feedback hub." />
-                    <TextBlock Text="* Updated the edit items icon to the standard one." />
-                    <TextBlock Text="Bug Fixes"
+                    <TextBlock Text="* OneDrive Syncing - Working!" />
+                    <!--<TextBlock Text="Bug Fixes"
+                               Style="{StaticResource headerTextBlock}" />-->
+                    <TextBlock Text="Attention Beta Testers!"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Fixed critical bug when pinning tiles." />
-                    <TextBlock Text="* Highlight under selected pivot header is now symmetrical." />
-                    <TextBlock Text="* Backstack is cleared on main menu so you'll no longer accidently go back to the page before the main menu" />
+                    <TextBlock Text="* First thing to test should be the OneDrive Syncing. It's available in the last tab of the app. Simply press the button and it will upload/download data from the cloud depending the last synced device."/>
+                    <TextBlock Text="* If you encouter any issues, send them to me using the feedback button. (If it doesn't work the first time, try again)" />
+                    <TextBlock Text="* P.S. Create Goals with these names and see what happens ☺:  'meheni pls', 'poof', '#TeamXbox' and 'Medium Universal'  "  />
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* OneDrive Syncing" />
-                    <TextBlock Text="Make sure you SEND FEEDBACK if you want your idea to become part of the app!"
+                    <TextBlock Text="* Goals With time limits" />
+                    <TextBlock Text="* Drag And Drop" />
+                    <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to improve this app!"
                                TextAlignment="Center"
                                FontWeight="SemiBold"
                                FontSize="16"
                                Margin="10,20,10,0" />
-
+                    <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE939;"
+                                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                          Margin="0,10,5,0"
+                                          FontSize="60" />
+                    <TextBlock Text="Feedback Button Icon" 
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
 
             </ScrollViewer>

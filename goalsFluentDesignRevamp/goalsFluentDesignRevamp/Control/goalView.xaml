@@ -6,7 +6,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignHeight="640"
-             d:DesignWidth="360">
+             d:DesignWidth="360"
+             Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
         <Style TargetType="TextBlock">
@@ -45,7 +46,8 @@
                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
                     <TextBlock Name="targetTextBlock"
                                Text="{x:Bind goalItem.targetToDisplay}" />
-                    <TextBlock Text="{x:Bind goalItem.progress}" />
+                    <TextBlock Name="progressTextBlock" 
+                        Text="{x:Bind goalItem.progress}" />
                 </StackPanel>
             </Border>
         </Grid>

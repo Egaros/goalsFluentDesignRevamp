@@ -12,26 +12,16 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using goalsFluentDesignRevamp.Model;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace goalsFluentDesignRevamp.Control
 {
-    public sealed partial class historyView : UserControl
+    public sealed partial class syncBanner : UserControl
     {
-        public Model.history historyItem { get { return this.DataContext as Model.history; } }
-        public historyView()
+        public syncBanner()
         {
             this.InitializeComponent();
-            this.DataContextChanged += (s, e) => Bindings.Update();
-
-
         }
-
-        
     }
 }
-
-
-

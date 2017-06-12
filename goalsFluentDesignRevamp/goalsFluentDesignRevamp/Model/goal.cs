@@ -20,6 +20,8 @@ namespace goalsFluentDesignRevamp.Model
         public decimal targetReached { get; set; }
         public string progress { get; set; }
         public string tileID { get; set; }
+        public DateTime startTime { get; set; } = DateTime.Now;
+        public DateTime endTime { get; set; } = new DateTime(1, 1, 1);
 
         public class completedGoal : goal
         {
@@ -40,9 +42,9 @@ namespace goalsFluentDesignRevamp.Model
 
         public static void saveGoals()
         {
-            saveIncompleteGoals();
-            saveCompleteGoals();
-
+             saveIncompleteGoals();
+             saveCompleteGoals();
+           
             //saves completedGoals
 
 
@@ -86,6 +88,18 @@ namespace goalsFluentDesignRevamp.Model
 
             } while (fileLocked == true);
             fileLocked = true;
+           
+        }
+
+        public async static Task<List<StorageFile>> getGoalDataFilesReadyForSyncing()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var savedGoals = await localFolder.GetFileAsync("golaso.json");
+            var savedCompletedGoals = await localFolder.GetFileAsync("noGolaso.json");
+            var savedHistory = await localFolder.GetFileAsync("history.json");
+
+            
+            return new List<StorageFile> { savedGoals, savedCompletedGoals, savedHistory };
         }
 
         private static async void saveIncompleteGoals()
@@ -127,6 +141,21 @@ namespace goalsFluentDesignRevamp.Model
 
             } while (fileLocked == true);
             fileLocked = true;
+           
+        }
+
+        public async static Task<List<StorageFile>> getImagesReadyForSyncing()
+        {
+
+            var imageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("ImageFolder");
+           var  imagesUsed = await imageFolder.GetFilesAsync();
+
+            List<StorageFile> listOfImagesToSync = new List<StorageFile>();
+            foreach (var  file in imagesUsed)
+            {
+                listOfImagesToSync.Add(file);
+            }
+            return listOfImagesToSync;
         }
 
         public static async Task<ObservableCollection<goal>> loadGoals()
