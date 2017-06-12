@@ -159,8 +159,10 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\noImage.png" />
+    <Content Include="Assets\onedriveFailureLogo.png" />
     <Content Include="Assets\onedriveLogo.png" />
     <Content Include="Assets\onedriveCloudLogo.png" />
+    <Content Include="Assets\onedriveSuccessLogo.png" />
     <Content Include="Assets\selectClick.mp3" />
     <Content Include="Assets\selectModeClick.mp3" />
     <Content Include="Assets\SmallTile.scale-100.png" />
