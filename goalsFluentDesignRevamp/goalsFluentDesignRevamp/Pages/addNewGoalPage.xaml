@@ -135,8 +135,15 @@
                                Visibility="Collapsed"
                                TextWrapping="Wrap"
                                Margin="10" />
+                    <CheckBox Margin="10" Name="timeLimitCheckBox">
+                        <CheckBox.Content>
+                            <TextBlock Text="Enable Time Limit" />
+                        </CheckBox.Content>
+                    </CheckBox>
                     <DatePicker Name="goalDatePicker"
-                                Header="">
+                                Header="Due Date:"
+                                Margin="10"
+                                Visibility="{Binding ElementName=timeLimitCheckBox, Path=IsChecked}">
                         
                     </DatePicker>
                 </StackPanel>

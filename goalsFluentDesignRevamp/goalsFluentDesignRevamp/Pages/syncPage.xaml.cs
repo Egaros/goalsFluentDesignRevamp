@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -41,7 +42,23 @@ namespace goalsFluentDesignRevamp
                 showSyncDashboard();
                 beginSyncing();
             }
+            else
+            {
+                displayFailureUI();
+            }
+        }
 
+        private void displayFailureUI()
+        {
+            connectCaptionTextBlock.Text = "Sync Failed, check if you are connected to the internet and try again";
+            connectButton.Content = "Try Again";
+            connectImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/onedriveFailureLogo.png", UriKind.Absolute));
+            
+        }
+
+        private void showErrorUI()
+        {
+            throw new NotImplementedException();
         }
 
         private void hideConnectMenu()
@@ -104,8 +121,15 @@ namespace goalsFluentDesignRevamp
                 uploadDataToCloud(rootFolder, goalDataToSync, imageFolder);
                 recordLastTimeSynced(rootFolder);
                 hideProgressRing();
+                
+                
             }
 
+        }
+
+        private void showSuccessImage()
+        {
+            syncImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/onedriveSuccessLogo.png", UriKind.Absolute));
         }
 
         private async void uploadDataToCloud(OneDriveStorageFolder rootFolder, List<StorageFile> goalDataToSync, OneDriveStorageFolder imageFolder)
@@ -138,6 +162,7 @@ namespace goalsFluentDesignRevamp
 
           
             syncStatusTextBlock.Text = "Sync Complete!";
+            showSuccessImage();
             hideProgressRing();
         }
 
@@ -315,6 +340,7 @@ namespace goalsFluentDesignRevamp
 
             }
             syncStatusTextBlock.Text = "Sync Complete!";
+            showSuccessImage();
             hideProgressRing();
         }
 

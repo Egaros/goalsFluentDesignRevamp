@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goalsFluentDesignRevamp", "goalsFluentDesignRevamp\goalsFluentDesignRevamp.csproj", "{5D0F4664-5721-49A6-AB7A-0D960BB0D97D}"
 EndProject

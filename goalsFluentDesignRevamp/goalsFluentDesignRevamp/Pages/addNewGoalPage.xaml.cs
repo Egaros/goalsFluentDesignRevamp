@@ -38,7 +38,9 @@ namespace goalsFluentDesignRevamp
         bool formHelperIsVisible = false;
         public enum focusedObject { Name, Target, Description };
         focusedObject textBoxSelected = new focusedObject();
-
+        public int currentDay = DateTime.Now.Day;
+        public int currentMonth = DateTime.Now.Month;
+        public int currentYear = DateTime.Now.Year;
         public addNewGoalPage()
         {
             this.InitializeComponent();
@@ -71,12 +73,22 @@ namespace goalsFluentDesignRevamp
                 }
                 else
                 {
+                    DateTime goalEndTime = new DateTime();
+                    if (timeLimitCheckBox.IsChecked == true)
+                    {
+                       goalEndTime = goalDatePicker.Date.DateTime;
+
+                    }
+                    else
+                    {
+                        goalEndTime = new DateTime(1, 1, 1);
+                    }
                     errorTextBlock.Visibility = Visibility.Collapsed;
                     nameErrorTextBlock.Visibility = Visibility.Collapsed;
                     string description = descriptionTextBox.Text;
                     string imagePath;
                     imagePath = filePath;
-                    goal.addNewGoal(name, target, description, imagePath);
+                    goal.addNewGoal(name, target, description, imagePath, goalEndTime);
                     goal.saveGoals();
                     string historicalEvent = $"Added new goal called {name}.";
                     history.makeHistory(name, historicalEvent, DateTime.Now, eventType.NewGoal);

@@ -15,7 +15,7 @@ namespace goalsFluentDesignRevamp.Services
 {
     class onedrive
     {
-        public string fileBeingsynced ="";
+        public string fileBeingsynced = "";
         public async static Task<bool> startOneDriveInstance()
         {
             // OneDriveService works for OneDrive Consumer as well as OneDrive For Business (Office 365)
@@ -49,19 +49,28 @@ namespace goalsFluentDesignRevamp.Services
 
             {
 
-                
+
                 // if Windows is not associated with a Microsoft Account, you need
                 // 1) Initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
-                OneDriveService.Instance.Initialize("00000000401DA758", AccountProviderType.OnlineId, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
-                // 2) Sign in
-                if (!await OneDriveService.Instance.LoginAsync())
+                try
                 {
-                    return false;
-                    throw new Exception("Unable to sign in");
+                    OneDriveService.Instance.Initialize("00000000401DA758", AccountProviderType.OnlineId, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+                    // 2) Sign in
+                    if (!await OneDriveService.Instance.LoginAsync())
+                    {
+                        return false;
+                        throw new Exception("Unable to sign in");
+                    }
+                    else
+                    {
+                        return true;
+                    }
+
                 }
-                else
+                catch (Exception)
                 {
-                    return true;
+
+                    return false;
                 }
             }
 
@@ -72,7 +81,7 @@ namespace goalsFluentDesignRevamp.Services
             var fileToReadTextFrom = await ApplicationData.Current.TemporaryFolder.CreateFileAsync("statusContent.txt", CreationCollisionOption.ReplaceExisting);
 
             var statusFile = await rootFolder.GetFileAsync("status.txt");
-            
+
             using (var fileStream = await statusFile.OpenAsync())
             {
                 byte[] buffer = new byte[fileStream.Size];
@@ -97,7 +106,7 @@ namespace goalsFluentDesignRevamp.Services
             string dateAsTicksString = dateAsTicks.ToString();
             System.IO.File.WriteAllText(fileToUpload.Path, dateAsTicksString);
 
-           
+
             if (fileToUpload != null)
             {
                 using (var localStream = await fileToUpload.OpenReadAsync())
@@ -115,7 +124,7 @@ namespace goalsFluentDesignRevamp.Services
             var cloudCompletedGoalData = await rootFolder.CreateFileAsync("noGolaso.json");
             var cloudHistoryData = await rootFolder.CreateFileAsync("history.json");
 
-                bool areFilesUploaded = false;
+            bool areFilesUploaded = false;
             do
             {
 
@@ -124,7 +133,7 @@ namespace goalsFluentDesignRevamp.Services
                 {
                     areFilesUploaded = true;
                 }
-               
+
 
 
             } while (areFilesUploaded == false);
@@ -137,14 +146,14 @@ namespace goalsFluentDesignRevamp.Services
         public async static Task<List<object>> startSyncing()
         {
             var rootFolder = await OneDriveService.Instance.AppRootFolderAsync();
-            var imageFolder = await rootFolder.CreateFolderAsync("ImageFolder",CreationCollisionOption.OpenIfExists);
+            var imageFolder = await rootFolder.CreateFolderAsync("ImageFolder", CreationCollisionOption.OpenIfExists);
 
             return new List<object> { rootFolder, imageFolder };
         }
 
         public async static void CreateStatusFile(OneDriveStorageFolder rootFolder)
         {
-           await rootFolder.CreateFileAsync("status.txt", CreationCollisionOption.ReplaceExisting);
+            await rootFolder.CreateFileAsync("status.txt", CreationCollisionOption.ReplaceExisting);
         }
 
         public async static Task<bool> checkForStatusFile(OneDriveStorageFolder rootFolder)
@@ -152,7 +161,7 @@ namespace goalsFluentDesignRevamp.Services
             bool statusFileExists = false;
             try
             {
-              await  rootFolder.GetFileAsync("status.txt");
+                await rootFolder.GetFileAsync("status.txt");
                 statusFileExists = true;
             }
 
@@ -168,7 +177,7 @@ namespace goalsFluentDesignRevamp.Services
             var cloudGoalData = await rootFolder.GetFileAsync("golaso.json");
             var cloudCompletedGoalData = await rootFolder.GetFileAsync("noGolaso.json");
             var cloudHistoryData = await rootFolder.GetFileAsync("history.json");
-            return new List<OneDriveStorageFile> { cloudGoalData, cloudCompletedGoalData, cloudHistoryData};
+            return new List<OneDriveStorageFile> { cloudGoalData, cloudCompletedGoalData, cloudHistoryData };
         }
 
         public async static Task<bool> checkIfImageFolderIsEmpty(OneDriveStorageFolder imageFolder)
@@ -177,17 +186,17 @@ namespace goalsFluentDesignRevamp.Services
             var listOfItems = new List<OneDriveStorageFile>();
             try
             {
-            listOfItems = await imageFolder.GetFilesAsync();
-            if (listOfItems.Count > 0)
-            {
-                isImageFolderEmpty = false;
-            }
+                listOfItems = await imageFolder.GetFilesAsync();
+                if (listOfItems.Count > 0)
+                {
+                    isImageFolderEmpty = false;
+                }
 
             }
             catch (Exception)
             {
 
-                
+
             }
 
             return isImageFolderEmpty;

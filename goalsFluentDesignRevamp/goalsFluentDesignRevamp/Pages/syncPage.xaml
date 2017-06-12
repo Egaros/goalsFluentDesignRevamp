@@ -15,13 +15,15 @@
                     VerticalAlignment="Center"
                     Visibility="Visible"
                     Name="connectMenu">
-                <Image Source="ms-appx:///Assets/onedriveLogo.png"
+                <Image Name="connectImage" 
+                    Source="ms-appx:///Assets/onedriveLogo.png"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
                        Height="75"
                        Width="237" />
 
-                <TextBlock Text="Sync data between devices using OneDrive"
+                <TextBlock Name="connectCaptionTextBlock"
+                    Text="Sync data between devices using OneDrive"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
                            FontWeight="SemiBold" />
@@ -37,10 +39,11 @@
                         Name="syncDashboard"
                         Visibility="Collapsed">
                 <Image Height="100"
+                       Name="syncImage"
                        Width="100"
                        Source="ms-appx:///Assets/onedriveCloudLogo.png" />
-                <TextBlock Text="syncStatusText"
-                           Name="syncStatusTextBlock" 
+                <TextBlock Name="syncStatusTextBlock" 
+                           Text="Preparing To Sync"
                            TextAlignment="Center"
                            TextWrapping="Wrap"
                            FontSize="18"/>

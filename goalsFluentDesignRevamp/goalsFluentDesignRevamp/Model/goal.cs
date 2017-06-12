@@ -10,6 +10,7 @@ using Windows.Storage;
 
 namespace goalsFluentDesignRevamp.Model
 {
+    
     public class goal
     {
         public string name { get; set; }
@@ -21,8 +22,8 @@ namespace goalsFluentDesignRevamp.Model
         public string progress { get; set; }
         public string tileID { get; set; }
         public DateTime startTime { get; set; } = DateTime.Now;
-        public DateTime endTime { get; set; } = new DateTime(1, 1, 1);
-
+        public DateTime endTime { get; set; }
+        public string unitsOfTimeRemaining { get; set; } = "N/A";
         public class completedGoal : goal
         {
             public DateTime dateOfCompletion { get; set; }
@@ -30,6 +31,7 @@ namespace goalsFluentDesignRevamp.Model
 
         public static ObservableCollection<goal> listOfGoals;
         public static ObservableCollection<completedGoal> listOfCompletedGoals;
+        public static DateTime noTimeLimitDate = new DateTime(1, 1, 1);
 
         public static void initializeGoalClass()
         {
@@ -242,7 +244,7 @@ namespace goalsFluentDesignRevamp.Model
             return savedListOfCompletedGoals;
         }
 
-        public static void addNewGoal(string Name, decimal Target, string Description, string ImagePath)
+        public static void addNewGoal(string Name, decimal Target, string Description, string ImagePath, DateTime endTime)
         {
             goal goalToSave = new goal();
             goalToSave.name = Name;
@@ -260,11 +262,90 @@ namespace goalsFluentDesignRevamp.Model
                 goalToSave.imagePath = "ms-appx:///Assets/noImage.png";
             }
 
+
             goalToSave.progress = "Progress: 0%";
             goalToSave.tileID = generateUniqueID();
 
+            if (endTime != noTimeLimitDate )
+            {
+                goalToSave.endTime = endTime;
+                goalToSave.unitsOfTimeRemaining =  determineTimeLeft(goalToSave);
+            }
+
+            
+
             listOfGoals.Add(goalToSave);
 
+        }
+
+        public static string determineTimeLeft(goal goalItem)
+        {
+            int calculation;
+            int remainder;
+            bool yearsMatch = false;
+            bool monthsMatch = false;
+            bool daysMatch = false;
+
+            calculation = goalItem.endTime.Year - DateTime.Now.Year;
+            if (calculation <= 0)
+            {
+                yearsMatch = true;
+                
+            }
+
+            if (yearsMatch == true)
+            {
+                calculation = goalItem.endTime.Month - DateTime.Now.Month;
+                if (calculation <=0)
+                {
+                    monthsMatch = true;
+                }
+            }
+
+            if (monthsMatch == true)
+            {
+                calculation = goalItem.endTime.Day - DateTime.Now.Day;
+
+                if (calculation <=0)
+                {
+                    daysMatch = true;
+                }
+            }
+
+            string timeLeftDescription = "";
+            if (daysMatch == true)
+            {
+                timeLeftDescription = "No more time left.";
+            }
+            else
+            {
+                remainder = calculation;
+               timeLeftDescription = determineDescriptionToReturn(timeLeftDescription, yearsMatch, monthsMatch,remainder);
+
+                
+            }
+
+
+            return timeLeftDescription;
+
+        }
+
+        private static string determineDescriptionToReturn(string timeLeftDescription, bool yearsMatch, bool monthsMatch, int remainder)
+        {
+            if (yearsMatch == false)
+            {
+                timeLeftDescription = $"{remainder} year(s) left.";
+            }
+            if (yearsMatch == true && monthsMatch == false)
+            {
+                timeLeftDescription = $"{remainder} month(s) left.";
+            }
+            if (yearsMatch == true && monthsMatch == true)
+            {
+                timeLeftDescription = $"{remainder} day(s) left.";
+            }
+
+            return timeLeftDescription;
         }
 
         public static string generateUniqueID()

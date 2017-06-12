@@ -58,8 +58,14 @@ namespace goalsFluentDesignRevamp.Control
                 if (item.endTime != noTimeLimitTrigger)
                 {
                     hideProgressTextBlock();
+                    goal.determineTimeLeft(item);
+                    timeLeftTextBlock.Text = item.unitsOfTimeRemaining;
                     showTimeRemaining();
                 }
+                
+                
+
+                
 
 
                 if (item.name=="poof")
@@ -86,7 +92,7 @@ namespace goalsFluentDesignRevamp.Control
 
         private void showTimeRemaining()
         {
-            throw new NotImplementedException();
+            timeLeftTextBlock.Visibility = Visibility.Visible;
         }
 
         private async void meheniPls()
@@ -164,6 +170,8 @@ namespace goalsFluentDesignRevamp.Control
         {
             progressTextBlock.Visibility = Visibility.Collapsed;
         }
+
+
     }
 }
 

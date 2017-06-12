@@ -48,6 +48,9 @@
                                Text="{x:Bind goalItem.targetToDisplay}" />
                     <TextBlock Name="progressTextBlock" 
                         Text="{x:Bind goalItem.progress}" />
+                    <TextBlock Name="timeLeftTextBlock" 
+                               Text="{x:Bind goalItem.unitsOfTimeRemaining}"
+                               Visibility="Collapsed"/>
                 </StackPanel>
             </Border>
         </Grid>
