@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource CommandBarBackground}">
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Image Source="Assets/onedriveCloudLogo.png"
+            <Image Source="ms-appx:///Assets/onedriveCloudLogo.png"
                    Width="100"
                    Height="100" />
             <TextBlock Text="Sync Complete!" TextAlignment="Center"

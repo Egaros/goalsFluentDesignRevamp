@@ -53,12 +53,13 @@ namespace goalsFluentDesignRevamp.Control
                 var control = (goalView)sender;
                 var item = (goal)control.DataContext;
 
-                //DateTime noTimeLimitTrigger = new DateTime(1, 1, 1);
+                DateTime noTimeLimitTrigger = new DateTime(1, 1, 1);
 
-                //if (item.endTime != noTimeLimitTrigger)
-                //{
-                //    hideProgressTextBlock();
-                //}
+                if (item.endTime != noTimeLimitTrigger)
+                {
+                    hideProgressTextBlock();
+                    showTimeRemaining();
+                }
 
 
                 if (item.name=="poof")
@@ -81,6 +82,11 @@ namespace goalsFluentDesignRevamp.Control
                     meheniPls();
                 }
             }
+        }
+
+        private void showTimeRemaining()
+        {
+            throw new NotImplementedException();
         }
 
         private async void meheniPls()

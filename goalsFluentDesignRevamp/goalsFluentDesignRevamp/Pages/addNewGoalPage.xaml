@@ -135,6 +135,10 @@
                                Visibility="Collapsed"
                                TextWrapping="Wrap"
                                Margin="10" />
+                    <DatePicker Name="goalDatePicker"
+                                Header="">
+                        
+                    </DatePicker>
                 </StackPanel>
 
             </Grid>
