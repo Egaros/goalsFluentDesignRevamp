@@ -8,7 +8,10 @@
       xmlns:control="using:goalsFluentDesignRevamp.Control"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
       mc:Ignorable="d"
+      d:DesignHeight="640"
+      d:DesignWidth="360"
       RequiresPointer="WhenFocused">
 
 
@@ -89,11 +92,13 @@
 
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" 
+                               x:Name="adRow"/>
                 <RowDefinition />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid>
+           
+            <Grid Grid.Row="1">
                 <Grid.Resources>
                     <!-- Default style for Windows.UI.Xaml.Controls.Primitives.PivotHeaderItem -->
                     <Style TargetType="PivotHeaderItem">
@@ -655,7 +660,6 @@
                                                                         HorizontalContentAlignment="Stretch"
                                                                         UseSystemFocusVisuals="True">
 
-                                                            <!--BorderBrush="#0f0c01"-->
 
                                                             <controls:DropShadowPanel BlurRadius="10"
                                                                                       ShadowOpacity="1">
@@ -670,6 +674,10 @@
                                                                     <Grid.RenderTransform>
                                                                         <CompositeTransform x:Name="HeaderOffsetTranslateTransform" />
                                                                     </Grid.RenderTransform>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition />
+                                                                        <RowDefinition Height="Auto" />
+                                                                    </Grid.RowDefinitions>
                                                                     <PivotHeaderPanel x:Name="StaticHeader">
                                                                         <PivotHeaderPanel.RenderTransform>
                                                                             <CompositeTransform x:Name="StaticHeaderTranslateTransform" />
@@ -680,6 +688,24 @@
                                                                             <CompositeTransform x:Name="HeaderTranslateTransform" />
                                                                         </PivotHeaderPanel.RenderTransform>
                                                                     </PivotHeaderPanel>
+                                                                    <!-->TODO: Add more ads based on Window/screen size<-->
+                                                                    <!-->Whenever you are testing this app, make sure you use this AdControl instead of the other one Or else Microsoft will block your apps from retrieving ads for a while<-->
+                                                                    <!--<UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                                                                                  AdUnitId="test"
+                                                                                  HorizontalAlignment="Center"
+                                                                                  Height="50"
+                                                                                  Width="300" 
+                                                                                  Grid.Row="1"
+                                                                                  Margin="5"/>-->
+
+                                                                    <UI:AdControl ApplicationId="9nblggh52rsb"
+                                                                                  AdUnitId="348043"
+                                                                                  HorizontalAlignment="Center"
+                                                                                  Height="50"
+                                                                                  Width="300" 
+                                                                                  Grid.Row="1"
+                                                                                  Name="easyAd"
+                                                                                  Margin="5"/>
                                                                 </Grid>
                                                             </controls:DropShadowPanel>
                                                         </ContentControl>
@@ -948,7 +974,8 @@
                                       VerticalAlignment="Bottom"
                                       Margin="20"
                                       x:Name="mainCommandBar"
-                                      Canvas.ZIndex="20">
+                                      Canvas.ZIndex="20"
+                                      Grid.Row="1">
                 <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
                     <StackPanel Orientation="Horizontal"
                            HorizontalAlignment="Center"
@@ -1018,7 +1045,8 @@
                        TextAlignment="Center"
                        TextWrapping="Wrap"
                        FontSize="24"
-                       Visibility="Collapsed"/>
+                       Visibility="Collapsed"
+                       Grid.Row="1"/>
         </Grid>
     </Grid>
 </Page>

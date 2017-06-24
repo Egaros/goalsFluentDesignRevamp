@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -36,16 +37,36 @@ namespace goalsFluentDesignRevamp
 
         private async void connectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (await onedrive.startOneDriveInstance())
+            if (internetIsAvailable())
             {
-                hideConnectMenu();
-                showSyncDashboard();
-                beginSyncing();
+                if (await onedrive.startOneDriveInstance())
+                {
+                    disableConnectButton();
+                    hideConnectMenu();
+                    showSyncDashboard();
+                    beginSyncing();
+                }
+                else
+                {
+                    displayFailureUI();
+                }
+
             }
             else
             {
                 displayFailureUI();
             }
+        }
+
+        private bool internetIsAvailable()
+        {
+            bool internetIsAvailable = NetworkInterface.GetIsNetworkAvailable();
+            return internetIsAvailable;
+        }
+
+        private void disableConnectButton()
+        {
+            connectButton.IsEnabled = false;
         }
 
         private void displayFailureUI()

@@ -22,7 +22,7 @@ using Windows.UI.ViewManagement;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using System.Threading.Tasks;
 using Windows.UI.Core;
-using Windows.Phone.UI.Input;
+using Windows.Phone.Devices.Notification;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -93,6 +93,11 @@ namespace goalsFluentDesignRevamp
                 }
                 else
                 {
+                    if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+                    {
+                        VibrationDevice testVibrationDevice = VibrationDevice.GetDefault();
+                        makeVibrations(testVibrationDevice);
+                    }
                     DateTime goalEndTime = new DateTime();
                     if (timeLimitCheckBox.IsChecked == true)
                     {
@@ -123,6 +128,17 @@ namespace goalsFluentDesignRevamp
 
             }
 
+        }
+
+        private void makeVibrations(VibrationDevice testVibrationDevice)
+        {
+            testVibrationDevice.Vibrate(TimeSpan.FromSeconds(0.1));
+        }
+    
+
+        private async void waitAWhile()
+        {
+            await Task.Delay(3000);
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

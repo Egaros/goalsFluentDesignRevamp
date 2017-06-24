@@ -488,7 +488,7 @@ namespace goalsFluentDesignRevamp
                         localSettings.Values["currentAppVersion"] = applicationVersion;
                         //Bring back the whatsNewPage for users who update at the end of your exams when you are officially back!
                         //rootFrame.Navigate(typeof(whatsNewPage));
-                        App.NavService.NavigateTo(typeof(MainPage), e.Arguments);
+                        App.NavService.NavigateTo(typeof(whatsNewPage), e.Arguments);
 
                     }
                     else

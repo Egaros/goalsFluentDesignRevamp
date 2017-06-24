@@ -62,19 +62,14 @@
                 <StackPanel>
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* OneDrive Syncing - Working!" />
-                    <!--<TextBlock Text="Bug Fixes"
-                               Style="{StaticResource headerTextBlock}" />-->
-                    <TextBlock Text="Attention Beta Testers!"
-                               Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* First thing to test should be the OneDrive Syncing. It's available in the last tab of the app. Simply press the button and it will upload/download data from the cloud depending the last synced device."/>
-                    <TextBlock Text="* If you encouter any issues, send them to me using the feedback button. (If it doesn't work the first time, try again)" />
-                    <TextBlock Text="* P.S. Create Goals with these names and see what happens ☺:  'meheni pls', 'poof', '#TeamXbox' and 'Medium Universal'  "  />
+                    <TextBlock Text="* OneDrive Syncing is now available! - In the sync tab, just press the connect button sync to OneDrive and the app will handle the rest. (The app will always load data from the last synced device) ." />
+                    <TextBlock Text="* Drag and drop a photo to start creating a new goal with that photo - It works when you drag and drop a photo in the main menu."/>
+                    <TextBlock Text="* Goals with time limits - You will now have the option to set a time limit to a new goal. For these types of goals, the time left to complete the goal will be shown instead of progress in the goals tab." />
+                    <TextBlock Text="* Easter eggs - For each easter egg found, a reward will be given to the first person that finds it. They have to tell me what it is on Twitter: @colinkiama or Email: colinkiama@hotmail.co.uk to be able to recieve your reward. Good luck!" />
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
                     <TextBlock Text="* Goals With time limits" />
-                    <TextBlock Text="* Drag And Drop" />
-                    <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to improve this app!"
+                    <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to suggest ideas to improve the app and report crashes."
                                TextAlignment="Center"
                                FontWeight="SemiBold"
                                FontSize="16"

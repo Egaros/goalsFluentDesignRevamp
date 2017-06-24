@@ -158,7 +158,7 @@ namespace goalsFluentDesignRevamp
             App.SFXSystem.Source = App.clickSFXSource;
             App.SFXSystem.Play();
             selectedGoal.targetReached = selectedGoal.target - targetRemaining;
-            decimal percentage = Math.Round((selectedGoal.targetReached / selectedGoal.target) * 100);
+            decimal percentage = Math.Floor((selectedGoal.targetReached / selectedGoal.target) * 100);
             selectedGoal.progress = $"Progress: {percentage}%";
             string historicalEvent = String.Format("Added {0:C} towards {1}.", amountSubmitted, selectedGoal.name);
             history.makeHistory(selectedGoal.name, historicalEvent, DateTime.Now, eventType.PositiveUpdate);
