@@ -33,7 +33,12 @@
                             <AdaptiveTrigger MinWindowWidth="600" />
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
-
+                            <Setter Target="imageGrid.Width"
+                                    Value="360" />
+                            <Setter Target="formGrid.HorizontalAlignment"
+                                    Value="Center" />
+                            <!--<Setter Target="formsStackPanel.Width"
+                                    Value="300" />-->
                         </VisualState.Setters>
                     </VisualState>
 
@@ -42,7 +47,12 @@
                             <AdaptiveTrigger MinWindowWidth="1000" />
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
-
+                            <Setter Target="imageGrid.Width"
+                                    Value="360" />
+                            <Setter Target="formGrid.HorizontalAlignment"
+                                    Value="Center" />
+                            <!--<Setter Target="formsStackPanel.Width"
+                                    Value="300" />-->
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -71,7 +81,8 @@
                                Margin="20" />
                 </Grid>
             </controls:DropShadowPanel>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1"
+                  Name="imageGrid">
                 <controls:DropShadowPanel Margin="5"
                                           BlurRadius="10"
                                           HorizontalAlignment="Center">
@@ -103,8 +114,11 @@
                     </Button.Content>
                 </Button>
             </Grid>
-            <Grid Grid.Row="2">
-                <StackPanel>
+            <Grid Grid.Row="2" 
+                  Name="formGrid"
+                  HorizontalAlignment="Center"
+                  Width="400">
+                <StackPanel Name="formsStackPanel">
                     <TextBox Name="nameTextBox"
                              Header="Name Of Item:"
                              GotFocus="nameTextBox_GotFocus"

@@ -36,7 +36,10 @@
                         <AdaptiveTrigger MinWindowWidth="600" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-
+                        <Setter Target="imageGrid.Width"
+                                Value="360" />
+                        <Setter Target="formGrid.Width"
+                                Value="400" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -45,7 +48,10 @@
                         <AdaptiveTrigger MinWindowWidth="1000" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-
+                        <Setter Target="imageGrid.Width"
+                                Value="360" />
+                        <Setter Target="formGrid.Width"
+                                Value="400" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -72,7 +78,8 @@
             </Grid>
         </controls:DropShadowPanel>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Name="imageGrid">
             <Grid.BorderBrush>
                 <SolidColorBrush Color="Gray"
                                  Opacity="0.3" />
@@ -105,7 +112,8 @@
         </Grid>
        
 
-        <ScrollViewer Grid.Row="2">
+        <ScrollViewer Grid.Row="2"
+                      Name="formGrid">
             <Grid>
                 <StackPanel>
                     <StackPanel>
