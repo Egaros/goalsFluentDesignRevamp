@@ -116,19 +116,37 @@ namespace goalsFluentDesignRevamp
             if ((string)e.Parameter == "goalCreated")
             {
                 await Task.Delay(100);
-
-
-                
-                showTheDialog();
-                
+                if ((int)App.localSettings.Values["stopAskingForReviews"] == 0)
+                {
+                    showTheDialog();
+                }
             }
             
         }
 
         private async void showTheDialog()
         {
-            reviewDialog.CloseButtonText = "Maybe Later";
-            await reviewDialog.ShowAsync();
+          
+                if (App.localSettings.Values["askReviewsCounter"] == null)
+                {
+                    App.localSettings.Values["askReviewsCounter"] = 2;
+                    reviewDialog.CloseButtonText = "Maybe Later";
+                    await reviewDialog.ShowAsync();
+                }
+                else if ((int)App.localSettings.Values["askReviewsCounter"] > 0)
+                {
+                    int oldCounterValue = (int)App.localSettings.Values["askReviewsCounter"];
+                    int newCounterValue = oldCounterValue - 1;
+                    App.localSettings.Values["askReviewsCounter"] = newCounterValue;
+                }
+                else
+                {
+                App.localSettings.Values["askReviewsCounter"] = 2;
+                reviewDialog.CloseButtonText = "Maybe Later";
+                await reviewDialog.ShowAsync();
+            }
+            
+
         }
 
         private void hideMainMenu()
@@ -351,6 +369,7 @@ namespace goalsFluentDesignRevamp
 
         private async void reviewDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            App.localSettings.Values["stopAskingForReviews"] = 1;
             await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store:REVIEW?PFN={0}", Windows.ApplicationModel.Package.Current.Id.FamilyName)));
         }
     }

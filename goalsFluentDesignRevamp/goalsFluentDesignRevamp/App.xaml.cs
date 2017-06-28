@@ -475,6 +475,7 @@ namespace goalsFluentDesignRevamp
                     object currentAppVersion = localSettings.Values["currentAppVersion"];
                     NavService = new Navigation(ref rootFrame);
                     string applicationVersion = $"{pv.Major}.{pv.Minor}.{pv.Build}.{pv.Revision}";
+                    prepareForTheCheckAndAskForReviewsAlgorithm();
                     if (currentAppVersion == null)
                     {
 
@@ -506,6 +507,13 @@ namespace goalsFluentDesignRevamp
 
         }
 
+        private void prepareForTheCheckAndAskForReviewsAlgorithm()
+        {
+            if (App.localSettings.Values["stopAskingForReviews"] == null)
+            {
+                App.localSettings.Values["stopAskingForReviews"] = 0;
+            }
+        }
 
         private void unregisterBackgroundTasks()
         {
