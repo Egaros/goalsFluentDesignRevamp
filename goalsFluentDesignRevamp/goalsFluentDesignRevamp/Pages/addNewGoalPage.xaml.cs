@@ -119,7 +119,7 @@ namespace goalsFluentDesignRevamp
                     history.makeHistory(name, historicalEvent, DateTime.Now, eventType.NewGoal);
                     history.saveHistory();
                     logger.Log("Goals Created");
-                    App.NavService.NavigateTo(typeof(MainPage));
+                    App.NavService.NavigateTo(typeof(MainPage), "goalCreated");
                 }
             }
             catch

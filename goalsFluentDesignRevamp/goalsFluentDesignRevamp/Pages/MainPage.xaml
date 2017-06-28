@@ -89,7 +89,13 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
+        <ContentDialog Name="reviewDialog"
+                       Title="Review the app"
+                       Content="How are you finding the app? I'd love to know what you think of it. (Rating/reviewing the app also helps it easier for this app to be discovered too!)"
+                       PrimaryButtonText="Rate/Review The App"
+                       PrimaryButtonClick="reviewDialog_PrimaryButtonClick">
+           
+        </ContentDialog>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" 

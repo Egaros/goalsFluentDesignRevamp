@@ -110,13 +110,26 @@ namespace goalsFluentDesignRevamp
         }
 
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             decideIfTutorialTextWillShow();
+            if ((string)e.Parameter == "goalCreated")
+            {
+                await Task.Delay(100);
 
+
+                
+                showTheDialog();
+                
+            }
+            
         }
 
-
+        private async void showTheDialog()
+        {
+            reviewDialog.CloseButtonText = "Maybe Later";
+            await reviewDialog.ShowAsync();
+        }
 
         private void hideMainMenu()
         {
@@ -334,6 +347,11 @@ namespace goalsFluentDesignRevamp
         private async void rootGrid_DragLeave(object sender, DragEventArgs e)
         {
           bool dab = await mainPivot.Fade(1, 200).StartAsync();
+        }
+
+        private async void reviewDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store:REVIEW?PFN={0}", Windows.ApplicationModel.Package.Current.Id.FamilyName)));
         }
     }
 
