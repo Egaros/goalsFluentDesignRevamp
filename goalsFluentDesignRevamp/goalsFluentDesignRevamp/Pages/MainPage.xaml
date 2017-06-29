@@ -42,6 +42,7 @@
                                 Value="20" />
                         <Setter Target="feedbackButton.Width"
                                 Value="68" />
+                       
 
                     </VisualState.Setters>
                 </VisualState>
@@ -63,6 +64,7 @@
                                 Value="Left" />
                         <Setter Target="feedbackButton.Width"
                                 Value="68" />
+                      
 
                     </VisualState.Setters>
                 </VisualState>
@@ -84,18 +86,27 @@
                                 Value="Visible" />
                         <Setter Target="mainCommandBar.HorizontalAlignment"
                                 Value="Left" />
-
+                      
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <ContentDialog Name="reviewDialog"
-                       Title="Review the app"
-                       Content="How are you finding the app? I'd love to know what you think of it. (Rating/reviewing the app also helps it easier for this app to be discovered too!)"
-                       PrimaryButtonText="Rate/Review The App"
-                       PrimaryButtonClick="reviewDialog_PrimaryButtonClick">
-           
+                       Title="Enjoying The App?"
+                       Content="How are you finding the app? I'd love to know what you think of it. (Rating/Reviewing the app also helps it easier for this app to be discovered more by other people in the Store too! ☺)"
+                       PrimaryButtonText="Rate The App"
+                       PrimaryButtonClick="reviewDialog_PrimaryButtonClick"
+                       SecondaryButtonText="No"
+                       SecondaryButtonClick="reviewDialog_SecondaryButtonClick"
+                       Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
         </ContentDialog>
+
+        <ContentDialog Name="feedbackDialog"
+                       Title="Sorry 😔"
+                       Content="I'm sorry that this app doesn't provide a satisfying experience for you. It would be great if you could give feedback on what's wrong or missing with the app so I can make your experience better!"
+                       PrimaryButtonText="Send Feedback"
+                       PrimaryButtonClick="feedbackDialog_PrimaryButtonClick"
+                       Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" 
@@ -694,24 +705,50 @@
                                                                             <CompositeTransform x:Name="HeaderTranslateTransform" />
                                                                         </PivotHeaderPanel.RenderTransform>
                                                                     </PivotHeaderPanel>
-                                                                    <!-->TODO: Add more ads based on Window/screen size<-->
-                                                                    <!-->Whenever you are testing this app, make sure you use this AdControl instead of the other one Or else Microsoft will block your apps from retrieving ads for a while<-->
-                                                                    <UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
-                                                                                  AdUnitId="test"
-                                                                                  HorizontalAlignment="Center"
-                                                                                  Height="50"
-                                                                                  Width="300" 
-                                                                                  Grid.Row="1"
-                                                                                  Margin="5"/>
+                                                                   
+                                                                   
+                                                                    
+                                                                    
 
-                                                                    <!--<UI:AdControl ApplicationId="9nblggh52rsb"
+                                                                        <!-->TODO: Add more ads based on Window/screen size<-->
+                                                                        <!-->Whenever you are testing this app, make sure you use this AdControl instead of the other one Or else Microsoft will block your apps from retrieving ads for a while<-->
+
+                                                                        <!--<UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                                                                                      AdUnitId="test"
+                                                                                      HorizontalAlignment="Center"
+                                                                                      Height="50"
+                                                                                      Width="300"
+                                                                                      Grid.Row="1"
+                                                                                      Margin="5" />-->
+                                                                    
+                                                                    <StackPanel Orientation="Horizontal"
+                                                                                Grid.Row="1"
+                                                                                HorizontalAlignment="Center">
+                                                                        <UI:AdControl ApplicationId="9nblggh52rsb"
                                                                                   AdUnitId="348043"
                                                                                   HorizontalAlignment="Center"
                                                                                   Height="50"
                                                                                   Width="300" 
-                                                                                  Grid.Row="1"
                                                                                   Name="easyAd"
-                                                                                  Margin="5"/>-->
+                                                                                  Margin="5"/>
+
+                                                                        <UI:AdControl ApplicationId="9nblggh52rsb"
+                                                                                      AdUnitId="350374"
+                                                                                      HorizontalAlignment="Center"
+                                                                                      Height="50"
+                                                                                      Width="300"
+                                                                                      Name="easyAd2"
+                                                                                      Margin="5"
+                                                                                   />
+
+                                                                        <UI:AdControl ApplicationId="9nblggh52rsb"
+                                                                                      AdUnitId="350376"
+                                                                                      HorizontalAlignment="Center"
+                                                                                      Height="50"
+                                                                                      Width="300"
+                                                                                      Name="easyAd3"
+                                                                                      Margin="5" />
+                                                                    </StackPanel>
                                                                 </Grid>
                                                             </controls:DropShadowPanel>
                                                         </ContentControl>

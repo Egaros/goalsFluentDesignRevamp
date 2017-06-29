@@ -113,7 +113,7 @@ namespace goalsFluentDesignRevamp
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             decideIfTutorialTextWillShow();
-            if ((string)e.Parameter == "goalCreated")
+            if ((string)e.Parameter == "addedOrUpdatedGoal")
             {
                 await Task.Delay(100);
                 if ((int)App.localSettings.Values["stopAskingForReviews"] == 0)
@@ -129,7 +129,7 @@ namespace goalsFluentDesignRevamp
           
                 if (App.localSettings.Values["askReviewsCounter"] == null)
                 {
-                    App.localSettings.Values["askReviewsCounter"] = 2;
+                    App.localSettings.Values["askReviewsCounter"] = 1;
                     reviewDialog.CloseButtonText = "Maybe Later";
                     await reviewDialog.ShowAsync();
                 }
@@ -141,7 +141,7 @@ namespace goalsFluentDesignRevamp
                 }
                 else
                 {
-                App.localSettings.Values["askReviewsCounter"] = 2;
+                App.localSettings.Values["askReviewsCounter"] = 1;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
@@ -369,8 +369,28 @@ namespace goalsFluentDesignRevamp
 
         private async void reviewDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            logger.Log("Times Review button is clicked");
             App.localSettings.Values["stopAskingForReviews"] = 1;
             await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store:REVIEW?PFN={0}", Windows.ApplicationModel.Package.Current.Id.FamilyName)));
+        }
+
+        private async void feedbackDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            logger.Log("Times Feedback Button Clicked");
+            var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            await launcher.LaunchAsync();
+        }
+
+        private  void reviewDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            reviewDialog.Hide();
+            reviewDialog.Closed += showFeedbackDialog;  
+        }
+
+        private async void showFeedbackDialog(ContentDialog sender, ContentDialogClosedEventArgs args)
+        {
+            feedbackDialog.CloseButtonText = "I will later";
+            await feedbackDialog.ShowAsync();
         }
     }
 

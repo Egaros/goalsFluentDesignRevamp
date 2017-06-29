@@ -89,7 +89,7 @@ namespace goalsFluentDesignRevamp
             List<goal> goalToRemove = goal.listOfGoals.Where(p => p.name == selectedGoal.name).ToList();
             goal.listOfGoals.Remove(goalToRemove[0]);
             goal.saveGoals();
-            App.NavService.NavigateTo(typeof(MainPage));
+            App.NavService.NavigateTo(typeof(MainPage), "addedOrUpdatedGoal");
         }
 
         private void showErrorTextBlock()
@@ -175,7 +175,7 @@ namespace goalsFluentDesignRevamp
                 history.makeHistory(selectedGoal.name, historicalEvent, DateTime.Now, eventType.CompletedGoal);
                 history.saveHistory();
                 logger.Log("Goals Completed");
-                App.NavService.NavigateTo(typeof(goalCompletedPage));
+                App.NavService.NavigateTo(typeof(goalCompletedPage), "addedOrUpdatedGoal");
 
             }
             else
@@ -186,7 +186,7 @@ namespace goalsFluentDesignRevamp
                 goal.saveGoals();
                 history.saveHistory();
                
-                    App.NavService.NavigateTo(typeof(MainPage));
+                    App.NavService.NavigateTo(typeof(MainPage), "addedOrUpdatedGoal");
          
                 
 
@@ -232,7 +232,7 @@ namespace goalsFluentDesignRevamp
             List<goal> goalToRemove = goal.listOfGoals.Where(p => p.name == selectedGoal.name).ToList();
             goal.listOfGoals.Remove(goalToRemove[0]);
             goal.saveGoals();
-            App.NavService.NavigateTo(typeof(MainPage));
+            App.NavService.NavigateTo(typeof(MainPage), "addedOrUpdatedGoal");
         }
 
         private async void changeImageButton_Click(object sender, RoutedEventArgs e)

@@ -29,7 +29,7 @@ namespace goalsFluentDesignRevamp
 
         private void contiueButton_Click(object sender, RoutedEventArgs e)
         {
-            App.NavService.NavigateTo(typeof(MainPage));
+            App.NavService.NavigateTo(typeof(MainPage), "addedOrUpdatedGoal");
         }
     }
 }

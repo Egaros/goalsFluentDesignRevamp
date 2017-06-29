@@ -31,7 +31,7 @@ namespace goalsFluentDesignRevamp
         {
             App.SFXSystem.Source = App.clickSFXSource;
             App.SFXSystem.Play();
-            App.NavService.NavigateTo(typeof(MainPage));
+            App.NavService.NavigateTo(typeof(MainPage), "addedOrUpdatedGoal");
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
