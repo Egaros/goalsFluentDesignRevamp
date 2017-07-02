@@ -395,9 +395,7 @@ namespace goalsFluentDesignRevamp
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            engagementManager.RegisterNotificationChannelAsync();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            await engagementManager.RegisterNotificationChannelAsync();
             await BackgroundExecutionManager.RequestAccessAsync();
             unregisterBackgroundTasks();
             var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
@@ -475,10 +473,10 @@ namespace goalsFluentDesignRevamp
                     object currentAppVersion = localSettings.Values["currentAppVersion"];
                     NavService = new Navigation(ref rootFrame);
                     string applicationVersion = $"{pv.Major}.{pv.Minor}.{pv.Build}.{pv.Revision}";
-                    prepareForTheCheckAndAskForReviewsAlgorithm();
+                    prepareForTheCheckAndAskForReviewsAlgorithm(); 
                     if (currentAppVersion == null)
                     {
-
+                        //showFirstTimePage
                         localSettings.Values["currentAppVersion"] = applicationVersion;
                         rootFrame.Navigate(typeof(whatsNewPage));
 

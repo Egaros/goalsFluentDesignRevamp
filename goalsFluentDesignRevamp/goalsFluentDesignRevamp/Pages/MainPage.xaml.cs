@@ -32,6 +32,7 @@ using Windows.Storage.Streams;
 using Windows.Storage;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace goalsFluentDesignRevamp
@@ -392,6 +393,8 @@ namespace goalsFluentDesignRevamp
             feedbackDialog.CloseButtonText = "I will later";
             await feedbackDialog.ShowAsync();
         }
+
+       
     }
 
 
