@@ -43,7 +43,7 @@ namespace goalsFluentDesignRevamp
         public bool isTaskRegistered = false;
         private StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
         private bool newHistoryNeeded = false;
-        public static MediaPlayer SFXSystem = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.SoundEffects, IsLoopingEnabled = false, Volume = 100 };
+        public static MediaPlayer SFXSystem = new MediaPlayer { AudioCategory = MediaPlayerAudioCategory.Other, IsLoopingEnabled = false, Volume = 0.1 };
         public static MediaSource clickSFXSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/click.mp3"));
         public static MediaSource deleteClickSFXSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/deleteClick.mp3"));
         public static MediaSource selectClickSFXSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/selectClick.mp3"));
@@ -479,6 +479,8 @@ namespace goalsFluentDesignRevamp
                         //showFirstTimePage
                         localSettings.Values["currentAppVersion"] = applicationVersion;
                         rootFrame.Navigate(typeof(whatsNewPage));
+                        //When you finish the onBoardingPage, show it instead of the whatsNewPage
+                        //rootFrame.Navigate(typeof(onBoardingPage));
 
                     }
                     else if (currentAppVersion.ToString() != applicationVersion)
