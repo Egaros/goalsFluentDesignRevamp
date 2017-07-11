@@ -54,8 +54,10 @@ namespace goalsFluentDesignRevamp
      ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
             if (imageAnimation != null)
             {
+                titleBar.Opacity = 0;
+                formGrid.Opacity = 0;
                 goalImage.Opacity = 0;
-                //mainCommandBar.Opacity = 0;
+                
                
                 // Wait for image opened. In future Insider Preview releases, this won't be necessary.
                 goalImage.ImageOpened += (sender_, e_) =>
@@ -64,7 +66,7 @@ namespace goalsFluentDesignRevamp
                    
                     
                 imageAnimation.TryStart(goalImage, new UIElement[] { titleBar, formGrid});
-                    //mainCommandBar.Fade(1,1000).Start();
+                    
                     titleBar.Opacity = 1;
                     formGrid.Opacity = 1;
 
@@ -73,6 +75,7 @@ namespace goalsFluentDesignRevamp
 
 
             selectedGoal = (goal)e.Parameter;
+            MainPage.persistedItem = selectedGoal;
             showPresenceOfGoalInUI(selectedGoal);
             bool timeLimitIsReached = checkIfTimeLimitReached();
             if (timeLimitIsReached)
@@ -81,7 +84,7 @@ namespace goalsFluentDesignRevamp
                 showErrorDialogBox();
             }
 
-          
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = new TimeSpan(0, 0, 0, 0, 500);
         }
 
         private async void showErrorDialogBox()
@@ -247,7 +250,15 @@ namespace goalsFluentDesignRevamp
             App.SFXSystem.Play();
             //App.NavService.NavigateBack();
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("returnImage", goalImage);
+            if (Frame.BackStack.Count == 0)
+            {
+                Frame.Navigate(typeof(MainPage));
+            }
+            else
+            {
             Frame.GoBack(new SuppressNavigationTransitionInfo());
+
+            }
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)

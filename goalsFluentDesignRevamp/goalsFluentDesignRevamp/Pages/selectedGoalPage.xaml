@@ -67,7 +67,7 @@
                   Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                   Canvas.ZIndex="20"
                   Name="titleBar"
-                  Opacity="0">
+                  >
                 
                 <TextBlock Name="titleTextBlock"
                            Margin="20"
@@ -112,8 +112,7 @@
        
 
         <ScrollViewer Grid.Row="2"
-                      Name="formGrid"
-                      Opacity="0">
+                      Name="formGrid">
             <Grid>
                 <StackPanel>
                     <StackPanel>

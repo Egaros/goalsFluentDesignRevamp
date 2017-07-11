@@ -19,6 +19,7 @@ using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -62,9 +63,9 @@ namespace goalsFluentDesignRevamp
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             Application.Current.Resuming += new EventHandler<Object>(OnResuming);
+            Application.Current.LeavingBackground += updateTitleBar; 
             createScreenOrientationEvenHandlers();
-
-
+            createJumpList();
 
 
             checkIfYouCanLoadFiles();
@@ -89,6 +90,40 @@ namespace goalsFluentDesignRevamp
             {
                 loadHistory();
             }
+        }
+
+        private async void createJumpList()
+        {
+            // Get the app's jump list.
+            
+            var jumpList = await Windows.UI.StartScreen.JumpList.LoadCurrentAsync();
+            
+            // Set the system to autogenerate a Frequent group for the app jump list.
+            // Alternatively, this property could be set to JumpListSystemGroupKind.Recent to autogenerate a Recent group.
+            jumpList.SystemGroupKind = Windows.UI.StartScreen.JumpListSystemGroupKind.Recent;
+            var jumpListItems = jumpList.Items;
+            // No changes were made to the jump list Items property, so any custom tasks and groups remain intact.
+            await jumpList.SaveAsync();
+        }
+
+        private void updateTitleBar(object sender, LeavingBackgroundEventArgs e)
+        {
+            var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+
+            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+
+            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop")
+            {
+                var accentColorBrush = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]).Color;
+                ApplicationViewTitleBar formattableTitleBar = appView.TitleBar;
+                formattableTitleBar.ButtonForegroundColor = accentColorBrush;
+                CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+                coreTitleBar.ExtendViewIntoTitleBar = true;
+                appView.SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+
+
+            }
+
         }
 
         private async void createImageFolder()
@@ -267,7 +302,7 @@ namespace goalsFluentDesignRevamp
 
 
                 }
-
+                
 
             }
             // Ensure the current window is active
@@ -466,6 +501,9 @@ namespace goalsFluentDesignRevamp
 
             if (e.PrelaunchActivated == false)
             {
+                var activationKind = e.Kind;
+                
+
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -478,11 +516,10 @@ namespace goalsFluentDesignRevamp
                     prepareForTheCheckAndAskForReviewsAlgorithm(); 
                     if (currentAppVersion == null)
                     {
-                       //Uncomment currentAppVersion change when you finish with testing onBoardingPage
+                        //Uncomment currentAppVersion change when you finish with testing onBoardingPage
                         //localSettings.Values["currentAppVersion"] = applicationVersion;
-                        rootFrame.Navigate(typeof(whatsNewPage));
                         //When you finish the onBoardingPage, show it instead of the whatsNewPage
-                        rootFrame.Navigate(typeof(onBoardingPage));
+                        rootFrame.Navigate(typeof(onBoardingPage), applicationVersion);
 
                     }
                     else if (currentAppVersion.ToString() != applicationVersion)
@@ -496,17 +533,72 @@ namespace goalsFluentDesignRevamp
                     }
                     else
                     {
-                        //rootFrame.Navigate(typeof(MainPage), e.Arguments);
 
-                        App.NavService.NavigateTo(typeof(MainPage), e.Arguments);
+                        if (!string.IsNullOrEmpty(e.Arguments))
+                        {
+                            string tileID = e.Arguments;
+                            navigateBasedOnTileID(tileID, rootFrame);
+                        }
 
+                        else if (e.TileId != "")
+                        {
+                            if (e.TileId != "App")
+                            {
+                            navigateBasedOnTileID(e.TileId, rootFrame);
+
+                            }
+                            else
+                            {
+                                App.NavService.NavigateTo(typeof(MainPage), e.Arguments);
+                            }
+                        }
+                        else
+                        {
+                            App.NavService.NavigateTo(typeof(MainPage), e.Arguments);
+                        }
                     }
 
+                }
+                else
+                {
+                    if (e.TileId != "")
+                    {
+
+                        if (e.TileId != "App")
+                        {
+                            navigateBasedOnTileID(e.TileId, rootFrame);
+
+                        }
+                        else
+                        {
+                            App.NavService.NavigateTo(typeof(MainPage), e.Arguments);
+                        }
+                    }
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
 
+        }
+
+        private void navigateBasedOnTileID(string tileId, Frame rootFrame)
+        {
+            var listOfGoals = goal.listOfGoals;
+            var listOfNeededGoals = listOfGoals.Where(p => p.tileID == tileId);
+
+            if (listOfNeededGoals != null && listOfNeededGoals.Count() > 0)
+            {
+                var goalSelectedByUser = (goal)listOfNeededGoals.First();
+                logger.Log("App launched from pinned goal tile");
+                App.NavService.NavigateTo(typeof(selectedGoalPage), goalSelectedByUser);
+            }
+
+            
+            else
+            {
+                App.NavService.NavigateTo(typeof(MainPage), "goalNotFound");
+
+            }
         }
 
         private void prepareForTheCheckAndAskForReviewsAlgorithm()
@@ -578,8 +670,12 @@ namespace goalsFluentDesignRevamp
                     statusBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"]).Color;
                 }
 
+               
             });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+           
+
         }
 
 

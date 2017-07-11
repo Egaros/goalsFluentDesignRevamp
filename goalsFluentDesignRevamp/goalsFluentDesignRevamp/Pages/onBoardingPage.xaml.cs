@@ -30,7 +30,7 @@ namespace goalsFluentDesignRevamp
     {
         Compositor _compositor;
         SpriteVisual _hostSprite;
-
+        string applicationVersion;
         public onBoardingPage()
         {
             this.InitializeComponent();
@@ -161,16 +161,18 @@ namespace goalsFluentDesignRevamp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            applicationVersion = (string)e.Parameter;
+            
 
-            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+            //var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
 
-            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
-            {
+            //if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
+            //{
                
-                applyAcrylicAccent(transparentArea);
-                makeButtonsTranslucent();
+            //    applyAcrylicAccent(transparentArea);
+            //    makeButtonsTranslucent();
 
-            }
+            //}
         }
 
         private void makeButtonsTranslucent()
@@ -186,7 +188,7 @@ namespace goalsFluentDesignRevamp
              _hostSprite = _compositor.CreateSpriteVisual();
             _hostSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
             ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
-            _hostSprite.Opacity = 0.8f;
+            _hostSprite.Opacity = 0.6f;
 
 
 
@@ -200,7 +202,7 @@ namespace goalsFluentDesignRevamp
         {
             foreach (var unselectedIndicator in unselectedIndicators)
             {
-                unselectedIndicator.Background = new SolidColorBrush(Color.FromArgb(255, 43, 43, 43));
+                unselectedIndicator.Background = new SolidColorBrush(Color.FromArgb(255, 79, 74, 74));
             }
         }
 
@@ -211,15 +213,20 @@ namespace goalsFluentDesignRevamp
 
         private void startNewButton_Click(object sender, RoutedEventArgs e)
         {
+            storeCurrentApplicationVersion();
             App.NavService.NavigateTo(typeof(whatsNewPage));
         }
 
         private void carryOnFromCloudButton_Click(object sender, RoutedEventArgs e)
         {
+            storeCurrentApplicationVersion();
             App.NavService.NavigateTo(typeof(MainPage), "carryOnFromCloud");
         }
 
-      
+        private void storeCurrentApplicationVersion()
+        {
+            App.localSettings.Values["currentAppVersion"] = applicationVersion;
+        }
 
         private void transparentArea_SizeChanged(object sender, SizeChangedEventArgs e)
         {

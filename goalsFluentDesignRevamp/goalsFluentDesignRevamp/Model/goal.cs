@@ -1,4 +1,5 @@
-﻿using System;
+﻿using goalsFluentDesignRevamp.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -46,7 +47,7 @@ namespace goalsFluentDesignRevamp.Model
         {
              saveIncompleteGoals();
              saveCompleteGoals();
-           
+            jumpListManagement.UpdateJumpList(listOfGoals);
             //saves completedGoals
 
 

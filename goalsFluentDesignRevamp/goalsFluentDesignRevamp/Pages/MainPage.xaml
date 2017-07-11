@@ -40,8 +40,7 @@
                                 Value="Center" />
                         <Setter Target="mainCommandBar.Margin"
                                 Value="20" />
-                        <Setter Target="feedbackButton.Width"
-                                Value="68" />
+                        
                        
 
                     </VisualState.Setters>
@@ -62,8 +61,7 @@
                                 Value="Visible" />
                         <Setter Target="mainCommandBar.HorizontalAlignment"
                                 Value="Left" />
-                        <Setter Target="feedbackButton.Width"
-                                Value="68" />
+                      
                       
 
                     </VisualState.Setters>
@@ -110,14 +108,10 @@
                        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                        d:IsHidden="true" />
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" 
-                               x:Name="adRow"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
+            
 
            
-            <Grid Grid.Row="1">
+            <Grid>
                 <Grid.Resources>
                     <!-- Default style for Windows.UI.Xaml.Controls.Primitives.PivotHeaderItem -->
                     <Style TargetType="PivotHeaderItem">
@@ -677,14 +671,16 @@
                                                         <ContentControl x:Name="HeaderClipper"
                                                                         Grid.Column="1"
                                                                         HorizontalContentAlignment="Stretch"
-                                                                        UseSystemFocusVisuals="True">
+                                                                        UseSystemFocusVisuals="True"
+                                                                        >
 
 
                                                           
                                                                 <Grid 
                                                                       BorderThickness="0,0,0,1.5"
                                                                       Canvas.ZIndex="20"
-                                                                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                                                                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                                                    x:Name="pivotHeaderGrid">
                                                                 
 
                                                                     <Grid.RenderTransform>
@@ -796,7 +792,8 @@
                     
                 <Pivot Name="mainPivot"
                        Style="{StaticResource bestPivotStyle}"
-                       SelectionChanged="mainPivot_SelectionChanged">
+                       SelectionChanged="mainPivot_SelectionChanged"
+                      >
                    
                     <PivotItem Name="goalsPivotItem">
                         <PivotItem.Header>
@@ -1021,15 +1018,12 @@
                                   Click="feedbackButton_Click"
                                   Label="Feedback"
                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
-                        <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    Height="36">
+                            <AppBarButton.Icon>
+                                
                                 <FontIcon FontFamily="Segoe MDL2 Assets"
-                                          Glyph="&#xE939;"
-                                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                          Margin="0,0,5,0"
-                                          FontSize="20" />
-                            </StackPanel>
+                                          Glyph="&#xE939;"/>
+                            </AppBarButton.Icon>
+                           
                     </AppBarButton>
 
                     <AppBarButton Name="newGoalButton"

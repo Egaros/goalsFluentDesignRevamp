@@ -56,7 +56,8 @@ namespace goalsFluentDesignRevamp
         Compositor _compositor;
         SpriteVisual _hostSprite;
         SpriteVisual _blurSprite;
-        private static goal persistedItem;
+        public static goal persistedItem;
+       
 
         public MainPage()
         {
@@ -65,11 +66,11 @@ namespace goalsFluentDesignRevamp
             loadGoals();
             checkIfDeviceHasFeedbackHub();
             //registerWindowActivationEvents();
-
+           
 
         }
 
-
+       
 
         private void registerWindowActivationEvents()
         {
@@ -164,6 +165,12 @@ namespace goalsFluentDesignRevamp
             }
 
 
+            if ((string)e.Parameter == "goalNotFound")
+            {
+                showGoalNotFoundDialog();
+                
+            }
+
             var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
 
             if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
@@ -180,7 +187,20 @@ namespace goalsFluentDesignRevamp
             }
 
 
-            applyBlurBackDrop(yasssbishh);
+            //applyBlurBackDrop(yasssbishh);
+        }
+
+        private async void showGoalNotFoundDialog()
+        {
+            ContentDialog goalNotFoundDialog = new ContentDialog
+            {
+                Title = "Sorry 😔",
+                Content = "The goal you wanted to update could not be found or selected.",
+                CloseButtonText = "OK",
+                IsPrimaryButtonEnabled = false
+            };
+
+            await goalNotFoundDialog.ShowAsync();
         }
 
         private void applyBlurBackDrop(Panel panel)
