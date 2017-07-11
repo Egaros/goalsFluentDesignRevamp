@@ -22,6 +22,7 @@ using Windows.Networking.Connectivity;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace goalsFluentDesignRevamp
@@ -48,6 +49,29 @@ namespace goalsFluentDesignRevamp
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+           
+            ConnectedAnimation imageAnimation =
+     ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
+            if (imageAnimation != null)
+            {
+                goalImage.Opacity = 0;
+                //mainCommandBar.Opacity = 0;
+               
+                // Wait for image opened. In future Insider Preview releases, this won't be necessary.
+                goalImage.ImageOpened += (sender_, e_) =>
+                {
+                    goalImage.Opacity = 1;
+                   
+                    
+                imageAnimation.TryStart(goalImage, new UIElement[] { titleBar, formGrid});
+                    //mainCommandBar.Fade(1,1000).Start();
+                    titleBar.Opacity = 1;
+                    formGrid.Opacity = 1;
+
+                };
+            }
+
+
             selectedGoal = (goal)e.Parameter;
             showPresenceOfGoalInUI(selectedGoal);
             bool timeLimitIsReached = checkIfTimeLimitReached();
@@ -56,6 +80,8 @@ namespace goalsFluentDesignRevamp
                 updateProgressButton.IsEnabled = false;
                 showErrorDialogBox();
             }
+
+          
         }
 
         private async void showErrorDialogBox()
@@ -219,7 +245,9 @@ namespace goalsFluentDesignRevamp
         {
             App.SFXSystem.Source = App.cancelClickSFXSource;
             App.SFXSystem.Play();
-            App.NavService.NavigateBack();
+            //App.NavService.NavigateBack();
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("returnImage", goalImage);
+            Frame.GoBack(new SuppressNavigationTransitionInfo());
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)

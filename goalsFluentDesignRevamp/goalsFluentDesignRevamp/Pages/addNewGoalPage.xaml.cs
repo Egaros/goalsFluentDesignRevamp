@@ -66,6 +66,8 @@ namespace goalsFluentDesignRevamp
 
                 
             }
+
+           
         }
 
         private void assignDroppedImageToGoalImage(StorageFile droppedImageFile)
@@ -152,10 +154,11 @@ namespace goalsFluentDesignRevamp
         {
             var folder = ApplicationData.Current.LocalFolder;
             var imageFolder = await folder.GetFolderAsync("ImageFolder");
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation =
-            Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            var picker = new Windows.Storage.Pickers.FileOpenPicker()
+            {
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+            };
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
@@ -239,8 +242,13 @@ namespace goalsFluentDesignRevamp
 
         private void hideSoftwareKyboard()
         {
+            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+
+            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Mobile")
+            {
             var softwareKeyboard = InputPane.GetForCurrentView();
             softwareKeyboard.TryHide();
+            }
         }
 
         private void nameTextBox_GotFocus(object sender, RoutedEventArgs e)

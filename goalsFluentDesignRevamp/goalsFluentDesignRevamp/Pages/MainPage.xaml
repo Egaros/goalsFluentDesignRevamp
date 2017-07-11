@@ -20,6 +20,7 @@
           Drop="rootGrid_Drop"
           DragOver="rootGrid_DragOver"
           DragLeave="rootGrid_DragLeave">
+      
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Phone">
@@ -679,15 +680,12 @@
                                                                         UseSystemFocusVisuals="True">
 
 
-                                                            <controls:DropShadowPanel BlurRadius="10"
-                                                                                      ShadowOpacity="1">
-                                                                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                                          
+                                                                <Grid 
                                                                       BorderThickness="0,0,0,1.5"
-                                                                      Canvas.ZIndex="20">
-                                                                    <Grid.BorderBrush>
-                                                                        <SolidColorBrush Color="Gray"
-                                                                                         Opacity="0.3" />
-                                                                    </Grid.BorderBrush>
+                                                                      Canvas.ZIndex="20"
+                                                                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                                                                
 
                                                                     <Grid.RenderTransform>
                                                                         <CompositeTransform x:Name="HeaderOffsetTranslateTransform" />
@@ -722,16 +720,17 @@
                                                                                       Grid.Row="1"
                                                                                       Margin="5" />-->
 
-                                                                    <UI:AdControl ApplicationId="9nblggh52rsb"
+                                                                
+                                                                <!--<UI:AdControl ApplicationId="9nblggh52rsb"
                                                                                   AdUnitId="348043"
                                                                                   HorizontalAlignment="Center"
                                                                                   Height="50"
                                                                                   Width="300"
                                                                                   Name="easyAd"
                                                                                   Margin="5"
-                                                                                  Grid.Row="1" />
+                                                                                  Grid.Row="1" />-->
                                                                 </Grid>
-                                                            </controls:DropShadowPanel>
+                                                           
                                                         </ContentControl>
                                                         <Button x:Name="PreviousButton"
                                                                 Background="Transparent"
@@ -793,9 +792,12 @@
                                 Value="0,0,0,0" />
                     </Style>
                 </Grid.Resources>
+                
+                    
                 <Pivot Name="mainPivot"
                        Style="{StaticResource bestPivotStyle}"
                        SelectionChanged="mainPivot_SelectionChanged">
+                   
                     <PivotItem Name="goalsPivotItem">
                         <PivotItem.Header>
                             <StackPanel Orientation="Horizontal"
@@ -814,6 +816,7 @@
 
                         </PivotItem.Header>
 
+                       
                         <ScrollViewer>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -826,7 +829,8 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Style="{StaticResource SubheaderTextBlockStyle}"
-                                           Visibility="Visible">
+                                           Visibility="Visible"
+                                           Margin="10">
                                     <TextBlock.RenderTransform>
                                         <CompositeTransform />
                                     </TextBlock.RenderTransform>
@@ -837,16 +841,17 @@
                                           Visibility="Collapsed"
                                           ItemClick="goalsGridView_ItemClick"
                                           animations:ReorderGridAnimation.Duration="500"
-                                          >
+                                          Loaded="goalsGridView_Loaded">
                                     <GridView.RenderTransform>
                                         <CompositeTransform />
                                     </GridView.RenderTransform>
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
-                                            <controls:DropShadowPanel BlurRadius="10"
-                                                                      Margin="10">
-                                                <control:goalView x:Name="goalViewItem" />
-                                            </controls:DropShadowPanel>
+                                            <!--<controls:DropShadowPanel BlurRadius="10"
+                                                                      Margin="10">-->
+                                                <control:goalView x:Name="goalViewItem" 
+                                                                  Margin="10"/>
+                                            <!--</controls:DropShadowPanel>-->
                                         </DataTemplate>
                                     </GridView.ItemTemplate>
                                 </GridView>
@@ -884,7 +889,8 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Style="{StaticResource SubheaderTextBlockStyle}"
-                                           Visibility="Visible">
+                                           Visibility="Visible"
+                                           Margin="10,0">
                                     <TextBlock.RenderTransform>
                                         <CompositeTransform />
                                     </TextBlock.RenderTransform>
@@ -953,7 +959,8 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"
                                            Style="{StaticResource SubheaderTextBlockStyle}"
-                                           Visibility="Visible" />
+                                           Visibility="Visible" 
+                                           Margin="10,0"/>
 
                                 <GridView ItemsSource="{x:Bind historyToDisplay}"
                                           Name="historyGridView"
@@ -1000,7 +1007,12 @@
                                       x:Name="mainCommandBar"
                                       Canvas.ZIndex="20"
                                       Grid.Row="1">
+                
+                
                 <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                    
+                    <RelativePanel Name="yasssbishh" 
+                                   SizeChanged="yasssbishh_SizeChanged"/>
                     <StackPanel Orientation="Horizontal"
                            HorizontalAlignment="Center"
                             Height="60">

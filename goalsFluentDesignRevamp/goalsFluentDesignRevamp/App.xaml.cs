@@ -30,6 +30,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 
+
 namespace goalsFluentDesignRevamp
 {
     /// <summary>
@@ -155,9 +156,10 @@ namespace goalsFluentDesignRevamp
 
             // We'll register the task in the next step.
 
-            var builder = new BackgroundTaskBuilder();
-
-            builder.Name = name;
+            var builder = new BackgroundTaskBuilder()
+            {
+                Name = name
+            };
 
             // in-process background tasks don't set TaskEntryPoint
             if (taskEntryPoint != null && taskEntryPoint != String.Empty)
@@ -395,7 +397,7 @@ namespace goalsFluentDesignRevamp
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-            await engagementManager.RegisterNotificationChannelAsync();
+             engagementManager.RegisterNotificationChannelAsync();
             await BackgroundExecutionManager.RequestAccessAsync();
             unregisterBackgroundTasks();
             var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
@@ -476,11 +478,11 @@ namespace goalsFluentDesignRevamp
                     prepareForTheCheckAndAskForReviewsAlgorithm(); 
                     if (currentAppVersion == null)
                     {
-                        //showFirstTimePage
-                        localSettings.Values["currentAppVersion"] = applicationVersion;
+                       //Uncomment currentAppVersion change when you finish with testing onBoardingPage
+                        //localSettings.Values["currentAppVersion"] = applicationVersion;
                         rootFrame.Navigate(typeof(whatsNewPage));
                         //When you finish the onBoardingPage, show it instead of the whatsNewPage
-                        //rootFrame.Navigate(typeof(onBoardingPage));
+                        rootFrame.Navigate(typeof(onBoardingPage));
 
                     }
                     else if (currentAppVersion.ToString() != applicationVersion)

@@ -9,6 +9,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 public class Navigation
 {
@@ -69,11 +70,13 @@ public class Navigation
             if (_compositor == null)
                 _compositor = ElementCompositionPreview.GetElementVisual(page).Compositor;
 
+            
 
             KeyFrameAnimation scaleAnimation = _compositor.CreateScalarKeyFrameAnimation();
             scaleAnimation.InsertExpressionKeyFrame(0f, ".5");
             scaleAnimation.InsertExpressionKeyFrame(1f, "1");
             scaleAnimation.Duration = TimeSpan.FromMilliseconds(250);
+            
 
             KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnimation.InsertExpressionKeyFrame(1f, "1");
@@ -93,7 +96,8 @@ public class Navigation
             visual.StartAnimation("Scale.X", scaleAnimation);
             visual.StartAnimation("Scale.Y", scaleAnimation);
             visual.StartAnimation("Opacity", fadeAnimation);
-
+            CompositionEasingFunction eaze;
+            
             await Task.Delay(250); //waits until the animation completes in order to continue
         }
     }
@@ -157,6 +161,8 @@ public class Navigation
 
             var visual = ElementCompositionPreview.GetElementVisual(page);
 
+            var easeIn = _compositor.CreateCubicBezierEasingFunction(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 1.0f));
+            var step = _compositor.CreateStepEasingFunction();
 
             KeyFrameAnimation offsetInAnimation = _compositor.CreateScalarKeyFrameAnimation();
             offsetInAnimation.InsertExpressionKeyFrame(1f, "-140");
@@ -185,12 +191,15 @@ public class Navigation
 
             var visual = ElementCompositionPreview.GetElementVisual(page);
 
+            //var easeIn = _compositor.Cr(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 1.0f));
+            //var step = _compositor.CreateStepEasingFunction();
+
             visual.Offset = new Vector3(0, -140, 0);
             visual.Opacity = 0f;
             visual.Scale = new Vector3(1, 1, 0);
 
             KeyFrameAnimation offsetInAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            offsetInAnimation.InsertExpressionKeyFrame(1f, "0");
+            offsetInAnimation.InsertExpressionKeyFrame(1f, "0"/*, step*/);
             offsetInAnimation.Duration = TimeSpan.FromMilliseconds(250);
 
 
@@ -201,6 +210,8 @@ public class Navigation
 
             visual.StartAnimation("Offset.Y", offsetInAnimation);
             visual.StartAnimation("Opacity", fadeAnimation);
+            //await page.Fade(1, 250).Offset(0, 140, 250, 0, EasingType.Quadratic).StartAsync();
+
 
             await Task.Delay(250); //waits until the animation completes in order to continue
         }

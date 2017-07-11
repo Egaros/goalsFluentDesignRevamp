@@ -4,6 +4,7 @@
              xmlns:local="using:goalsFluentDesignRevamp.Control"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              mc:Ignorable="d"
              d:DesignHeight="640"
              d:DesignWidth="360"
@@ -18,6 +19,10 @@
 
         </Style>
     </UserControl.Resources>
+    <controls:DropShadowPanel Width="360"
+                              Height="250"
+                              HorizontalAlignment="Stretch"
+                              BlurRadius="10">
     <Grid Name="mainGrid"
           Width="360"
           Height="250"
@@ -30,7 +35,7 @@
             </Grid.RowDefinitions>
 
             <Grid Background="Black">
-                <Image  Name="goalImage"
+                <Image  x:Name="goalImage"
                         Source="{x:Bind goalItem.imagePath}"
                         Stretch="Uniform" />
             </Grid>
@@ -55,4 +60,5 @@
             </Border>
         </Grid>
     </Grid>
+    </controls:DropShadowPanel>
 </UserControl>

@@ -5,18 +5,30 @@
     xmlns:local="using:goalsFluentDesignRevamp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+      xmlns:Control="using:goalsFluentDesignRevamp.Control"
+      mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-       
-        <FlipView>
+    <Grid Background="{ThemeResource CommandBarBackground }"
+          Name="rootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <RelativePanel Grid.RowSpan="2"
+                       Name="transparentArea"
+                       SizeChanged="transparentArea_SizeChanged" />
+        <FlipView x:Name="onBoardingFlipView"
+                  SelectionChanged="onBoardingFlipView_SelectionChanged"
+                  Background="Transparent"
+                  Grid.RowSpan="2">
             <FlipView.Resources>
                 <Style TargetType="StackPanel">
                     <Setter Property="HorizontalAlignment"
                             Value="Center" />
                     <Setter Property="VerticalAlignment"
                             Value="Center" />
-                  
+                    <Setter Property="Margin"
+                            Value="0,20,0,0" />
                 </Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextAlignment"
@@ -24,12 +36,80 @@
                     <Setter Property="TextWrapping"
                             Value="WrapWholeWords" />
                     <Setter Property="Margin"
-                            Value="50" />
+                            Value="20" />
+                </Style>
+
+                <Style TargetType="FlipViewItem">
+                    <Setter Property="HorizontalAlignment"
+                            Value="Center" />
+                    <Setter Property="VerticalAlignment"
+                            Value="Center" />
+                </Style>
+
+                <Style TargetType="RelativePanel">
+                    <Setter Property="Height"
+                            Value="150"/>
+                    <Setter Property="Margin"
+                            Value="10,0" />
+
                 </Style>
             </FlipView.Resources>
             <FlipViewItem>
                 <Grid Name="appIntroSlide">
                     <StackPanel>
+                        <RelativePanel Name="contentRelativePanel">
+                        <TextBlock FontWeight="SemiBold"
+                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                   Text="$"
+                                   FontSize="100"
+                                   Margin="0"
+                                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                   Name="dollarSign"/>
+                            <TextBlock FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       Text="+"
+                                       FontSize="20"
+                                       RelativePanel.LeftOf="dollarSign"
+                                       Margin="0,0,0,0"
+                                       Name="topLeft"/>
+                            <TextBlock FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       Text="+"
+                                       FontSize="40"
+                                       Margin="0,0,0,0"
+                                       RelativePanel.RightOf="dollarSign" 
+                                       Name="topRight"/>
+                            <TextBlock FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       Text="+"
+                                       FontSize="30"
+                                       Margin="50,50,0,0"
+                                       RelativePanel.RightOf="dollarSign" 
+                                       Name="right"/>
+                            
+                            <TextBlock FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       Text="+"
+                                       FontSize="50"
+                                       Margin="0,95,0,0"
+                                       RelativePanel.RightOf="dollarSign" 
+                                       Name="bottomRight"/>
+                            <TextBlock FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       Text="+"
+                                       FontSize="30"
+                                       RelativePanel.LeftOf="dollarSign" 
+                                       Margin="0,95,0,0"
+                                       Name="bottomLeft"/>
+                            <TextBlock FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       Text="+"
+                                       FontSize="35"
+                                       Margin="0,50,50,0"
+                                       RelativePanel.LeftOf="dollarSign"
+                                       Name="Left"/>
+
+                        </RelativePanel>
                         <TextBlock Text="Create goals, add pictures to them and update your progress until you make it!" />
                     </StackPanel>
                 </Grid>
@@ -37,6 +117,40 @@
             <FlipViewItem>
                 <Grid Name="dragAndDropImageSlide">
                     <StackPanel>
+                        
+                            <RelativePanel>
+                            <TextBlock Text="- - - - -" 
+                                       RelativePanel.AlignVerticalCenterWithPanel="True"
+                                       RelativePanel.LeftOf="imageToDrag"
+                                       Margin="0,0,5,0"
+                                       FontWeight="SemiBold"
+                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xEB9F;"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                      FontWeight="SemiBold"
+                                      FontSize="50"
+                                      
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                      Name="imageToDrag"/>
+                            
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE8B0;"
+                                      HorizontalAlignment="Left"
+                                      FontSize="30"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                      FontWeight="SemiBold" 
+                                      RelativePanel.AlignHorizontalCenterWith="imageToDrag"
+                                      RelativePanel.AlignVerticalCenterWith="imageToDrag"
+                                      Margin="55,55,0,0"
+                                      Canvas.ZIndex="100"
+                                      Name="mouseIcon"/>
+                            
+                            </RelativePanel>
+                            
+                           
+                        
                     <TextBlock Text="Create new goals faster by dragging an image onto the app. The image is applied automatically to your new goal." />
                     </StackPanel>
                 </Grid>
@@ -44,6 +158,53 @@
             <FlipViewItem>
                 <Grid Name="cloudSaveSlide">
                     <StackPanel>
+                        <RelativePanel>
+                           
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE1C9;"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                      FontSize="80"
+                                   RelativePanel.AlignLeftWithPanel="True"
+                                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                                   Name="phoneIcon" />
+                                
+                            
+
+                            
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xEBC3;"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                      FontSize="50"
+                                      RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      Name="syncCloud"/>
+                                     
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE0AE;"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      RelativePanel.RightOf="phoneIcon"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" 
+                                      RelativePanel.LeftOf="syncCloud"
+                                      Name="firstArrow"/>
+
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xEA6C;"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                      FontSize="80"
+                                      HorizontalAlignment="Right"
+                                      Name="desktopIcon"
+                                      RelativePanel.AlignRightWithPanel="True"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True" />
+                                      <!--RelativePanel.LeftOf="desktopIcon"/>-->
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE0AE;"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      RelativePanel.RightOf="syncCloud"
+                                      RelativePanel.LeftOf="desktopIcon"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" 
+                                      Name="secondArrow"
+                                      />
+                        </RelativePanel>
                     <TextBlock Text="Sync your progress across all your Windows 10 devices with OneDrive Syncing." />
                     </StackPanel>
                 </Grid>
@@ -51,25 +212,89 @@
             <FlipViewItem>
                 <Grid Name="feedBackSlide">
                     <StackPanel>
+                        <RelativePanel>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE939;"
+                                      FontSize="80"
+                                      RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                        </RelativePanel>
                         <TextBlock Text="New features are added based on your feedback, so don't be afraid to suggest ideas in the feedback hub." />
                     </StackPanel>
                 </Grid>
             </FlipViewItem>
-          
+            <FlipViewItem>
+                <Grid Name="finalMessageSlide">
+                    <StackPanel>
+                        <RelativePanel>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE76E;"
+                                      FontSize="80"
+                                      RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                        </RelativePanel>
+                        <TextBlock Text="I hope that you enjoy using the app!" />
+
+                    </StackPanel>
+                </Grid>
+            </FlipViewItem>
         </FlipView>
 
-        <StackPanel Orientation="Vertical"
-                    VerticalAlignment="Bottom"
-                    Margin="70">
-            <Button Height="35"
-                    Width="250"
-                    HorizontalAlignment="Center"
-                    Content="Start New"
-                    Margin="0,0,0,10"></Button>
-        <Button Height="35"
-                Width="250"
-                HorizontalAlignment="Center"
-                Content="Carry On Progress From Cloud"></Button>
+        <RelativePanel Grid.Row="1">
+            <ListView RelativePanel.AlignHorizontalCenterWithPanel="True"
+                      RelativePanel.AlignTopWithPanel="True"
+                      SelectionMode="None"
+                      Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style TargetType="ListBox">
+                            <Setter Property="Width"
+                                    Value="10" />
+                            <Setter Property="Height"
+                                    Value="2" />
+                            <Setter Property="Margin"
+                                    Value="2,0" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <ListBox Name="firstListBox" 
+                        Background="White"/>
+                    <ListBox Name="secondListBox"/>
+                    <ListBox Name="thirdListBox"/>
+                    <ListBox Name="fourthListBox"/>
+                    <ListBox Name="fifthListBox"/>
+                </StackPanel>
+            </ListView>
+
+            <StackPanel Name="onBoardingButonsStackPanel"
+                Orientation="Vertical"
+                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        Margin="60">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Height"
+                                Value="35" />
+                        <Setter Property="Width"
+                                Value="250" />
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center" />
+                    </Style>
+                </StackPanel.Resources>
+                <Button 
+                        Name="startNewButton"
+                        Content="Start New"
+                        Margin="0,0,0,10"
+                        Click="startNewButton_Click">
+                  
+                </Button>
+
+                <Button Name="carryOnFromCloudButton"
+                        Content="Carry On Progress From Cloud"
+                        Click="carryOnFromCloudButton_Click">
+                </Button>
         </StackPanel>
+        </RelativePanel>
     </Grid>
 </Page>

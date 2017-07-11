@@ -31,6 +31,11 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Windows.UI.Core;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.Core;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -48,13 +53,42 @@ namespace goalsFluentDesignRevamp
         StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
         bool archiveEditingMode = false;
         goal.completedGoal goalInContextContainer;
+        Compositor _compositor;
+        SpriteVisual _hostSprite;
+        SpriteVisual _blurSprite;
+        private static goal persistedItem;
+
         public MainPage()
         {
             this.InitializeComponent();
             loadHistory();
             loadGoals();
             checkIfDeviceHasFeedbackHub();
+            //registerWindowActivationEvents();
 
+
+        }
+
+
+
+        private void registerWindowActivationEvents()
+        {
+            Window.Current.Activated += changeColourBasedOnAccentColour;
+
+        }
+
+        private void changeColourBasedOnAccentColour(object sender, WindowActivatedEventArgs e)
+        {
+            var currentThemeBackground = Windows.UI.Xaml.Application.Current.RequestedTheme;
+
+            if (currentThemeBackground == ApplicationTheme.Dark)
+            {
+                //backgroundColourProvider.Background = new SolidColorBrush(Color.FromArgb(40, 31, 31, 31));
+            }
+            else
+            {
+                //backgroundColourProvider.Background = new SolidColorBrush(Color.FromArgb(100, 230, 230, 230));
+            }
 
         }
 
@@ -114,6 +148,7 @@ namespace goalsFluentDesignRevamp
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             decideIfTutorialTextWillShow();
+
             if ((string)e.Parameter == "addedOrUpdatedGoal")
             {
                 await Task.Delay(100);
@@ -122,31 +157,98 @@ namespace goalsFluentDesignRevamp
                     showTheDialog();
                 }
             }
-            
+
+            if ((string)e.Parameter == "carryOnFromCloud")
+            {
+                mainPivot.SelectedItem = syncPivotItem;
+            }
+
+
+            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+
+            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
+            {
+
+
+
+                //applyLightAcrylicAccent(transparentHeaderBox);
+
+            }
+            else
+            {
+
+            }
+
+
+            applyBlurBackDrop(yasssbishh);
+        }
+
+        private void applyBlurBackDrop(Panel panel)
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _blurSprite = _compositor.CreateSpriteVisual();
+            _blurSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
+            ElementCompositionPreview.SetElementChildVisual(panel, _blurSprite);
+
+            // Create an effect description 
+            GaussianBlurEffect blurEffect = new GaussianBlurEffect()
+            {
+                Name = "Blur",
+                BlurAmount = 2.0f,
+                BorderMode = EffectBorderMode.Hard,
+                Optimization = EffectOptimization.Balanced
+            };
+
+            blurEffect.Source = new CompositionEffectSourceParameter("source");
+
+            CompositionEffectFactory blurEffectFactory = _compositor.CreateEffectFactory(blurEffect);
+            CompositionEffectBrush blurBrush = blurEffectFactory.CreateBrush();
+
+            // Create a BackdropBrush and bind it to the EffectSourceParameter “source” 
+            CompositionBackdropBrush backdropBrush = _compositor.CreateBackdropBrush();
+            blurBrush.SetSourceParameter("source", backdropBrush);
+
+            _blurSprite.Brush = blurBrush;
+
+
+        }
+
+        private void applyAcrylicAccent(Panel panel)
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _hostSprite = _compositor.CreateSpriteVisual();
+            _hostSprite.Size = new Vector2((float)panel.ActualWidth, (float)panel.ActualHeight);
+            ElementCompositionPreview.SetElementChildVisual(panel, _hostSprite);
+            _hostSprite.Opacity = 1f;
+
+
+
+            _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+
         }
 
         private async void showTheDialog()
         {
-          
-                if (App.localSettings.Values["askReviewsCounter"] == null)
-                {
-                    App.localSettings.Values["askReviewsCounter"] = 1;
-                    reviewDialog.CloseButtonText = "Maybe Later";
-                    await reviewDialog.ShowAsync();
-                }
-                else if ((int)App.localSettings.Values["askReviewsCounter"] > 0)
-                {
-                    int oldCounterValue = (int)App.localSettings.Values["askReviewsCounter"];
-                    int newCounterValue = oldCounterValue - 1;
-                    App.localSettings.Values["askReviewsCounter"] = newCounterValue;
-                }
-                else
-                {
+
+            if (App.localSettings.Values["askReviewsCounter"] == null)
+            {
                 App.localSettings.Values["askReviewsCounter"] = 1;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
-            
+            else if ((int)App.localSettings.Values["askReviewsCounter"] > 0)
+            {
+                int oldCounterValue = (int)App.localSettings.Values["askReviewsCounter"];
+                int newCounterValue = oldCounterValue - 1;
+                App.localSettings.Values["askReviewsCounter"] = newCounterValue;
+            }
+            else
+            {
+                App.localSettings.Values["askReviewsCounter"] = 1;
+                reviewDialog.CloseButtonText = "Maybe Later";
+                await reviewDialog.ShowAsync();
+            }
+
 
         }
 
@@ -171,7 +273,17 @@ namespace goalsFluentDesignRevamp
             App.SFXSystem.Source = App.clickSFXSource;
             App.SFXSystem.Play();
             var selectedGoal = (goal)e.ClickedItem;
-            App.NavService.NavigateTo(typeof(selectedGoalPage), selectedGoal);
+            persistedItem = selectedGoal;
+
+
+           
+
+
+            ConnectedAnimation connectedAnimation = goalsGridView.PrepareConnectedAnimation("image", selectedGoal, "goalImage");
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = new TimeSpan(0, 0, 0, 0, 500);
+
+            //App.NavService.NavigateTo(typeof(selectedGoalPage), selectedGoal);
+            Frame.Navigate(typeof(selectedGoalPage), selectedGoal, new SuppressNavigationTransitionInfo());
 
         }
 
@@ -331,8 +443,8 @@ namespace goalsFluentDesignRevamp
             e.AcceptedOperation = DataPackageOperation.Copy;
             e.DragUIOverride.Caption = "Let go to start creating a new goal."; // Sets custom UI text
             e.DragUIOverride.IsCaptionVisible = true; // Sets if the caption is visible
-             await mainPivot.Fade(0.1f, 800).StartAsync();
-          
+            await mainPivot.Fade(0.1f, 800).StartAsync();
+
         }
 
         private async void rootGrid_Drop(object sender, DragEventArgs e)
@@ -341,7 +453,7 @@ namespace goalsFluentDesignRevamp
             {
                 var items = await e.DataView.GetStorageItemsAsync();
                 var item = items[0] as StorageFile;
-                
+
                 var localFolder = ApplicationData.Current.LocalFolder;
                 var localImageFolder = await localFolder.GetFolderAsync("ImageFolder");
                 var newLocalImageFile = await localImageFolder.CreateFileAsync($"{item.Name}", CreationCollisionOption.ReplaceExisting);
@@ -350,7 +462,7 @@ namespace goalsFluentDesignRevamp
                 {
                     byte[] buffer = new byte[stream.Size];
                     var localBuffer = await stream.ReadAsync(buffer.AsBuffer(), (uint)stream.Size, InputStreamOptions.ReadAhead);
-                    
+
                     using (var localStream = await newLocalImageFile.OpenAsync(FileAccessMode.ReadWrite))
                     {
                         await localStream.WriteAsync(localBuffer);
@@ -359,13 +471,13 @@ namespace goalsFluentDesignRevamp
                 }
 
                 App.NavService.NavigateTo(typeof(addNewGoalPage), newLocalImageFile);
-                
+
             }
         }
 
         private async void rootGrid_DragLeave(object sender, DragEventArgs e)
         {
-          bool dab = await mainPivot.Fade(1, 200).StartAsync();
+            bool dab = await mainPivot.Fade(1, 200).StartAsync();
         }
 
         private async void reviewDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -382,10 +494,10 @@ namespace goalsFluentDesignRevamp
             await launcher.LaunchAsync();
         }
 
-        private  void reviewDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void reviewDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             reviewDialog.Hide();
-            reviewDialog.Closed += showFeedbackDialog;  
+            reviewDialog.Closed += showFeedbackDialog;
         }
 
         private async void showFeedbackDialog(ContentDialog sender, ContentDialogClosedEventArgs args)
@@ -394,9 +506,38 @@ namespace goalsFluentDesignRevamp
             await feedbackDialog.ShowAsync();
         }
 
+        private void transparentBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_hostSprite != null)
+                _hostSprite.Size = e.NewSize.ToVector2();
+        }
+
+        private void yasssbishh_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_blurSprite != null)
+                _blurSprite.Size = e.NewSize.ToVector2();
+        }
+
+        private async void goalsGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            goal item;
+            if (persistedItem != null)
+            {
+                item = persistedItem;
+                goalsGridView.ScrollIntoView(item);
+                ConnectedAnimation animation =
+              ConnectedAnimationService.GetForCurrentView().GetAnimation("returnImage");
+                if (animation != null)
+                {
+                    await goalsGridView.TryStartConnectedAnimationAsync(
+                        animation, item, "goalImage");
+                }
+            }
+        }
+
        
+
+      
     }
-
-
 }
 

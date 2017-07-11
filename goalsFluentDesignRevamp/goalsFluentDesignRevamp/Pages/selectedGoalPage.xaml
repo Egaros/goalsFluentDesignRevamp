@@ -62,21 +62,20 @@
             <RowDefinition Height="200" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:DropShadowPanel>
+       
             <Grid BorderThickness="0,0,0,1.5"
                   Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-                  Canvas.ZIndex="20">
-                <Grid.BorderBrush>
-                    <SolidColorBrush Color="Gray"
-                                     Opacity="0.3" />
-                </Grid.BorderBrush>
+                  Canvas.ZIndex="20"
+                  Name="titleBar"
+                  Opacity="0">
+                
                 <TextBlock Name="titleTextBlock"
                            Margin="20"
                            Text="PLACEHOLDER TEXT"
                            FontSize="16"
                            FontWeight="SemiBold" />
             </Grid>
-        </controls:DropShadowPanel>
+        
         
         <Grid Grid.Row="1"
               Name="imageGrid">
@@ -113,7 +112,8 @@
        
 
         <ScrollViewer Grid.Row="2"
-                      Name="formGrid">
+                      Name="formGrid"
+                      Opacity="0">
             <Grid>
                 <StackPanel>
                     <StackPanel>

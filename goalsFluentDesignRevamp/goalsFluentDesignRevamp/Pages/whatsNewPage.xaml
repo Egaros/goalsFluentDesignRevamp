@@ -20,7 +20,7 @@
     <Page.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin"
-                    Value="10,5" />
+                    Value="20,5" />
             <Setter Property="TextWrapping"
                     Value="Wrap" />
         </Style>
@@ -28,7 +28,7 @@
         <Style x:Key="headerTextBlock"
                TargetType="TextBlock">
             <Setter Property="Margin"
-                    Value="10" />
+                    Value="20" />
             <Setter Property="FontWeight"
                     Value="SemiBold" />
         </Style>
@@ -42,13 +42,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <controls:DropShadowPanel>
+        
         <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                   BorderThickness="0,0,0,1.5">
-                <Grid.BorderBrush>
-                    <SolidColorBrush Color="Gray"
-                                     Opacity="0.3" />
-                </Grid.BorderBrush>
+               
                 <TextBlock Name="titleTextBlock"
                        Text="WHAT'S NEW?"
                        FontSize="16"
@@ -56,19 +53,21 @@
                        Margin="20"
                        Canvas.ZIndex="20"/>
         </Grid>
-            </controls:DropShadowPanel>
+            
                 <Grid Grid.Row="1">
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="New Features"
+                    <!--<TextBlock Text="New Features"
+                               Style="{StaticResource headerTextBlock}" />-->
+
+                    <TextBlock Text="Tweaks + Bug Fixes"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* OneDrive Syncing is now available! - In the sync tab, just press the connect button sync to OneDrive and the app will handle the rest. (The app will always load data from the last synced device) ." />
-                    <TextBlock Text="* Drag and drop a photo to start creating a new goal with that photo - It works when you drag and drop a photo in the main menu."/>
-                    <TextBlock Text="* Goals with time limits - You will now have the option to set a time limit to a new goal. For these types of goals, the time left to complete the goal will be shown instead of progress in the goals tab." />
-                    <TextBlock Text="* Easter eggs - For each easter egg found, a reward will be given to the first person that finds it. They have to tell me what it is on Twitter: @colinkiama or Email: colinkiama@hotmail.co.uk to be able to recieve your reward. Good luck!" />
+                    <TextBlock Text="App crashing bug is now fixed"/>
+                    <TextBlock Text="The Volume of the Sound Effects are now controlled by Media + Apps Volume instead of Ringer + Notifications Volume." />
+                    <TextBlock Text="Sound Effects now play at a lower volume." />
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Goals With time limits" />
+                    <TextBlock Text="It's a surprise 😉" />
                     <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to suggest ideas to improve the app and report crashes."
                                TextAlignment="Center"
                                FontWeight="SemiBold"
