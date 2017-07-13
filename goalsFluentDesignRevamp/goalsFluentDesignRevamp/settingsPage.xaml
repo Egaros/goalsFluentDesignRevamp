@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="goalsFluentDesignRevamp.settingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:goalsFluentDesignRevamp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource CommandBarBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid BorderThickness="0,0,0,1.5"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+              Canvas.ZIndex="20"
+              Name="titleBar">
+
+            <TextBlock Name="titleTextBlock"
+                       Margin="20"
+                       Text="SETTINGS"
+                       FontSize="16"
+                       FontWeight="SemiBold" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin"
+                                Value="10,10,0,0" />
+                    </Style>
+
+                    <Style TargetType="ToggleSwitch">
+                        <Setter Property="Margin"
+                                Value="10,10,0,0" />
+                    </Style>
+                </StackPanel.Resources>
+                <ToggleSwitch Header="Override system default theme color" 
+                              Margin="10,20,0,0"
+                              Name="themeColorOverrideSwitch"
+                              Toggled="themeColorOverrideSwitch_Toggled"/>
+                <ToggleSwitch Header="Choose App Theme" 
+                              OffContent="Dark"
+                              OnContent="Light"
+                              IsEnabled="False"
+                              Name="themeColorSwitch"
+                              Toggled="themeColorSwitch_Toggled"
+                              IsEnabledChanged="themeColorSwitch_IsEnabledChanged"/>
+            </StackPanel>
+        </ScrollViewer>
+        <controls:DropShadowPanel Margin="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Bottom"
+                                  x:Name="mainCommandBar"
+                                  BlurRadius="10"
+                                  ShadowOpacity="0.8"
+                                  Canvas.ZIndex="20"
+                                  Grid.Row="1">
+            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton Name="finishChangesButton"
+                                  Click="finishChangesButton_Click"
+                                  Icon="Accept"
+                                  Label="Finish"
+                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+
+                </StackPanel>
+            </Grid>
+        </controls:DropShadowPanel>
+    </Grid>
+</Page>

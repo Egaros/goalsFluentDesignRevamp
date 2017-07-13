@@ -36,10 +36,8 @@
                                 Value="Collapsed" />
                         <Setter Target="syncPivotLabel.Visibility"
                                 Value="Collapsed" />
-                        <Setter Target="mainCommandBar.HorizontalAlignment"
-                                Value="Center" />
-                        <Setter Target="mainCommandBar.Margin"
-                                Value="20" />
+                      
+                       
                         
                        
 
@@ -59,8 +57,7 @@
                                 Value="Visible" />
                         <Setter Target="syncPivotLabel.Visibility"
                                 Value="Visible" />
-                        <Setter Target="mainCommandBar.HorizontalAlignment"
-                                Value="Left" />
+                       
                       
                       
 
@@ -82,8 +79,7 @@
                                 Value="Visible" />
                         <Setter Target="syncPivotLabel.Visibility"
                                 Value="Visible" />
-                        <Setter Target="mainCommandBar.HorizontalAlignment"
-                                Value="Left" />
+                       
                       
                     </VisualState.Setters>
                 </VisualState>
@@ -844,11 +840,10 @@
                                     </GridView.RenderTransform>
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
-                                            <!--<controls:DropShadowPanel BlurRadius="10"
-                                                                      Margin="10">-->
+                                            
                                                 <control:goalView x:Name="goalViewItem" 
                                                                   Margin="10"/>
-                                            <!--</controls:DropShadowPanel>-->
+                                           
                                         </DataTemplate>
                                     </GridView.ItemTemplate>
                                 </GridView>
@@ -995,7 +990,7 @@
                     </PivotItem>
                 </Pivot>
             </Grid>
-            
+
             <controls:DropShadowPanel BlurRadius="10"
                                       ShadowOpacity="0.8"
                                       HorizontalAlignment="Center"
@@ -1004,17 +999,173 @@
                                       x:Name="mainCommandBar"
                                       Canvas.ZIndex="20"
                                       Grid.Row="1">
-                
-                
+                <controls:DropShadowPanel.ContextFlyout>
+                    <Flyout FlyoutPresenterStyle="{ThemeResource InkToolbarFlyoutStyle}"
+                            x:Name="mainCommandBarFlyout"
+                            LightDismissOverlayMode="On"
+                            Placement="Top">
+                       
+                        <StackPanel Name="moreButtonList"
+                                    Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                            <StackPanel.Resources>
+
+                                <Style TargetType="Button" x:Key="defaultButtonStyle">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Foreground"
+                                            Value="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                    <Setter Property="HorizontalAlignment"
+                                            Value="Left" />
+                                    <Setter Property="VerticalAlignment"
+                                            Value="Center" />
+                                    <Setter Property="FontFamily"
+                                            Value="{ThemeResource ContentControlThemeFontFamily}" />
+                                    <Setter Property="FontWeight"
+                                            Value="Normal" />
+                                    <Setter Property="FontSize"
+                                            Value="{ThemeResource ControlContentThemeFontSize}" />
+                                    <Setter Property="UseSystemFocusVisuals"
+                                            Value="True" />
+                                    <Setter Property="FocusVisualMargin"
+                                            Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid x:Name="RootGrid"
+                                                      Background="{TemplateBinding Background}">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualState x:Name="Normal">
+                                                                <Storyboard>
+                                                                    <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="PointerOver">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                                   Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                Value="{ThemeResource AppBarButtonBackgroundPointerOver}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    
+                                                                   
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                   Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Pressed">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                                   Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                Value="{ThemeResource AppBarButtonBackgroundPressed}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                   
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                   Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Disabled">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                                   Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                Value="{ThemeResource AppBarButtonBackgroundDisabled}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                   
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                   Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <ContentPresenter x:Name="ContentPresenter"
+                                                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                                                      Content="{TemplateBinding Content}"
+                                                                      ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                      Padding="{TemplateBinding Padding}"
+                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                      AutomationProperties.AccessibilityView="Raw" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Width"
+                                            Value="120" />
+                                </Style>
+
+                                <Style TargetType="Button" BasedOn="{StaticResource defaultButtonStyle }">
+                                    <Setter Property="Padding"
+                                            Value="10,15" />
+                                    
+                                   
+                                </Style>
+                            </StackPanel.Resources>
+
+                            
+                                <Button Name="feedbackButton"
+                                        Click="feedbackButton_Click"
+                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Margin="0,0,10,0"
+                                                  FontFamily="Segoe MDL2 Assets"
+                                                  Glyph="&#xE939;" />
+                                        <TextBlock Text="Give Feedback" />
+                                    </StackPanel>
+                                </Button>
+                            
+
+                            <Button HorizontalAlignment="Stretch"
+                                    Name="reviewButton"
+                                    Click="reviewButton_Click"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Margin="0,0,10,0"
+                                                Symbol="OutlineStar" />
+                                    <TextBlock Text="Review The App" />
+                                </StackPanel>
+                            </Button>
+
+                            <Button Name="settingsButton"
+                                    Click="settingsButton_Click"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Setting"
+                                                Margin="0,0,10,0" />
+                                    <TextBlock Text="Settings" />
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                       
+                    </Flyout>
+                </controls:DropShadowPanel.ContextFlyout>
+
                 <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
-                    
                     <RelativePanel Name="yasssbishh" 
                                    SizeChanged="yasssbishh_SizeChanged"/>
                     <StackPanel Orientation="Horizontal"
                            HorizontalAlignment="Center"
                             Height="60">
 
-                    <AppBarButton Name="feedbackButton"
+                    <!--<AppBarButton Name="feedbackButton"
                                   Click="feedbackButton_Click"
                                   Label="Feedback"
                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
@@ -1024,7 +1175,7 @@
                                           Glyph="&#xE939;"/>
                             </AppBarButton.Icon>
                            
-                    </AppBarButton>
+                    </AppBarButton>-->
 
                     <AppBarButton Name="newGoalButton"
                                   Click="newGoalButton_Click"
@@ -1053,7 +1204,7 @@
                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                   Visibility="Collapsed" />
 
-                    <AppBarButton Name="privacyPolicyButton"
+                    <!--<AppBarButton Name="privacyPolicyButton"
                                   Click="privacyPolicyButton_Click"
                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                   Icon="ReportHacked"
@@ -1063,8 +1214,81 @@
                                   Click="reviewButton_Click"
                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                   Icon="OutlineStar"
-                                  Label="Rate App"/>
-                </StackPanel>
+                                  Label="Rate App"/>-->
+                        <AppBarButton Name="moreButton"
+                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                      Label="More"
+                                      Icon="More"
+                                      Click="moreButton_Click">
+                            <!--<AppBarButton.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource InkToolbarFlyoutStyle}">
+                                    <StackPanel Name="moreButtonList"
+                                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                                        <StackPanel.Resources>
+                                            
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width"
+                                                        Value="120" />
+                                            </Style>
+
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background"
+                                                        Value="Transparent" />
+                                                <Setter Property="Margin"
+                                                        Value="0,5" />
+                                                <Setter Property="Padding"
+                                                        Value="5,10" />
+                                            </Style>
+                                        </StackPanel.Resources>
+
+                                      
+                                            <Grid>
+                                            <Button Name="feedbackButton"
+                                                    Click="feedbackButton_Click"
+                                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <FontIcon Margin="0,0,10,0"
+                                                                  FontFamily="Segoe MDL2 Assets"
+                                                                  Glyph="&#xE939;" />
+                                                        <TextBlock Text="Give Feedback" />
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        
+
+                                       
+                                           
+                                            <Button HorizontalAlignment="Stretch"
+                                                    Name="reviewButton"
+                                                    Click="reviewButton_Click"
+                                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Margin="0,0,10,0" 
+                                                           Symbol="OutlineStar"/>
+                                                <TextBlock Text="Review The App" />
+                                            </StackPanel>
+                                            </Button>
+                                           
+                                      
+
+                                       
+                                            <Button Name="settingsButton"
+                                                    Click="settingsButton_Click"
+                                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Setting"
+                                                            Margin="0,0,10,0" />
+                                                <TextBlock Text="Settings" />
+                                            </StackPanel>
+                                            </Button>
+                                        
+                                    </StackPanel>
+
+                                </Flyout>
+                            </AppBarButton.Flyout>-->
+                        </AppBarButton>
+
+                    </StackPanel>
             </Grid>
             </controls:DropShadowPanel>
 

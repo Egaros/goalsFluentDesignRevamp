@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using goalsFluentDesignRevamp.Model;
 using Windows.Storage;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.Streams;

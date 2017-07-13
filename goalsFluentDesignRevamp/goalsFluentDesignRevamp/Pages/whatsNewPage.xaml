@@ -57,17 +57,22 @@
                 <Grid Grid.Row="1">
             <ScrollViewer>
                 <StackPanel>
-                    <!--<TextBlock Text="New Features"
-                               Style="{StaticResource headerTextBlock}" />-->
-
+                    <TextBlock Text="New Features"
+                               Style="{StaticResource headerTextBlock}" />
+                    <TextBlock Text="Jump List support has been added. All your recent goals in progress will be available there. It can be accessed by right clicking the app in the start menu/ via the app Tile / Taskbar Icon."/>
+                    <TextBlock Text="New Settings Page is available after selecting the 'More' button." />
+                    <TextBlock Text="You can now choose to set the app's theme colour to suit your preference (option available in Settings Page)." />
+                    <TextBlock Text="New 'Connected Animation' occurs after selecting a goal."/>
+                    <TextBlock Text="First launch experience has been added. New users will see the app's features and will be given a choice between resuming their progress from their cloud data or starting fresh." />
                     <TextBlock Text="Tweaks + Bug Fixes"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="App crashing bug is now fixed"/>
-                    <TextBlock Text="The Volume of the Sound Effects are now controlled by Media + Apps Volume instead of Ringer + Notifications Volume." />
-                    <TextBlock Text="Sound Effects now play at a lower volume." />
+                    <TextBlock Text="* Tapping a tile of a pinned goal will now open the app in a page where you can update the goal immediately."/>
+                    <TextBlock Text="* Command Bar is now easier to use in the Main Page with the addition of the 'More' button. Less relevant function will be available after selecting the 'More' button." />
+
                     <TextBlock Text="Coming Soon"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="It's a surprise 😉" />
+                    <TextBlock Text="More new page animations" />
+                    <TextBlock Text="App to App Sharing features" />
                     <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to suggest ideas to improve the app and report crashes."
                                TextAlignment="Center"
                                FontWeight="SemiBold"

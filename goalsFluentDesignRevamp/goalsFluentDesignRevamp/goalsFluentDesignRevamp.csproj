@@ -135,6 +135,9 @@
     <Compile Include="Pages\syncToDeviceCompleted.xaml.cs">
       <DependentUpon>syncToDeviceCompleted.xaml</DependentUpon>
     </Compile>
+    <Compile Include="settingsPage.xaml.cs">
+      <DependentUpon>settingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TileService\Tile.cs" />
     <Compile Include="Pages\whatsNewPage.xaml.cs">
       <DependentUpon>whatsNewPage.xaml</DependentUpon>
@@ -259,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\whatsNewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="settingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

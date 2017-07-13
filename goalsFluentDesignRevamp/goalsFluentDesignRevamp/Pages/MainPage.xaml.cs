@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using goalsFluentDesignRevamp.Model;
 using System.Collections.ObjectModel;
@@ -18,24 +12,15 @@ using Windows.System;
 using Microsoft.Services.Store.Engagement;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Animation;
-using goalsFluentDesignRevamp.TileService;
-using Windows.Media.Core;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Composition;
-using Windows.UI;
 using System.Numerics;
-using goalsFluentDesignRevamp.Control;
-using Microsoft.Toolkit.Uwp;
-using goalsFluentDesignRevamp.Services;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Core;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -95,11 +80,15 @@ namespace goalsFluentDesignRevamp
 
         private void loadHistory()
         {
-            List<history> orderedHistory = history.listOfHistory.Reverse().ToList();
-            foreach (history historicalEvent in orderedHistory)
+            if (history.listOfHistory.Count > 0)
             {
-                historyToDisplay.Add(historicalEvent);
 
+                List<history> orderedHistory = history.listOfHistory.Reverse().ToList();
+                foreach (history historicalEvent in orderedHistory)
+                {
+                    historyToDisplay.Add(historicalEvent);
+
+                }
             }
 
         }
@@ -115,6 +104,7 @@ namespace goalsFluentDesignRevamp
             if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported())
             {
                 this.feedbackButton.Visibility = Visibility.Visible;
+               
             }
         }
 
@@ -249,10 +239,30 @@ namespace goalsFluentDesignRevamp
 
         private async void showTheDialog()
         {
+            //Release Version App Review/Feedback System
+            //if (App.localSettings.Values["askReviewsCounter"] == null)
+            //{
+            //    App.localSettings.Values["askReviewsCounter"] = 1;
+            //    reviewDialog.CloseButtonText = "Maybe Later";
+            //    await reviewDialog.ShowAsync();
+            //}
+            //else if ((int)App.localSettings.Values["askReviewsCounter"] > 0)
+            //{
+            //    int oldCounterValue = (int)App.localSettings.Values["askReviewsCounter"];
+            //    int newCounterValue = oldCounterValue - 1;
+            //    App.localSettings.Values["askReviewsCounter"] = newCounterValue;
+            //}
+            //else
+            //{
+            //    App.localSettings.Values["askReviewsCounter"] = 1;
+            //    reviewDialog.CloseButtonText = "Maybe Later";
+            //    await reviewDialog.ShowAsync();
+            //}
 
+            //Beta Version App Review/Feedback System
             if (App.localSettings.Values["askReviewsCounter"] == null)
             {
-                App.localSettings.Values["askReviewsCounter"] = 1;
+                App.localSettings.Values["askReviewsCounter"] = 5;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
@@ -264,10 +274,12 @@ namespace goalsFluentDesignRevamp
             }
             else
             {
-                App.localSettings.Values["askReviewsCounter"] = 1;
+                App.localSettings.Values["askReviewsCounter"] = 5;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
+
+            //Website Review Version App Review/Feedback System (Empty loool)
 
 
         }
@@ -557,7 +569,21 @@ namespace goalsFluentDesignRevamp
 
        
 
-      
+        
+
+       
+
+        
+                                                                                                                        
+        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.NavService.NavigateTo(typeof(settingsPage));
+        }
+
+        private void moreButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainCommandBarFlyout.ShowAt(mainCommandBar);
+        }
     }
 }
 

@@ -1,33 +1,22 @@
 ﻿using goalsFluentDesignRevamp.Model;
 using Microsoft.Services.Store.Engagement;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -90,6 +79,40 @@ namespace goalsFluentDesignRevamp
             {
                 loadHistory();
             }
+
+            handleThemeSettings();
+
+        }
+
+        private void handleThemeSettings()
+        {
+            if (localSettings.Values["isThemeColorOverrideEnabled"] != null && localSettings.Values["themeColor"] != null)
+            {
+
+                int overrideEnabledValue = (int)localSettings.Values["isThemeColorOverrideEnabled"];
+
+
+
+                if (overrideEnabledValue == 1)
+                {
+                    int themeColorValue = (int)App.localSettings.Values["themeColor"];
+
+                    if (themeColorValue == 0)
+                    {
+                        Application.Current.RequestedTheme = ApplicationTheme.Dark;
+                    }
+
+                    else
+                    {
+                        Application.Current.RequestedTheme = ApplicationTheme.Light;
+                    }
+
+
+                }
+
+            }
+
+
         }
 
         private async void createJumpList()
@@ -533,7 +556,7 @@ namespace goalsFluentDesignRevamp
                     }
                     else
                     {
-
+                       
                         if (!string.IsNullOrEmpty(e.Arguments))
                         {
                             string tileID = e.Arguments;
@@ -558,6 +581,12 @@ namespace goalsFluentDesignRevamp
                         }
                     }
 
+                }
+
+                else if (!string.IsNullOrEmpty(e.Arguments) && (string)e.Arguments == "Args")
+                {
+                    string tileID = e.Arguments;
+                    navigateBasedOnTileID(tileID, rootFrame);
                 }
                 else
                 {

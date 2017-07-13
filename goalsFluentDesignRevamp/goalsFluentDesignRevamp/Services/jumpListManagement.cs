@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using goalsFluentDesignRevamp.Model;
 using Windows.UI.StartScreen;
 
@@ -29,9 +27,13 @@ namespace goalsFluentDesignRevamp.Services
             var item = JumpListItem.CreateWithArguments(goal.tileID, goal.name);
             item.Description = $"Quickly update your progress on for {goal.name}";
             item.GroupName = "Shortcuts To Goals In Progress";
-            
 
-            jumpList.Items.Add(item);
+                if (isItemInJumpList(item,jumpList) == false)
+                {
+                    jumpList.Items.Add(item);
+
+                }
+            
 
             }
 
@@ -40,6 +42,16 @@ namespace goalsFluentDesignRevamp.Services
 
             await jumpList.SaveAsync();
 
+        }
+
+        private static bool isItemInJumpList(JumpListItem item, JumpList jumpList)
+        {
+            bool itemIsInJumplist = false;
+            if (jumpList.Items.Contains(item))
+            {
+                itemIsInJumplist = true;
+            }
+            return itemIsInJumplist;
         }
 
         private static void removeJumpListItemsThatAreNotInListOfGoals(ObservableCollection<goal> listOfGoals, JumpList jumpList)
