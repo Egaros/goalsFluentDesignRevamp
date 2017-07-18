@@ -220,6 +220,7 @@
         </StackPanel>
         </Grid>
         </controls:DropShadowPanel>
+        <Image x:Name="backgroundImage" />
     </Grid>
 
    

@@ -30,6 +30,28 @@ namespace goalsFluentDesignRevamp
         {
 
             this.InitializeComponent();
+            ConnectedAnimation imageAnimation =
+ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
+            if (imageAnimation != null)
+            {
+                titleBar.Opacity = 0;
+                formGrid.Opacity = 0;
+                goalImage.Opacity = 0;
+
+
+                // Wait for image opened. In future Insider Preview releases, this won't be necessary.
+                goalImage.ImageOpened += (sender_, e_) =>
+                {
+                    goalImage.Opacity = 1;
+
+
+                    imageAnimation.TryStart(goalImage, new UIElement[] { titleBar, formGrid });
+
+                    titleBar.Opacity = 1;
+                    formGrid.Opacity = 1;
+
+                };
+            }
 
         }
 
@@ -38,28 +60,8 @@ namespace goalsFluentDesignRevamp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
            
-            ConnectedAnimation imageAnimation =
-     ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
-            if (imageAnimation != null)
-            {
-                titleBar.Opacity = 0;
-                formGrid.Opacity = 0;
-                goalImage.Opacity = 0;
-                
-               
-                // Wait for image opened. In future Insider Preview releases, this won't be necessary.
-                goalImage.ImageOpened += (sender_, e_) =>
-                {
-                    goalImage.Opacity = 1;
-                   
-                    
-                imageAnimation.TryStart(goalImage, new UIElement[] { titleBar, formGrid});
-                    
-                    titleBar.Opacity = 1;
-                    formGrid.Opacity = 1;
-
-                };
-            }
+    
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = new TimeSpan(0, 0, 0, 0, 500);
 
 
             selectedGoal = (goal)e.Parameter;
@@ -72,7 +74,7 @@ namespace goalsFluentDesignRevamp
                 showErrorDialogBox();
             }
 
-            ConnectedAnimationService.GetForCurrentView().DefaultDuration = new TimeSpan(0, 0, 0, 0, 500);
+            
         }
 
         private async void showErrorDialogBox()

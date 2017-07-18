@@ -21,6 +21,7 @@ using Windows.Storage;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Core;
 using Microsoft.Graphics.Canvas.Effects;
+using Windows.UI.ViewManagement;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -51,30 +52,59 @@ namespace goalsFluentDesignRevamp
             loadGoals();
             checkIfDeviceHasFeedbackHub();
             //registerWindowActivationEvents();
+            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+
+            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
+            {
+                App.uiSettings.AdvancedEffectsEnabledChanged += UiSettings_AdvancedEffectsEnabledChangedAsync;
+            }
            
 
         }
 
        
-
-        private void registerWindowActivationEvents()
+private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings sender, object args)
+{
+    if (sender.AdvancedEffectsEnabled)
+    {
+        await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
         {
-            Window.Current.Activated += changeColourBasedOnAccentColour;
+            //TODO: Apply Acrylic Accent
+            applyAcrylicAccent(transparentArea);
+            changeToAcrylicPivotStyle();
+            
+            
+        });
+    }
+    else
+    {
+        await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        {
+            
+            //Because changing the pivot style is going to mess up the pivot header, this "Refreshes the page".
+            //SIDE EFFECT: The user will always go to the goals pivot item if they disable transparency in their computer settings.
+            Frame.Navigate(typeof(MainPage));
 
+        });
+    }
+}
+
+        private void changeToRegularPivotStyle()
+        {
+            mainPivot.Style = bestPivotStyle;
+            Frame.UpdateLayout();
+            
         }
 
-        private void changeColourBasedOnAccentColour(object sender, WindowActivatedEventArgs e)
+        private void changeToAcrylicPivotStyle()
         {
-            var currentThemeBackground = Windows.UI.Xaml.Application.Current.RequestedTheme;
+            mainPivot.Style = acrylicPivotStyle;
+        }
 
-            if (currentThemeBackground == ApplicationTheme.Dark)
-            {
-                //backgroundColourProvider.Background = new SolidColorBrush(Color.FromArgb(40, 31, 31, 31));
-            }
-            else
-            {
-                //backgroundColourProvider.Background = new SolidColorBrush(Color.FromArgb(100, 230, 230, 230));
-            }
+        private void disableAcrylicAccent(Panel transparentArea)
+        {
+            _hostSprite.Brush.Dispose();
+            
 
         }
 
@@ -166,10 +196,10 @@ namespace goalsFluentDesignRevamp
             if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
             {
 
-
-
+                applyAcrylicAccent(transparentArea);
+                changeToAcrylicPivotStyle();
                 //applyLightAcrylicAccent(transparentHeaderBox);
-
+                
             }
             else
             {
@@ -538,17 +568,7 @@ namespace goalsFluentDesignRevamp
             await feedbackDialog.ShowAsync();
         }
 
-        private void transparentBox_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (_hostSprite != null)
-                _hostSprite.Size = e.NewSize.ToVector2();
-        }
-
-        private void yasssbishh_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (_blurSprite != null)
-                _blurSprite.Size = e.NewSize.ToVector2();
-        }
+       
 
         private async void goalsGridView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -567,14 +587,7 @@ namespace goalsFluentDesignRevamp
             }
         }
 
-       
-
-        
-
-       
-
-        
-                                                                                                                        
+                                                                                                                 
         private void settingsButton_Click(object sender, RoutedEventArgs e)
         {
             App.NavService.NavigateTo(typeof(settingsPage));
@@ -583,6 +596,12 @@ namespace goalsFluentDesignRevamp
         private void moreButton_Click(object sender, RoutedEventArgs e)
         {
             mainCommandBarFlyout.ShowAt(mainCommandBar);
+        }
+
+        private void transparentArea_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_hostSprite != null)
+                _hostSprite.Size = e.NewSize.ToVector2();
         }
     }
 }

@@ -24,6 +24,47 @@ namespace goalsFluentDesignRevamp
         public onBoardingPage()
         {
             this.InitializeComponent();
+            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+
+            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
+            {
+                App.uiSettings.AdvancedEffectsEnabledChanged += UiSettings_AdvancedEffectsEnabledChangedAsync;
+            }
+
+        }
+
+        private async void UiSettings_AdvancedEffectsEnabledChangedAsync(Windows.UI.ViewManagement.UISettings sender, object args)
+        {
+            if (sender.AdvancedEffectsEnabled)
+            {
+                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    //TODO: Apply Acrylic Accent
+                    applyAcrylicAccent(transparentArea);
+                    makeButtonsTranslucent();
+                });
+            }
+            else
+            {
+                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    //TODO: Reset Background
+                    disableAcrylicAccent(transparentArea);
+                    makeButtonsOpaque();
+                });
+            }
+        }
+
+        private void makeButtonsOpaque()
+        {
+            double backgroundOpacity = 1;
+            startNewButton.Background.Opacity = backgroundOpacity;
+            carryOnFromCloudButton.Background.Opacity = backgroundOpacity;
+        }
+
+        private void disableAcrylicAccent(Panel transparentArea)
+        {
+            _hostSprite.Dispose();
         }
 
         private void onBoardingFlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -152,17 +193,20 @@ namespace goalsFluentDesignRevamp
         {
             base.OnNavigatedTo(e);
             applicationVersion = (string)e.Parameter;
-            
 
-            //var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
 
-            //if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
-            //{
-               
-            //    applyAcrylicAccent(transparentArea);
-            //    makeButtonsTranslucent();
+            var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
 
-            //}
+            if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
+            {
+                if (App.uiSettings.AdvancedEffectsEnabled)
+                {
+                applyAcrylicAccent(transparentArea);
+                makeButtonsTranslucent();
+
+                }
+
+            }
         }
 
         private void makeButtonsTranslucent()

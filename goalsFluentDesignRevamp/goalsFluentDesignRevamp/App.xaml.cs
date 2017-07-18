@@ -41,7 +41,7 @@ namespace goalsFluentDesignRevamp
         public static MediaSource selectModeClickSFXSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/selectModeClick.mp3"));
         public static MediaSource cancelClickSFXSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/cancelClick.mp3"));
         public static MediaSource congratsSFXSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/congratulations.mp3"));
-
+        public static UISettings uiSettings = new UISettings();
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -55,7 +55,7 @@ namespace goalsFluentDesignRevamp
             Application.Current.LeavingBackground += updateTitleBar; 
             createScreenOrientationEvenHandlers();
             createJumpList();
-
+           
 
             checkIfYouCanLoadFiles();
             if (newSaveFilesNeeded == true)
@@ -83,6 +83,8 @@ namespace goalsFluentDesignRevamp
             handleThemeSettings();
 
         }
+
+      
 
         private void handleThemeSettings()
         {
