@@ -58,7 +58,15 @@ namespace goalsFluentDesignRevamp
             {
                 App.uiSettings.AdvancedEffectsEnabledChanged += UiSettings_AdvancedEffectsEnabledChangedAsync;
             }
-           
+
+            if (App.uiSettings.AdvancedEffectsEnabled)
+            {
+
+             
+                changeToAcrylicPivotStyle();
+                
+            }
+
 
         }
 
@@ -72,6 +80,8 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             //TODO: Apply Acrylic Accent
             applyAcrylicAccent(transparentArea);
             changeToAcrylicPivotStyle();
+            refreshPageInFlukyManner();
+            
             
             
         });
@@ -80,14 +90,22 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
     {
         await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
         {
-            
+
             //Because changing the pivot style is going to mess up the pivot header, this "Refreshes the page".
             //SIDE EFFECT: The user will always go to the goals pivot item if they disable transparency in their computer settings.
-            Frame.Navigate(typeof(MainPage));
-
+            changeToRegularPivotStyle();
+            refreshPageInFlukyManner();
+            
         });
     }
 }
+
+        private void refreshPageInFlukyManner()
+        {
+            Frame.Navigate(typeof(MainPage));
+            int numOfFrames = Frame.BackStackDepth;
+            Frame.BackStack.RemoveAt(numOfFrames - 1);
+        }
 
         private void changeToRegularPivotStyle()
         {
@@ -195,10 +213,13 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
 
             if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
             {
+                if (App.uiSettings.AdvancedEffectsEnabled)
+                {
 
                 applyAcrylicAccent(transparentArea);
-                changeToAcrylicPivotStyle();
-                //applyLightAcrylicAccent(transparentHeaderBox);
+                
+                
+                }
                 
             }
             else
@@ -207,7 +228,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             }
 
 
-            //applyBlurBackDrop(yasssbishh);
+            
         }
 
         private async void showGoalNotFoundDialog()

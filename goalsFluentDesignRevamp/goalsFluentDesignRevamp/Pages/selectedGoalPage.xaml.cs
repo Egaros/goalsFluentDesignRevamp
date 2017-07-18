@@ -11,6 +11,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.Storage;
 using goalsFluentDesignRevamp.TileService;
 using Microsoft.Services.Store.Engagement;
+using Windows.UI.Composition;
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace goalsFluentDesignRevamp
@@ -26,6 +28,7 @@ namespace goalsFluentDesignRevamp
         string filePath;
         StoreServicesCustomEventLogger logger = StoreServicesCustomEventLogger.GetDefault();
         decimal amountSubmitted;
+        Compositor _compositor;
         public selectedGoalPage()
         {
 
@@ -51,11 +54,14 @@ ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
                     formGrid.Opacity = 1;
 
                 };
+
+
             }
 
         }
 
-
+      
+       
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
