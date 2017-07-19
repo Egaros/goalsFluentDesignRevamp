@@ -9,6 +9,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
+      Loaded="page_Loaded"
       mc:Ignorable="d"
       d:DesignHeight="640"
       d:DesignWidth="360">
@@ -1576,8 +1577,27 @@
                                 </Style>
                             </StackPanel.Resources>
 
+                            <Button Name="privacyPolicyButton"
+                                    Click="privacyPolicyButton_Click"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="ReportHacked"
+                                                Margin="0,0,10,0" />
+                                    <TextBlock Text="Privacy Policy" />
+                                </StackPanel>
+                            </Button>
+
+                            <Button Name="whatsNewButton"
+                                    Click="whatsNewButton_Click"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Important"
+                                                Margin="0,0,10,0" />
+                                    <TextBlock Text="What's New?" />
+                                </StackPanel>
+                            </Button>
                             
-                                <Button Name="feedbackButton"
+                            <Button Name="feedbackButton"
                                         Click="feedbackButton_Click"
                                         Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
                                     <StackPanel Orientation="Horizontal">
@@ -1609,6 +1629,8 @@
                                     <TextBlock Text="Settings" />
                                 </StackPanel>
                             </Button>
+
+                          
 
                         </StackPanel>
                        

@@ -43,8 +43,8 @@ namespace goalsFluentDesignRevamp
         SpriteVisual _hostSprite;
         SpriteVisual _blurSprite;
         public static goal persistedItem;
-       
-
+        public static bool firstTimeCloudOption = false;
+        bool showReviewContentDialog = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -57,15 +57,16 @@ namespace goalsFluentDesignRevamp
             if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop" && Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
             {
                 App.uiSettings.AdvancedEffectsEnabledChanged += UiSettings_AdvancedEffectsEnabledChangedAsync;
+
+                if (App.uiSettings.AdvancedEffectsEnabled)
+                {
+
+
+                    changeToAcrylicPivotStyle();
+
+                }
             }
 
-            if (App.uiSettings.AdvancedEffectsEnabled)
-            {
-
-             
-                changeToAcrylicPivotStyle();
-                
-            }
 
 
         }
@@ -110,21 +111,17 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
         private void changeToRegularPivotStyle()
         {
             mainPivot.Style = bestPivotStyle;
-            Frame.UpdateLayout();
+            
             
         }
 
         private void changeToAcrylicPivotStyle()
         {
             mainPivot.Style = acrylicPivotStyle;
-        }
-
-        private void disableAcrylicAccent(Panel transparentArea)
-        {
-            _hostSprite.Brush.Dispose();
             
-
         }
+
+      
 
         private void loadHistory()
         {
@@ -190,16 +187,15 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
 
             if ((string)e.Parameter == "addedOrUpdatedGoal")
             {
-                await Task.Delay(100);
-                if ((int)App.localSettings.Values["stopAskingForReviews"] == 0)
-                {
-                    showTheDialog();
-                }
+                showReviewContentDialog = true;
+               
+              
             }
 
             if ((string)e.Parameter == "carryOnFromCloud")
             {
                 mainPivot.SelectedItem = syncPivotItem;
+                MainPage.firstTimeCloudOption = true;
             }
 
 
@@ -313,7 +309,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             //Beta Version App Review/Feedback System
             if (App.localSettings.Values["askReviewsCounter"] == null)
             {
-                App.localSettings.Values["askReviewsCounter"] = 5;
+                App.localSettings.Values["askReviewsCounter"] = 4;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
@@ -623,6 +619,23 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
         {
             if (_hostSprite != null)
                 _hostSprite.Size = e.NewSize.ToVector2();
+        }
+
+        private void whatsNewButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(whatsNewPage));
+        }
+
+        private void page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (showReviewContentDialog == true)
+            {
+            if ((int)App.localSettings.Values["stopAskingForReviews"] == 0)
+            {
+                showTheDialog();
+            }
+
+            }
         }
     }
 }

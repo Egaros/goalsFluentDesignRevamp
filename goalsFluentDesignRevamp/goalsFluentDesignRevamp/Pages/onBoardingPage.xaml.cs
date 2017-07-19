@@ -248,7 +248,7 @@ namespace goalsFluentDesignRevamp
         private void startNewButton_Click(object sender, RoutedEventArgs e)
         {
             storeCurrentApplicationVersion();
-            App.NavService.NavigateTo(typeof(whatsNewPage));
+            Frame.Navigate(typeof(whatsNewPage));
         }
 
         private void carryOnFromCloudButton_Click(object sender, RoutedEventArgs e)

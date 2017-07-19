@@ -59,20 +59,13 @@
                 <StackPanel>
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="Jump List support has been added. All your recent goals in progress will be available there. It can be accessed by right clicking the app in the start menu/ via the app Tile / Taskbar Icon."/>
-                    <TextBlock Text="New Settings Page is available after selecting the 'More' button." />
-                    <TextBlock Text="You can now choose to set the app's theme colour to suit your preference (option available in Settings Page)." />
-                    <TextBlock Text="New 'Connected Animation' occurs after selecting a goal."/>
-                    <TextBlock Text="First launch experience has been added. New users will see the app's features and will be given a choice between resuming their progress from their cloud data or starting fresh." />
+                    <TextBlock Text="* Page transitions have been changed"/>
+                    <TextBlock Text="* Added acrylic to the UI" />
                     <TextBlock Text="Tweaks + Bug Fixes"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Tapping a tile of a pinned goal will now open the app in a page where you can update the goal immediately."/>
-                    <TextBlock Text="* Command Bar is now easier to use in the Main Page with the addition of the 'More' button. Less relevant function will be available after selecting the 'More' button." />
+                    <TextBlock Text="* Jumplist will no longer contain the same item multiple times" />
+                    <TextBlock Text="* App will no longer upload to the cloud when you choose to sync your data during the first time experience" />
 
-                    <TextBlock Text="Coming Soon"
-                               Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="More new page animations" />
-                    <TextBlock Text="App to App Sharing features" />
                     <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to suggest ideas to improve the app and report crashes."
                                TextAlignment="Center"
                                FontWeight="SemiBold"

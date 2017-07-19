@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Windows.Foundation;
 
 public class Navigation
 {
@@ -40,15 +41,35 @@ public class Navigation
 
     public async void NavigateTo(Type pageType, object parameter = null)
     {
-        await AnimatePageOut();
+
+        if (pageType == typeof(goalCompletedPage))
+        {
+
+            await AnimatePageOut();
+            
+        }
+
+
+        else if (pageType == typeof(MainPage))
+        {
+            await AnimatePageOut();
+           
+        }
+        //await AnimatePageOut();
 
         frame.Navigate(pageType, parameter);
 
-
-
-        if (pageType == typeof(MainPage))
+        if (pageType == typeof(goalCompletedPage))
         {
+            
+            await AnimateScaleIn();
+            frame.BackStack.Clear();
+        }
 
+
+        else if (pageType == typeof(MainPage))
+        {
+            
             await AnimateScaleIn();
             frame.BackStack.Clear();
         }
@@ -66,21 +87,22 @@ public class Navigation
         if (newPage != null)
         {
             var page = newPage as FrameworkElement;
-
+            
             if (_compositor == null)
                 _compositor = ElementCompositionPreview.GetElementVisual(page).Compositor;
 
             
 
             KeyFrameAnimation scaleAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            scaleAnimation.InsertExpressionKeyFrame(0f, ".5");
+            scaleAnimation.InsertExpressionKeyFrame(0f, ".005");
+            //scaleAnimation.InsertExpressionKeyFrame(0.5f, ".8");
             scaleAnimation.InsertExpressionKeyFrame(1f, "1");
-            scaleAnimation.Duration = TimeSpan.FromMilliseconds(250);
+            scaleAnimation.Duration = TimeSpan.FromMilliseconds(700);
             
 
             KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnimation.InsertExpressionKeyFrame(1f, "1");
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(200);
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1);
 
             var visual = ElementCompositionPreview.GetElementVisual(page);
             visual.Opacity = 0; //sets initial opacity to 0, since we will be animating it to 1
@@ -98,7 +120,7 @@ public class Navigation
             visual.StartAnimation("Opacity", fadeAnimation);
             CompositionEasingFunction eaze;
             
-            await Task.Delay(250); //waits until the animation completes in order to continue
+            await Task.Delay(700); //waits until the animation completes in order to continue
         }
     }
 
@@ -106,12 +128,7 @@ public class Navigation
     {
         if (frame.CanGoBack)
         {
-            await AnimatePageOut();
-
-            frame.GoBack();
-
-            await AnimatePageIn();
-
+            reversePageInAnimation();
             
         }
     }
@@ -122,11 +139,7 @@ public class Navigation
         {
             e.Handled = true;
 
-            await AnimatePageOut();
-
-            frame.GoBack();
-
-            await AnimatePageIn();
+            reversePageInAnimation();
 
             
         }
@@ -134,20 +147,65 @@ public class Navigation
 
     private async void NavigationService_BackRequested(object sender, BackRequestedEventArgs e)
     {
+
+
         if (frame.CanGoBack)
         {
             e.Handled = true;
 
-            await AnimatePageOut();
-
-            frame.GoBack();
-
-            await AnimatePageIn();
+            reversePageInAnimation();
+            
 
             
         }
     }
 
+    private async void reversePageInAnimation()
+    {
+        //await AnimatePageOut();
+
+        await AnimatePageInReverse();
+        frame.GoBack();
+        await AnimateScaleIn();
+    }
+
+    private async Task AnimatePageInReverse()
+    {
+        var newPage = frame.Content;
+        if (newPage != null)
+        {
+            var page = newPage as FrameworkElement;
+
+            if (_compositor == null)
+                _compositor = ElementCompositionPreview.GetElementVisual(page).Compositor;
+
+            var visual = ElementCompositionPreview.GetElementVisual(page);
+
+            //var easeIn = _compositor.Cr(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 1.0f));
+            //var step = _compositor.CreateStepEasingFunction();
+            int windowHeight = (int)Window.Current.Bounds.Height;
+            //visual.Offset = new Vector3(0, windowHeight, 0);
+            visual.Opacity = 1f;
+            visual.Scale = new Vector3(1, 1, 0);
+
+            KeyFrameAnimation offsetInAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetInAnimation.InsertExpressionKeyFrame(1f, $"-{windowHeight}"/*, step*/);
+            offsetInAnimation.Duration = TimeSpan.FromMilliseconds(500);
+
+
+            KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            fadeAnimation.InsertExpressionKeyFrame(1f, "1");
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1);
+
+
+            visual.StartAnimation("Offset.Y", offsetInAnimation);
+            //visual.StartAnimation("Opacity", fadeAnimation);
+            //await page.Fade(1, 250).Offset(0, 140, 250, 0, EasingType.Quadratic).StartAsync();
+
+
+            await Task.Delay(500); //waits until the animation completes in order to continue
+        }
+    }
 
     private async Task AnimatePageOut()
     {
@@ -161,21 +219,44 @@ public class Navigation
 
             var visual = ElementCompositionPreview.GetElementVisual(page);
 
-            var easeIn = _compositor.CreateCubicBezierEasingFunction(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 1.0f));
-            var step = _compositor.CreateStepEasingFunction();
+            //var easeIn = _compositor.CreateCubicBezierEasingFunction(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 1.0f));
+            //var step = _compositor.CreateStepEasingFunction();
+
+            //KeyFrameAnimation offsetInAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //offsetInAnimation.InsertExpressionKeyFrame(1f, "-140");
+            //offsetInAnimation.Duration = TimeSpan.FromMilliseconds(250);
+
+            //KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            //fadeAnimation.InsertExpressionKeyFrame(1f, "0");
+            //fadeAnimation.Duration = TimeSpan.FromMilliseconds(200);
+
+            //visual.StartAnimation("Offset.Y", offsetInAnimation);
+            //visual.StartAnimation("Opacity", fadeAnimation);
+
+             int windowHeight = (int)Window.Current.Bounds.Height;
+            //visual.Offset = new Vector3(0, windowHeight, 0);
+            visual.Opacity = 1f;
+            visual.Scale = new Vector3(1, 1, 0);
 
             KeyFrameAnimation offsetInAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            offsetInAnimation.InsertExpressionKeyFrame(1f, "-140");
-            offsetInAnimation.Duration = TimeSpan.FromMilliseconds(250);
+            offsetInAnimation.InsertExpressionKeyFrame(1f, $"{windowHeight}"/*, step*/);
+            offsetInAnimation.Duration = TimeSpan.FromMilliseconds(500);
+
 
             KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            fadeAnimation.InsertExpressionKeyFrame(1f, "0");
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(200);
+            fadeAnimation.InsertExpressionKeyFrame(1f, "1");
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1);
+
 
             visual.StartAnimation("Offset.Y", offsetInAnimation);
-            visual.StartAnimation("Opacity", fadeAnimation);
+            //visual.StartAnimation("Opacity", fadeAnimation);
+            //await page.Fade(1, 250).Offset(0, 140, 250, 0, EasingType.Quadratic).StartAsync();
 
-            await Task.Delay(250); //waits until the animation completes in order to continue
+
+            await Task.Delay(500); //waits until the animation completes in order to continue
+
+
+            /*await Task.Delay(250);*/ //waits until the animation completes in order to continue
         }
     }
 
@@ -193,19 +274,19 @@ public class Navigation
 
             //var easeIn = _compositor.Cr(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 1.0f));
             //var step = _compositor.CreateStepEasingFunction();
-
-            visual.Offset = new Vector3(0, -140, 0);
+            int windowHeight = (int)Window.Current.Bounds.Height;
+            visual.Offset = new Vector3(0, -windowHeight, 0);
             visual.Opacity = 0f;
             visual.Scale = new Vector3(1, 1, 0);
 
             KeyFrameAnimation offsetInAnimation = _compositor.CreateScalarKeyFrameAnimation();
             offsetInAnimation.InsertExpressionKeyFrame(1f, "0"/*, step*/);
-            offsetInAnimation.Duration = TimeSpan.FromMilliseconds(250);
+            offsetInAnimation.Duration = TimeSpan.FromMilliseconds(1000);
 
 
             KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnimation.InsertExpressionKeyFrame(1f, "1");
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(250);
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1);
 
 
             visual.StartAnimation("Offset.Y", offsetInAnimation);
@@ -213,7 +294,7 @@ public class Navigation
             //await page.Fade(1, 250).Offset(0, 140, 250, 0, EasingType.Quadratic).StartAsync();
 
 
-            await Task.Delay(250); //waits until the animation completes in order to continue
+            await Task.Delay(1000); //waits until the animation completes in order to continue
         }
 
     }

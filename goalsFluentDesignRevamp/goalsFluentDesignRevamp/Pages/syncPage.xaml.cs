@@ -105,11 +105,15 @@ namespace goalsFluentDesignRevamp
                 syncStatusTextBlock.Text = "Syncing Goal Data";
 
                 bool deviceHasNewerDataThanCloud = await decideWhetherCloudOrDeviceHasNewerData(goalDataToSync, rootFolder, cloudSyncDateInTicks);
+               
                 if (deviceHasNewerDataThanCloud)
                 {
-                    uploadDataToCloud(rootFolder, imageFolder, goalDataToSync, cloudData);
-                    recordLastTimeSynced(rootFolder);
-                    hideProgressRing();
+                    if (MainPage.firstTimeCloudOption == false)
+                    {
+                        uploadDataToCloud(rootFolder, imageFolder, goalDataToSync, cloudData);
+                        recordLastTimeSynced(rootFolder);
+                        hideProgressRing();
+                    }
                 }
 
                 else

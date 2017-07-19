@@ -544,7 +544,7 @@ namespace goalsFluentDesignRevamp
                         //Uncomment currentAppVersion change when you finish with testing onBoardingPage
                         //localSettings.Values["currentAppVersion"] = applicationVersion;
                         //When you finish the onBoardingPage, show it instead of the whatsNewPage
-                        rootFrame.Navigate(typeof(onBoardingPage), applicationVersion);
+                        App.NavService.NavigateTo(typeof(onBoardingPage), applicationVersion);
 
                     }
                     else if (currentAppVersion.ToString() != applicationVersion)
@@ -553,7 +553,7 @@ namespace goalsFluentDesignRevamp
                         localSettings.Values["currentAppVersion"] = applicationVersion;
                         //Bring back the whatsNewPage for users who update at the end of your exams when you are officially back!
                         //rootFrame.Navigate(typeof(whatsNewPage));
-                        App.NavService.NavigateTo(typeof(whatsNewPage), e.Arguments);
+                        rootFrame.Navigate(typeof(whatsNewPage), e.Arguments);
 
                     }
                     else

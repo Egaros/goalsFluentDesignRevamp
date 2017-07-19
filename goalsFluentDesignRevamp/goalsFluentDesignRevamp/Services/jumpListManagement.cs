@@ -16,7 +16,8 @@ namespace goalsFluentDesignRevamp.Services
 
             if (jumpList.Items != null && jumpList.Items.Count > 0)
             {
-                removeJumpListItemsThatAreNotInListOfGoals(listOfGoals, jumpList);
+                
+                clearJumpList(jumpList);
             }
 
             foreach (var goal in listOfGoals)
@@ -44,6 +45,11 @@ namespace goalsFluentDesignRevamp.Services
 
         }
 
+        private static void clearJumpList(JumpList jumpList)
+        {
+            jumpList.Items.Clear();
+        }
+
         private static bool isItemInJumpList(JumpListItem item, JumpList jumpList)
         {
             bool itemIsInJumplist = false;
@@ -54,26 +60,5 @@ namespace goalsFluentDesignRevamp.Services
             return itemIsInJumplist;
         }
 
-        private static void removeJumpListItemsThatAreNotInListOfGoals(ObservableCollection<goal> listOfGoals, JumpList jumpList)
-        {
-            List<JumpListItem> jumpListItemsToBeDeleted = new List<JumpListItem>();
-            foreach (var item in jumpList.Items)
-            {
-                bool isJumpListItemInListOfGoals = false;
-
-                if (listOfGoals.Where(p => p.name == item.DisplayName).Count() > 0)
-                {
-                    isJumpListItemInListOfGoals = true;
-                }
-                if (isJumpListItemInListOfGoals == false)
-                {
-                    jumpListItemsToBeDeleted.Add(item);
-                }
-            }
-            foreach (var item in jumpListItemsToBeDeleted)
-            {
-                jumpList.Items.Remove(item);
-            }
-        }
     }
 }

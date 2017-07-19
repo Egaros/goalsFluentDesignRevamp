@@ -32,6 +32,7 @@ namespace goalsFluentDesignRevamp
         public addNewGoalPage()
         {
             this.InitializeComponent();
+            //TODO: In fall creators update and newer, use CoreInputView
             InputPane.GetForCurrentView().Hiding += softwareKeyboardHiding;
         }
 
@@ -126,10 +127,7 @@ namespace goalsFluentDesignRevamp
         }
     
 
-        private async void waitAWhile()
-        {
-            await Task.Delay(3000);
-        }
+       
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
