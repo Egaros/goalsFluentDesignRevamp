@@ -48,7 +48,7 @@ ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
                     goalImage.Opacity = 1;
 
 
-                    imageAnimation.TryStart(goalImage, new UIElement[] { titleBar, formGrid });
+                    imageAnimation.TryStart(goalImage, new UIElement[] { titleBar, formGrid, imageGrid });
 
                     titleBar.Opacity = 1;
                     formGrid.Opacity = 1;

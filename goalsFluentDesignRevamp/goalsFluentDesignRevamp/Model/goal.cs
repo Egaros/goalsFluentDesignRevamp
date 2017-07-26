@@ -48,6 +48,7 @@ namespace goalsFluentDesignRevamp.Model
              saveIncompleteGoals();
              saveCompleteGoals();
             jumpListManagement.UpdateJumpList(listOfGoals);
+            speech.updatePhraseList();
             //saves completedGoals
 
 

@@ -157,7 +157,8 @@
                     <DatePicker Name="goalDatePicker"
                                 Header="Due Date:"
                                 Margin="10"
-                                Visibility="{Binding ElementName=timeLimitCheckBox, Path=IsChecked}">
+                                Visibility="{Binding ElementName=timeLimitCheckBox, Path=IsChecked}"
+                                HorizontalAlignment="Stretch">
                         
                     </DatePicker>
                 </StackPanel>

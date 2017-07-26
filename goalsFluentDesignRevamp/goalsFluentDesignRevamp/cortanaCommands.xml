@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="TrackGoalsCommandSet_en-us">
+    <AppName> Track Goals </AppName>
+    <Example> Track Goals, Create a new goal </Example>
+
+    <Command Name="createNewGoal">
+      <Example> Create a new goal </Example>
+      <ListenFor> create [a] [new] goal </ListenFor>
+      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} </ListenFor>
+      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} </ListenFor>
+      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} [and] [with] [a] [the] description {description} </ListenFor>
+      <Feedback> Making your new goal... </Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+
+    <Command Name="showGoalInProgress">
+      <Example> Show (goal name) </Example>
+      <ListenFor> show [my] {goalInProgress} </ListenFor>
+      <Feedback> I'm Bringing it up for you... </Feedback>
+      <Navigate/>
+    </Command>
+
+    
+
+    <PhraseList Label="goalInProgress">
+    </PhraseList>
+
+    <PhraseList Label="namedSynonyms">
+      <Item>named</Item>
+      <Item>called</Item>
+      <Item>as</Item>
+      <Item>titled</Item>
+      <Item>denominated</Item>
+      <Item>designated</Item>
+      <Item>dubbed</Item>
+      <Item>entitled</Item>
+      <Item>labeled</Item>
+      <Item>specified</Item>
+      <Item>tagged</Item>
+      <Item>termed</Item>
+      <Item>apellated</Item>
+      <Item>appointed</Item>
+      <Item>assigned</Item>
+    </PhraseList>
+    
+    
+<PhraseTopic Label="goalName">
+      <Subject>Words</Subject>
+    </PhraseTopic>
+
+    <PhraseTopic Label="target">
+      <Subject>Price</Subject>
+    </PhraseTopic>
+
+    <PhraseTopic Label="description">
+      <Subject>Description</Subject>
+    </PhraseTopic>
+
+  </CommandSet>
+
+  <CommandSet xml:lang="en-gb" Name="TrackGoalsCommandSet_en-gb">
+    <AppName> Track Goals </AppName>
+    <Example> Create a new goal </Example>
+
+    <Command Name="createNewGoal">
+      <Example> Create a new goal </Example>
+      <ListenFor> create [a] [new] goal </ListenFor>
+      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} </ListenFor>
+      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} </ListenFor>
+      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} [and] [with] [a] [the] description {description} </ListenFor>
+      <Feedback> Making your new goal... </Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+    <Command Name="showGoalInProgress">
+      <Example> Show (goal name) </Example>
+      <ListenFor> Show [my] {goalInProgress} </ListenFor>
+      <Feedback> I'm Bringing it up for you... </Feedback>
+      <Navigate/>
+    </Command>
+
+
+    
+
+
+    <PhraseList Label="goalInProgress">
+    </PhraseList>
+
+    <PhraseList Label="namedSynonyms">
+      <Item>called</Item>
+      <Item>tagged</Item>
+      <Item>named</Item>
+      <Item>as</Item>
+      <Item>titled</Item>
+      <Item>denominated</Item>
+      <Item>designated</Item>
+      <Item>dubbed</Item>
+      <Item>entitled</Item>
+      <Item>labeled</Item>
+      <Item>specified</Item>
+      <Item>termed</Item>
+      <Item>apellated</Item>
+      <Item>appointed</Item>
+      <Item>assigned</Item>
+    </PhraseList>
+    
+<PhraseTopic Label="goalName">
+      <Subject>Words</Subject>
+    </PhraseTopic>
+
+    <PhraseTopic Label="target">
+      <Subject>Price</Subject>
+    </PhraseTopic>
+
+    <PhraseTopic Label="description">
+      <Subject>Description</Subject>
+    </PhraseTopic>
+
+
+  </CommandSet>
+
+</VoiceCommands>

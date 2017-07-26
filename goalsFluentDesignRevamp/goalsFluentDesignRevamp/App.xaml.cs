@@ -18,8 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-
+using Windows.Media.SpeechRecognition;
 
 namespace goalsFluentDesignRevamp
 {
@@ -244,24 +243,15 @@ namespace goalsFluentDesignRevamp
 
         }
 
-        protected override void OnActivated(IActivatedEventArgs e)
+        protected async override void OnActivated(IActivatedEventArgs e)
         {
 
 
 
-            // TODO: Initialize root frame just like in OnLaunched
-            StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            engagementManager.RegisterNotificationChannelAsync();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            requestAccessForBackgroundTasksOnSpecialActivation();
-            unregisterBackgroundTasks();
-            var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
+            
 
 
-            var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-            appView.SetPreferredMinSize(new Size(400, 400));
-
+         
 
 
             // Get the root frame
@@ -285,61 +275,178 @@ namespace goalsFluentDesignRevamp
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
 
-                // Register a handler for BackRequested events and set the
-                // visibility of the Back button
-                //SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
-                //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                //    rootFrame.CanGoBack ?
-                //    AppViewBackButtonVisibility.Visible :
-                //    AppViewBackButtonVisibility.Collapsed;
+                StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
+                engagementManager.RegisterNotificationChannelAsync();
+
+
+
+                await BackgroundExecutionManager.RequestAccessAsync();
+                unregisterBackgroundTasks();
+                var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
+
+
+
+                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+                {
+
+                    var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                    statusBar.BackgroundOpacity = 1;
+                    statusBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["SystemControlForegroundAccentBrush"]).Color;
+                    statusBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"]).Color;
+                }
+
+                var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+
+                if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Desktop")
+                {
+                    var accentColorBrush = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]).Color;
+                    ApplicationViewTitleBar formattableTitleBar = appView.TitleBar;
+                    formattableTitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    formattableTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                    formattableTitleBar.ButtonForegroundColor = accentColorBrush;
+                    CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+                    coreTitleBar.ExtendViewIntoTitleBar = true;
+                    appView.SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+
+
+                }
+
+                appView.SetPreferredMinSize(new Size(400, 400));
+
+
             }
+
 
 
             if (rootFrame.Content == null)
             {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-
                 NavService = new Navigation(ref rootFrame);
-                // Handle toast activation
-                if (e is ToastNotificationActivatedEventArgs)
-                {
-                    var toastActivationArgs = e as ToastNotificationActivatedEventArgs;
-
-                    // Parse the query string
-                    string args = toastActivationArgs.Argument;
-
-                    // See what action is being requested 
-                    if (args == "comeBack" || args == "Yes")
-                    {
-                        logger.Log("Launched app from encouraging toast");
-                        App.NavService.NavigateTo(typeof(MainPage), "comeBack");
-                    }
-
-
-
-
-
-                    // TODO: Handle other types of activation
-
-
-
-                }
-                
+              
 
             }
-            // Ensure the current window is active
+
+
+            // Handle toast activation
+            if (e is ToastNotificationActivatedEventArgs)
+            {
+                var toastActivationArgs = e as ToastNotificationActivatedEventArgs;
+
+                // Parse the query string
+                string args = toastActivationArgs.Argument;
+
+                // See what action is being requested 
+                if (args == "comeBack" || args == "Yes")
+                {
+                    logger.Log("Launched app from encouraging toast");
+                    App.NavService.NavigateTo(typeof(MainPage), "comeBack");
+                }
+            }
+
+
+
+
+                // TODO: Handle other types of activation
+
+                if (e.Kind == ActivationKind.VoiceCommand)
+                {
+                    // Event args can represent many different activation types. 
+                    // Cast it so we can get the parameters we care about out.
+                    var commandArgs = e as VoiceCommandActivatedEventArgs;
+
+                    Windows.Media.SpeechRecognition.SpeechRecognitionResult speechRecognitionResult = commandArgs.Result;
+
+                    // Get the name of the voice command and the text spoken. 
+                    // See VoiceCommands.xml for supported voice commands.
+                    string voiceCommandName = speechRecognitionResult.RulePath[0];
+                    string textSpoken = speechRecognitionResult.Text;
+
+                    // commandMode indicates whether the command was entered using speech or text.
+                    // Apps should respect text mode by providing silent (text) feedback.
+                    string commandMode = this.SemanticInterpretation("commandMode", speechRecognitionResult);
+
+                    switch (voiceCommandName)
+                    {
+                        case "createNewGoal":
+                        const string nullValue = "(null)";
+                        string goalName = this.SemanticInterpretation("goalName", speechRecognitionResult);
+                        string target = this.SemanticInterpretation("target", speechRecognitionResult);
+                        string description = this.SemanticInterpretation("description", speechRecognitionResult);
+                        string[] goalDetails = new string[] { goalName, target, description };
+
+                        
+                       
+
+                        
+                       
+                        
+                        // Create a navigation command object to pass to the page. 
+                        NavService.NavigateTo(typeof(addNewGoalPage), goalDetails);
+                            break;
+
+                    case "showGoalInProgress":
+
+                         goalName = this.SemanticInterpretation("goalInProgress", speechRecognitionResult);
+
+                        try
+                        {
+                            
+                            int itemCount = goal.listOfGoals.Where(item => item.name == goalName).Count();
+                            if (itemCount > 0)
+                            {
+                                var goalInContext = goal.listOfGoals.Where(item => item.name == goalName).First();
+                                NavService.NavigateTo(typeof(selectedGoalPage), goalInContext);
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            NavService.NavigateTo(typeof(MainPage), "cortanaFailed");
+                        }
+                       
+
+                        break;
+
+                    default:
+                            NavService.NavigateTo(typeof(MainPage), "cortanaFailed");
+                            break;
+                    }
+
+                }
+
+// Ensure the current window is active
             Window.Current.Activate();
+            }
+                
+
+            
+            
 
 
 
+        
+
+        private string SemanticInterpretation(string interpretationKey, SpeechRecognitionResult speechRecognitionResult)
+        {
+            string valueFromKey;
+            try
+            {
+                valueFromKey = speechRecognitionResult.SemanticInterpretation.Properties[interpretationKey].FirstOrDefault();
+            }
+            catch (Exception)
+            {
+
+                valueFromKey = "(null)";
+            }
+             
+            return valueFromKey;
         }
+
 
         private async void requestAccessForBackgroundTasksOnSpecialActivation()
         {
-            await BackgroundExecutionManager.RequestAccessAsync();
+           await BackgroundExecutionManager.RequestAccessAsync();
         }
 
         private async void loadSaveFiles()
@@ -456,8 +563,12 @@ namespace goalsFluentDesignRevamp
         /// <param name="e">Details about the launch request and process.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            InstallCommandDefinitionsFromStorageFileAsync();
             StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
              engagementManager.RegisterNotificationChannelAsync();
+
+
+
             await BackgroundExecutionManager.RequestAccessAsync();
             unregisterBackgroundTasks();
             var backgroundTask = RegisterBackgroundTask("tasks.Class1", "Class1", new TimeTrigger(1440, false), new SystemCondition(SystemConditionType.UserNotPresent));
@@ -610,6 +721,27 @@ namespace goalsFluentDesignRevamp
                 Window.Current.Activate();
             }
 
+        }
+
+        private async void InstallCommandDefinitionsFromStorageFileAsync()
+        {
+            try
+            {
+                // Install the main VCD. 
+                StorageFile vcdStorageFile =
+                  await Package.Current.InstalledLocation.GetFileAsync(
+                    @"cortanaCommands.xml");
+
+                await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.
+                  InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
+                speech.updatePhraseList();
+                // TODO: Update phrase list. (If required)
+               
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Installing Voice Commands Failed: " + ex.ToString());
+            }
         }
 
         private void navigateBasedOnTileID(string tileId, Frame rootFrame)

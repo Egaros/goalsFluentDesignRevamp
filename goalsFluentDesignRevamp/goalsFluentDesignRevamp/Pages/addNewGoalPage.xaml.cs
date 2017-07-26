@@ -11,6 +11,7 @@ using Windows.UI.ViewManagement;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using System.Threading.Tasks;
 using Windows.Phone.Devices.Notification;
+using System.Collections.Generic;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -43,6 +44,86 @@ namespace goalsFluentDesignRevamp
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
+
+
+            try
+            {
+                string[] goalDetailsToUse = (string[])e.Parameter;
+                int arraySize = goalDetailsToUse.Length;
+                const string nullValue = "(null)";
+
+
+
+                if (goalDetailsToUse[0] != nullValue)
+                {
+                    nameTextBox.Text = goalDetailsToUse[0];
+                }
+
+
+
+                if (goalDetailsToUse[1] != nullValue)
+                {
+                    string targetToSet = goalDetailsToUse[1];
+                    List<char> digits = new List<char> { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+                    List<char> charactersToRemove = new List<char>();
+                    foreach (var character in targetToSet)
+                    {
+                        if (digits.Contains(character) ==false )
+                        {
+                            charactersToRemove.Add(character);
+                        }
+                        
+
+                        
+                    }
+
+                    foreach (var character in charactersToRemove)
+                    {
+                        targetToSet = targetToSet.Replace(character, ' ');
+                    }
+                    targetToSet = targetToSet.Trim();
+
+
+                    //if (targetToSet.Contains("dollars"))
+                    //{
+                    //    targetToSet = targetToSet.Replace("dollars", "");
+                    //    targetToSet = targetToSet.Trim();
+                    //}
+
+                    //if (targetToSet.Contains("pounds"))
+                    //{
+                    //   targetToSet = targetToSet.Replace("pounds", "");
+                    //    targetToSet = targetToSet.Trim();
+                    //}
+                    targetTextBox.Text = targetToSet;
+                }
+
+
+
+                if (goalDetailsToUse[2] != nullValue)
+                {
+                    descriptionTextBox.Text = goalDetailsToUse[2];
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+
             base.OnNavigatedTo(e);
             animateFormHelperHiding();
             try
@@ -53,10 +134,10 @@ namespace goalsFluentDesignRevamp
             catch (Exception)
             {
 
-                
+
             }
 
-           
+
         }
 
         private void assignDroppedImageToGoalImage(StorageFile droppedImageFile)
@@ -92,7 +173,7 @@ namespace goalsFluentDesignRevamp
                     DateTime goalEndTime = new DateTime();
                     if (timeLimitCheckBox.IsChecked == true)
                     {
-                       goalEndTime = goalDatePicker.Date.DateTime;
+                        goalEndTime = goalDatePicker.Date.DateTime;
 
                     }
                     else
@@ -125,9 +206,9 @@ namespace goalsFluentDesignRevamp
         {
             testVibrationDevice.Vibrate(TimeSpan.FromSeconds(0.1));
         }
-    
 
-       
+
+
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -178,7 +259,7 @@ namespace goalsFluentDesignRevamp
                     break;
             }
 
-           
+
         }
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
@@ -196,7 +277,7 @@ namespace goalsFluentDesignRevamp
                 default:
                     break;
             }
-            
+
         }
 
         private void disablePreviousButton()
@@ -232,8 +313,8 @@ namespace goalsFluentDesignRevamp
 
             if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Mobile")
             {
-            var softwareKeyboard = InputPane.GetForCurrentView();
-            softwareKeyboard.TryHide();
+                var softwareKeyboard = InputPane.GetForCurrentView();
+                softwareKeyboard.TryHide();
             }
         }
 
@@ -241,16 +322,16 @@ namespace goalsFluentDesignRevamp
         {
             if (!formHelperIsVisible)
             {
-            showFormHelper();
+                showFormHelper();
                 hideCommandBar();
             }
             disablePreviousButton();
             enableNextButton();
-           
+
             textBoxSelected = focusedObject.Name;
 
-            
-            
+
+
         }
         private void targetTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -259,9 +340,9 @@ namespace goalsFluentDesignRevamp
                 showFormHelper();
                 hideCommandBar();
             }
-                enablePreviousButton();
-                enableNextButton();
-            
+            enablePreviousButton();
+            enableNextButton();
+
             textBoxSelected = focusedObject.Target;
 
         }
@@ -273,12 +354,12 @@ namespace goalsFluentDesignRevamp
                 showFormHelper();
                 hideCommandBar();
             }
-                disableNextButton();
-                enablePreviousButton();
-           
+            disableNextButton();
+            enablePreviousButton();
+
 
             textBoxSelected = focusedObject.Description;
-           
+
         }
 
         private void selectNameTextBox()
@@ -312,30 +393,30 @@ namespace goalsFluentDesignRevamp
         {
 
             await formHelper.Scale(1f, 1f, 0, 48, 500).StartAsync();
-            
+
         }
 
         private void hideFormHelper()
         {
-            
+
             showCommandBar();
             animateFormHelperHiding();
             formHelper.Visibility = Visibility.Collapsed;
             formHelperIsVisible = false;
             mainCommandBar.Focus(FocusState.Programmatic);
-           
+
         }
 
         private async void animateFormHelperHiding()
         {
 
-            await formHelper.Scale(0.01f, 0.01f, 0, 48,500).StartAsync();
-           
-            
-            
+            await formHelper.Scale(0.01f, 0.01f, 0, 48, 500).StartAsync();
+
+
+
         }
 
-        
+
 
         private void showCommandBar()
         {
@@ -345,7 +426,7 @@ namespace goalsFluentDesignRevamp
 
         private async void animateCommandBarShowing()
         {
-           await mainCommandBar.Fade(1f).StartAsync();
+            await mainCommandBar.Fade(1f).StartAsync();
         }
 
         private async void hideCommandBar()
@@ -357,7 +438,7 @@ namespace goalsFluentDesignRevamp
 
         private async void animateCommandBarHiding()
         {
-           await mainCommandBar.Fade(0.01f).StartAsync();
+            await mainCommandBar.Fade(0.01f).StartAsync();
         }
     }
 }

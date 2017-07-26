@@ -24,15 +24,21 @@ using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI.ViewManagement;
 
 
+
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace goalsFluentDesignRevamp
 {
+    
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    /// 
     public sealed partial class MainPage : Page
     {
+
+
         public ObservableCollection<goal> goalsToDisplay;
         public ObservableCollection<goal.completedGoal> completedGoalsToDisplay;
         public ObservableCollection<history> historyToDisplay = new ObservableCollection<history>();
@@ -45,8 +51,10 @@ namespace goalsFluentDesignRevamp
         public static goal persistedItem;
         public static bool firstTimeCloudOption = false;
         bool showReviewContentDialog = false;
+
         public MainPage()
         {
+
             this.InitializeComponent();
             loadHistory();
             loadGoals();
@@ -636,6 +644,12 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             }
 
             }
+        }
+
+        private async void cortanaButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            await Launcher.LaunchUriAsync(new Uri("ms-cortana://"));
         }
     }
 }
