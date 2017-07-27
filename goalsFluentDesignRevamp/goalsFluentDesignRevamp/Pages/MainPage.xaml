@@ -1614,6 +1614,16 @@
                                     </StackPanel>
                                 </Button>
 
+                                <Button Name="helpButton"
+                                        Click="helpButton_Click"
+                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Help"
+                                                    Margin="0,0,10,0" />
+                                        <TextBlock Text="Help" />
+                                    </StackPanel>
+                                </Button>
+
                             </StackPanel>
 
                         </Flyout>
@@ -1761,23 +1771,22 @@
                     <!-->TODO: Add more ads based on Window/screen size<-->
                     <!-->Whenever you are testing this app, make sure you use this AdControl instead of the other one Or else Microsoft will block your apps from retrieving ads for a while<-->
 
-                    <UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                    <!--<UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
                                                                                       AdUnitId="test"
                                                                                       HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                                                                       Height="50"
                                                                                       Width="300"
                                                                                       Grid.Row="1"
-                                                                                       />
+                                                                                       />-->
 
-                    <!--<UI:AdControl ApplicationId="9nblggh52rsb"
+                    <UI:AdControl ApplicationId="9nblggh52rsb"
                                                                                   AdUnitId="348043"
                                                                                   HorizontalAlignment="Center"
                                                                                   Height="50"
                                                                                   Width="300"
                                                                                   Name="easyAd"
-                                                                                  Margin="5"
-                                                                                  Grid.Row="1" />-->
+                                                                                  Grid.Row="1" />
                 </Grid>
             </Grid>
 

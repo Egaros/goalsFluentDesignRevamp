@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -61,6 +62,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="280" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
        
             <Grid BorderThickness="0,0,0,1.5"
@@ -222,7 +224,24 @@
         </StackPanel>
         </Grid>
         </controls:DropShadowPanel>
-       
+        <Grid Grid.Row="3">
+            <!--<UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                          AdUnitId="test"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="50"
+                          Width="300"
+                          Grid.Row="1" />-->
+            <UI:AdControl ApplicationId="9nblggh52rsb"
+                          AdUnitId="350376"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="50"
+                          Width="300"
+                          Name="easyAd3"
+                          Grid.Row="1" />
+            
+        </Grid>
     </Grid>
 
    

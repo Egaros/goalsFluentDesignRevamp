@@ -30,7 +30,7 @@ using Windows.UI.ViewManagement;
 
 namespace goalsFluentDesignRevamp
 {
-    
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -79,35 +79,60 @@ namespace goalsFluentDesignRevamp
 
         }
 
-       
-private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings sender, object args)
-{
-    if (sender.AdvancedEffectsEnabled)
-    {
-        await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+
+        private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings sender, object args)
         {
+            if (sender.AdvancedEffectsEnabled)
+            {
+                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
             //TODO: Apply Acrylic Accent
             applyAcrylicAccent(transparentArea);
-            changeToAcrylicPivotStyle();
-            refreshPageInFlukyManner();
-            
-            
-            
-        });
-    }
-    else
-    {
-        await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-        {
+                    changeToAcrylicPivotStyle();
+
+                    if (isCurrentPageMainPage())
+                    {
+                        refreshPageInFlukyManner();
+
+                    }
+
+
+
+
+
+
+
+
+                });
+            }
+            else
+            {
+                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
 
             //Because changing the pivot style is going to mess up the pivot header, this "Refreshes the page".
             //SIDE EFFECT: The user will always go to the goals pivot item if they disable transparency in their computer settings.
             changeToRegularPivotStyle();
-            refreshPageInFlukyManner();
-            
-        });
-    }
-}
+                    if (isCurrentPageMainPage())
+                    {
+                        refreshPageInFlukyManner();
+
+                    }
+
+
+                });
+            }
+        }
+
+        private bool isCurrentPageMainPage()
+        {
+            bool currentPageIsMainPage = false;
+            if (Frame.CurrentSourcePageType == typeof(MainPage))
+            {
+                currentPageIsMainPage = true;
+            }
+            return currentPageIsMainPage;
+        }
 
         private void refreshPageInFlukyManner()
         {
@@ -119,17 +144,17 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
         private void changeToRegularPivotStyle()
         {
             mainPivot.Style = bestPivotStyle;
-            
-            
+
+
         }
 
         private void changeToAcrylicPivotStyle()
         {
             mainPivot.Style = acrylicPivotStyle;
-            
+
         }
 
-      
+
 
         private void loadHistory()
         {
@@ -157,7 +182,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported())
             {
                 this.feedbackButton.Visibility = Visibility.Visible;
-               
+
             }
         }
 
@@ -196,8 +221,8 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             if ((string)e.Parameter == "addedOrUpdatedGoal")
             {
                 showReviewContentDialog = true;
-               
-              
+
+
             }
 
             if ((string)e.Parameter == "carryOnFromCloud")
@@ -210,7 +235,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             if ((string)e.Parameter == "goalNotFound")
             {
                 showGoalNotFoundDialog();
-                
+
             }
 
             var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
@@ -220,11 +245,11 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
                 if (App.uiSettings.AdvancedEffectsEnabled)
                 {
 
-                applyAcrylicAccent(transparentArea);
-                
-                
+                    applyAcrylicAccent(transparentArea);
+
+
                 }
-                
+
             }
             else
             {
@@ -232,7 +257,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             }
 
 
-            
+
         }
 
         private async void showGoalNotFoundDialog()
@@ -317,7 +342,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             //Beta Version App Review/Feedback System
             if (App.localSettings.Values["askReviewsCounter"] == null)
             {
-                App.localSettings.Values["askReviewsCounter"] = 4;
+                App.localSettings.Values["askReviewsCounter"] = 2;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
@@ -329,7 +354,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             }
             else
             {
-                App.localSettings.Values["askReviewsCounter"] = 5;
+                App.localSettings.Values["askReviewsCounter"] = 2;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
@@ -363,7 +388,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             persistedItem = selectedGoal;
 
 
-           
+
 
 
             ConnectedAnimation connectedAnimation = goalsGridView.PrepareConnectedAnimation("image", selectedGoal, "goalImage");
@@ -593,7 +618,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             await feedbackDialog.ShowAsync();
         }
 
-       
+
 
         private async void goalsGridView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -612,7 +637,7 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
             }
         }
 
-                                                                                                                 
+
         private void settingsButton_Click(object sender, RoutedEventArgs e)
         {
             App.NavService.NavigateTo(typeof(settingsPage));
@@ -638,18 +663,23 @@ private async void UiSettings_AdvancedEffectsEnabledChangedAsync(UISettings send
         {
             if (showReviewContentDialog == true)
             {
-            if ((int)App.localSettings.Values["stopAskingForReviews"] == 0)
-            {
-                showTheDialog();
-            }
+                if ((int)App.localSettings.Values["stopAskingForReviews"] == 0)
+                {
+                    showTheDialog();
+                }
 
             }
         }
 
         private async void cortanaButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             await Launcher.LaunchUriAsync(new Uri("ms-cortana://"));
+        }
+
+        private void helpButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.NavService.NavigateTo(typeof(helpPage));
         }
     }
 }

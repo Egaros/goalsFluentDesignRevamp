@@ -5,12 +5,11 @@
     <Example> Track Goals, Create a new goal </Example>
 
     <Command Name="createNewGoal">
-      <Example> Create a new goal </Example>
-      <ListenFor> create [a] [new] goal </ListenFor>
-      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} </ListenFor>
-      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} </ListenFor>
-      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} [and] [with] [a] [the] description {description} </ListenFor>
-      <Feedback> Making your new goal... </Feedback>
+      <Example>Create a new goal</Example>
+      <ListenFor>create [a] [new] goal</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName}</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target}</ListenFor>
+      <Feedback>Making your new goal...</Feedback>
       <Navigate/>
     </Command>
 
@@ -25,7 +24,8 @@
       <Navigate/>
     </Command>
 
-    
+
+
 
     <PhraseList Label="goalInProgress">
     </PhraseList>
@@ -47,9 +47,9 @@
       <Item>appointed</Item>
       <Item>assigned</Item>
     </PhraseList>
-    
-    
-<PhraseTopic Label="goalName">
+
+
+    <PhraseTopic Label="goalName">
       <Subject>Words</Subject>
     </PhraseTopic>
 
@@ -57,9 +57,7 @@
       <Subject>Price</Subject>
     </PhraseTopic>
 
-    <PhraseTopic Label="description">
-      <Subject>Description</Subject>
-    </PhraseTopic>
+
 
   </CommandSet>
 
@@ -72,7 +70,6 @@
       <ListenFor> create [a] [new] goal </ListenFor>
       <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} </ListenFor>
       <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} </ListenFor>
-      <ListenFor> create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target} [and] [with] [a] [the] description {description} </ListenFor>
       <Feedback> Making your new goal... </Feedback>
       <Navigate/>
     </Command>
@@ -87,7 +84,7 @@
     </Command>
 
 
-    
+
 
 
     <PhraseList Label="goalInProgress">
@@ -110,8 +107,69 @@
       <Item>appointed</Item>
       <Item>assigned</Item>
     </PhraseList>
-    
-<PhraseTopic Label="goalName">
+
+    <PhraseTopic Label="goalName">
+    </PhraseTopic>
+
+    <PhraseTopic Label="target">
+      <Subject>Price</Subject>
+    </PhraseTopic>
+
+   
+
+
+  </CommandSet>
+
+  <CommandSet xml:lang="en-au" Name="TrackGoalsCommandSet_en-au">
+    <AppName> Track Goals </AppName>
+    <Example> Track Goals, Create a new goal </Example>
+
+    <Command Name="createNewGoal">
+      <Example>Create a new goal</Example>
+      <ListenFor>create [a] [new] goal</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName}</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target}</ListenFor>
+      <Feedback>Making your new goal...</Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+
+    <Command Name="showGoalInProgress">
+      <Example> Show (goal name) </Example>
+      <ListenFor> show [my] {goalInProgress} </ListenFor>
+      <Feedback> I'm Bringing it up for you... </Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+    <PhraseList Label="goalInProgress">
+    </PhraseList>
+
+    <PhraseList Label="namedSynonyms">
+      <Item>named</Item>
+      <Item>called</Item>
+      <Item>as</Item>
+      <Item>titled</Item>
+      <Item>denominated</Item>
+      <Item>designated</Item>
+      <Item>dubbed</Item>
+      <Item>entitled</Item>
+      <Item>labeled</Item>
+      <Item>specified</Item>
+      <Item>tagged</Item>
+      <Item>termed</Item>
+      <Item>apellated</Item>
+      <Item>appointed</Item>
+      <Item>assigned</Item>
+    </PhraseList>
+
+
+    <PhraseTopic Label="goalName">
       <Subject>Words</Subject>
     </PhraseTopic>
 
@@ -119,11 +177,140 @@
       <Subject>Price</Subject>
     </PhraseTopic>
 
-    <PhraseTopic Label="description">
-      <Subject>Description</Subject>
-    </PhraseTopic>
 
 
   </CommandSet>
+
+
+
+  <CommandSet xml:lang="en-in" Name="TrackGoalsCommandSet_en-in">
+    <AppName> Track Goals </AppName>
+    <Example> Track Goals, Create a new goal </Example>
+
+    <Command Name="createNewGoal">
+      <Example>Create a new goal</Example>
+      <ListenFor>create [a] [new] goal</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName}</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target}</ListenFor>
+      <Feedback>Making your new goal...</Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+
+    <Command Name="showGoalInProgress">
+      <Example> Show (goal name) </Example>
+      <ListenFor> show [my] {goalInProgress} </ListenFor>
+      <Feedback> I'm Bringing it up for you... </Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+    <PhraseList Label="goalInProgress">
+    </PhraseList>
+
+    <PhraseList Label="namedSynonyms">
+      <Item>named</Item>
+      <Item>called</Item>
+      <Item>as</Item>
+      <Item>titled</Item>
+      <Item>denominated</Item>
+      <Item>designated</Item>
+      <Item>dubbed</Item>
+      <Item>entitled</Item>
+      <Item>labeled</Item>
+      <Item>specified</Item>
+      <Item>tagged</Item>
+      <Item>termed</Item>
+      <Item>apellated</Item>
+      <Item>appointed</Item>
+      <Item>assigned</Item>
+    </PhraseList>
+
+
+    <PhraseTopic Label="goalName">
+      <Subject>Words</Subject>
+    </PhraseTopic>
+
+    <PhraseTopic Label="target">
+      <Subject>Price</Subject>
+    </PhraseTopic>
+
+
+
+  </CommandSet>
+
+
+  <CommandSet xml:lang="en-ca" Name="TrackGoalsCommandSet_en-ca">
+    <AppName> Track Goals </AppName>
+    <Example> Track Goals, Create a new goal </Example>
+
+    <Command Name="createNewGoal">
+      <Example>Create a new goal</Example>
+      <ListenFor>create [a] [new] goal</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName}</ListenFor>
+      <ListenFor>create [a] [new] goal {namedSynonyms} {goalName} [with] [a] target [of] {target}</ListenFor>
+      <Feedback>Making your new goal...</Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+
+    <Command Name="showGoalInProgress">
+      <Example> Show (goal name) </Example>
+      <ListenFor> show [my] {goalInProgress} </ListenFor>
+      <Feedback> I'm Bringing it up for you... </Feedback>
+      <Navigate/>
+    </Command>
+
+
+
+
+    <PhraseList Label="goalInProgress">
+    </PhraseList>
+
+    <PhraseList Label="namedSynonyms">
+      <Item>named</Item>
+      <Item>called</Item>
+      <Item>as</Item>
+      <Item>titled</Item>
+      <Item>denominated</Item>
+      <Item>designated</Item>
+      <Item>dubbed</Item>
+      <Item>entitled</Item>
+      <Item>labeled</Item>
+      <Item>specified</Item>
+      <Item>tagged</Item>
+      <Item>termed</Item>
+      <Item>apellated</Item>
+      <Item>appointed</Item>
+      <Item>assigned</Item>
+    </PhraseList>
+
+
+    <PhraseTopic Label="goalName">
+      <Subject>Words</Subject>
+    </PhraseTopic>
+
+    <PhraseTopic Label="target">
+      <Subject>Price</Subject>
+    </PhraseTopic>
+
+
+
+  </CommandSet>
+
+
+
+
+
+
+
 
 </VoiceCommands>

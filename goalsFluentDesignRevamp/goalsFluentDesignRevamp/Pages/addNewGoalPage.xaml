@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -14,7 +15,8 @@
         </Style>
 
     </Page.Resources>
-    <ScrollViewer>
+
+   
         <Grid Background="{ThemeResource CommandBarBackground}"
               Name="mainGrid">
             <VisualStateManager.VisualStateGroups>
@@ -58,18 +60,23 @@
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="200" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="100" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
 
-           
+        <ScrollViewer>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="200" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+
                 <Grid BorderThickness="0,0,0,1.5"
                       Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                       Canvas.ZIndex="20">
-                    
 
                     <TextBlock Name="titleTextBlock"
                                Text="ADD NEW GOAL"
@@ -77,119 +84,144 @@
                                FontWeight="SemiBold"
                                Margin="20" />
                 </Grid>
-            
-            <Grid Grid.Row="1"
-                  Name="imageGrid">
-                <controls:DropShadowPanel Margin="5"
-                                          BlurRadius="10"
-                                          HorizontalAlignment="Center">
-                    <Image Name="goalImage"
-                           Stretch="Uniform" />
-                </controls:DropShadowPanel>
-                <TextBlock Name="noImagePlaceholderTextBlock"
-                           Text="Currently No Image Selected"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"
-                           FontWeight="Medium" />
-                <Button Name="addImageButton"
-                        Style="{ThemeResource TextBlockButtonStyle}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="10"
-                        Click="addImageButton_Click">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon FontFamily="Segoe MDL2 Assets"
-                                      Glyph="&#xE109;"
-                                      Margin="0,0,5,0" />
-                            <TextBlock Name="addImageTextBlock"
-                                       Text="Add Image"
-                                       FontWeight="Medium" />
-                        </StackPanel>
 
-                    </Button.Content>
-                </Button>
-            </Grid>
-            <Grid Grid.Row="2" 
-                  Name="formGrid"
-                  HorizontalAlignment="Center"
-                  Width="400">
-                <StackPanel Name="formsStackPanel">
-                    <TextBox Name="nameTextBox"
-                             Header="Name Of Item:"
-                             GotFocus="nameTextBox_GotFocus"
-                             AllowDrop="True">
+                <Grid Grid.Row="1"
+                      Name="imageGrid">
+                    <controls:DropShadowPanel Margin="5"
+                                              BlurRadius="10"
+                                              HorizontalAlignment="Center">
+                        <Image Name="goalImage"
+                               Stretch="Uniform" />
+                    </controls:DropShadowPanel>
+                    <TextBlock Name="noImagePlaceholderTextBlock"
+                               Text="Currently No Image Selected"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                               FontWeight="Medium" />
+                    <Button Name="addImageButton"
+                            Style="{ThemeResource TextBlockButtonStyle}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="10"
+                            Click="addImageButton_Click">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE109;"
+                                          Margin="0,0,5,0" />
+                                <TextBlock Name="addImageTextBlock"
+                                           Text="Add Image"
+                                           FontWeight="Medium" />
+                            </StackPanel>
 
-                    </TextBox>
-
-                    <TextBox Name="targetTextBox"
-                             Header="Target To Reach:"
-                             InputScope="Number"
-                             GotFocus="targetTextBox_GotFocus"
-                             AllowDrop="True">
-
-                    </TextBox>
-
-                    <TextBox Name="descriptionTextBox"
-                             Header="Description:"
-                             GotFocus="descriptionTextBox_GotFocus"
-                             AllowDrop="True">
-
-                    </TextBox>
-                    <TextBlock Name="errorTextBlock"
-                               Foreground="Red"
-                               Text="Please enter numbers only e.g. 2 or 5.41 in the 'Target To Reach' text box"
-                               Visibility="Collapsed"
-                               TextWrapping="Wrap"
-                               Margin="10" />
-                    <TextBlock Name="nameErrorTextBlock"
-                               Foreground="Red"
-                               Text="You already have a goal with this name. Please pick a goal with a different name"
-                               Visibility="Collapsed"
-                               TextWrapping="Wrap"
-                               Margin="10" />
-                    <CheckBox Margin="10" Name="timeLimitCheckBox">
-                        <CheckBox.Content>
-                            <TextBlock Text="Enable Time Limit" />
-                        </CheckBox.Content>
-                    </CheckBox>
-                    <DatePicker Name="goalDatePicker"
-                                Header="Due Date:"
-                                Margin="10"
-                                Visibility="{Binding ElementName=timeLimitCheckBox, Path=IsChecked}"
-                                HorizontalAlignment="Stretch">
-                        
-                    </DatePicker>
-                </StackPanel>
-
-            </Grid>
-            <controls:DropShadowPanel Margin="20"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Bottom"
-                                      x:Name="mainCommandBar"
-                                      BlurRadius="10"
-                                      ShadowOpacity="0.8"
-                                      Canvas.ZIndex="20"
-                                      Grid.RowSpan="4">
-                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
-                    <StackPanel  Orientation="Horizontal">
-                        <AppBarButton Name="confirmNewGoalBottom"
-                                      Icon="Accept"
-                                      Label="Finish"
-                                      Click="confirmNewGoalBottom_Click"
-                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
-                        <AppBarButton Name="cancelButton"
-                                      Icon="Cancel"
-                                      Label="Cancel"
-                                      Click="cancelButton_Click"
-                                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
-
-                    </StackPanel>
+                        </Button.Content>
+                    </Button>
                 </Grid>
-            </controls:DropShadowPanel>
+
+                <Grid Name="formGrid"
+                      HorizontalAlignment="Center"
+                      Width="400"
+                      Margin="0,0,0,100"
+                      Grid.Row="2">
+                    <StackPanel Name="formsStackPanel">
+                        <TextBox Name="nameTextBox"
+                                 Header="Name Of Item:"
+                                 GotFocus="nameTextBox_GotFocus"
+                                 AllowDrop="True">
+
+                        </TextBox>
+
+                        <TextBox Name="targetTextBox"
+                                 Header="Target To Reach:"
+                                 InputScope="Number"
+                                 GotFocus="targetTextBox_GotFocus"
+                                 AllowDrop="True">
+
+                        </TextBox>
+
+                        <TextBox Name="descriptionTextBox"
+                                 Header="Description:"
+                                 GotFocus="descriptionTextBox_GotFocus"
+                                 AllowDrop="True">
+
+                        </TextBox>
+                        <TextBlock Name="errorTextBlock"
+                                   Foreground="Red"
+                                   Text="Please enter numbers only e.g. 2 or 5.41 in the 'Target To Reach' text box"
+                                   Visibility="Collapsed"
+                                   TextWrapping="Wrap"
+                                   Margin="10" />
+                        <TextBlock Name="nameErrorTextBlock"
+                                   Foreground="Red"
+                                   Text="You already have a goal with this name. Please pick a goal with a different name"
+                                   Visibility="Collapsed"
+                                   TextWrapping="Wrap"
+                                   Margin="10" />
+                        <CheckBox Margin="10"
+                                  Name="timeLimitCheckBox">
+                            <CheckBox.Content>
+                                <TextBlock Text="Enable Time Limit" />
+                            </CheckBox.Content>
+                        </CheckBox>
+                        <DatePicker Name="goalDatePicker"
+                                    Header="Due Date:"
+                                    Margin="10"
+                                    Visibility="{Binding ElementName=timeLimitCheckBox, Path=IsChecked}"
+                                    HorizontalAlignment="Stretch">
+
+                        </DatePicker>
+                    </StackPanel>
+
+                </Grid>
+
+              
+            </Grid>
+        </ScrollViewer>
+
+        <controls:DropShadowPanel Margin="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Bottom"
+                                  x:Name="mainCommandBar"
+                                  BlurRadius="10"
+                                  ShadowOpacity="0.8"
+                                  Canvas.ZIndex="20"
+                                  Grid.RowSpan="1">
+            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                <StackPanel  Orientation="Horizontal">
+                    <AppBarButton Name="confirmNewGoalBottom"
+                                  Icon="Accept"
+                                  Label="Finish"
+                                  Click="confirmNewGoalBottom_Click"
+                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                    <AppBarButton Name="cancelButton"
+                                  Icon="Cancel"
+                                  Label="Cancel"
+                                  Click="cancelButton_Click"
+                                  Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+
+                </StackPanel>
+            </Grid>
+        </controls:DropShadowPanel>
+        <Grid Grid.Row="1">
+            <!--<UI:AdControl ApplicationId="3f83fe91-d6be-434d-a0ae-7351c5a997f1"
+                          AdUnitId="test"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="50"
+                          Width="300"/>-->
+
+            <UI:AdControl ApplicationId="9nblggh52rsb"
+                          AdUnitId="350374"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="50"
+                          Width="300"
+            Name="easyAd2"/>
+           
         </Grid>
-    </ScrollViewer>
+            
+    </Grid>
     <Page.BottomAppBar>
         <CommandBar OverflowButtonVisibility="Collapsed"
                     Name="formHelper"

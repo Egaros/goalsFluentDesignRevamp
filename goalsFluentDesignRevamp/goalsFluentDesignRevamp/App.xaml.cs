@@ -372,8 +372,7 @@ namespace goalsFluentDesignRevamp
                         const string nullValue = "(null)";
                         string goalName = this.SemanticInterpretation("goalName", speechRecognitionResult);
                         string target = this.SemanticInterpretation("target", speechRecognitionResult);
-                        string description = this.SemanticInterpretation("description", speechRecognitionResult);
-                        string[] goalDetails = new string[] { goalName, target, description };
+                        string[] goalDetails = new string[] { goalName, target };
 
                         
                        
@@ -383,6 +382,15 @@ namespace goalsFluentDesignRevamp
                         
                         // Create a navigation command object to pass to the page. 
                         NavService.NavigateTo(typeof(addNewGoalPage), goalDetails);
+                        if (rootFrame.BackStackDepth > 0)
+                        {
+                            if (rootFrame.BackStack.Last().SourcePageType != typeof(MainPage))
+                            {
+                                int backStackSize = rootFrame.BackStackDepth;
+                                rootFrame.BackStack.RemoveAt(backStackSize - 1);
+                            }
+                        }
+
                             break;
 
                     case "showGoalInProgress":

@@ -101,10 +101,7 @@ namespace goalsFluentDesignRevamp
 
 
 
-                if (goalDetailsToUse[2] != nullValue)
-                {
-                    descriptionTextBox.Text = goalDetailsToUse[2];
-                }
+               
 
 
 

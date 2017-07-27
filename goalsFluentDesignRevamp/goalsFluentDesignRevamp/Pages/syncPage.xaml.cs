@@ -106,9 +106,9 @@ namespace goalsFluentDesignRevamp
 
                 bool deviceHasNewerDataThanCloud = await decideWhetherCloudOrDeviceHasNewerData(goalDataToSync, rootFolder, cloudSyncDateInTicks);
                
-                if (deviceHasNewerDataThanCloud)
+                if (MainPage.firstTimeCloudOption == false)
                 {
-                    if (MainPage.firstTimeCloudOption == false)
+                     if (deviceHasNewerDataThanCloud)
                     {
                         uploadDataToCloud(rootFolder, imageFolder, goalDataToSync, cloudData);
                         recordLastTimeSynced(rootFolder);

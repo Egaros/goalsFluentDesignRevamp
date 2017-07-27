@@ -38,8 +38,9 @@
     <Grid Background="{ThemeResource CommandBarBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="250" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
         
@@ -55,48 +56,58 @@
         </Grid>
             
                 <Grid Grid.Row="1">
-            <ScrollViewer>
+            <ScrollViewer VerticalScrollMode="Enabled"
+                          VerticalScrollBarVisibility="Visible">
                 <StackPanel>
                     <TextBlock Text="New Features"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Page transitions have been changed"/>
-                    <TextBlock Text="* Added acrylic to the UI" />
-                    <TextBlock Text="Tweaks + Bug Fixes"
+                    <TextBlock Text="* Cortana Support! - You can now create new goals and go straight to updating current ones with your voice!"/>
+                    <TextBlock Text="*Try this: 'Track Goals, Create a goal called tutorial with a target of $100" />
+                    <TextBlock Text="*You can tell a goal to create a goal, create a goal with a name or create a goal with a name and target." />
+                    <TextBlock Text="For goals created already, you can go straight to updating them by saying: 'Track Goals, show (goal name e.g tutorial)" />
+                    <TextBlock Text="Bug Fixes"
                                Style="{StaticResource headerTextBlock}" />
-                    <TextBlock Text="* Jumplist will no longer contain the same item multiple times" />
-                    <TextBlock Text="* App will no longer upload to the cloud when you choose to sync your data during the first time experience" />
+                    <TextBlock Text="Fixed bug which stopped Cortana commands from working. Cortana commands should work fine now!" />
 
-                    <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to suggest ideas to improve the app and report crashes."
-                               TextAlignment="Center"
-                               FontWeight="SemiBold"
-                               FontSize="16"
-                               Margin="10,20,10,0" />
-                    <FontIcon FontFamily="Segoe MDL2 Assets"
-                                          Glyph="&#xE939;"
-                                          Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                          Margin="0,10,5,0"
-                                          FontSize="60" />
-                    <TextBlock Text="Feedback Button Icon" 
-                               HorizontalAlignment="Center"/>
                 </StackPanel>
 
             </ScrollViewer>
 
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2"
+              VerticalAlignment="Center">
+            <StackPanel>
+            <TextBlock Text="Make sure you click the FEEDBACK HUB button in next screen to suggest ideas to improve the app and report crashes."
+                       TextAlignment="Center"
+                       FontWeight="SemiBold"
+                       FontSize="16"
+                     />
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      Glyph="&#xE939;"
+                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                      Margin="20"
+                      FontSize="40"
+                      HorizontalAlignment="Center"/>
+            <TextBlock Text="Feedback Button Icon"
+                       HorizontalAlignment="Center" 
+                       FontWeight="SemiBold"
+                       Margin="0,-10,0,0"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3">
             <Button Style="{ThemeResource TextBlockButtonStyle}"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
                     Name="contiueButton"
                     Click="contiueButton_Click"
-                    Margin="0,10,0,0">
+                   >
                 <Button.Content>
                     <StackPanel>
                         <FontIcon x:Name="fontIcon3"
                                   FontFamily="Segoe MDL2 Assets"
                                   Glyph="&#xE0AE;" />
                         <TextBlock Text="Continue"
-                                   Margin="10"
+                                   Margin="5"
                                    Visibility="Visible" />
                     </StackPanel>
                 </Button.Content>

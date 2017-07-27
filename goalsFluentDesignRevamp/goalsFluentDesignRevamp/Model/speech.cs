@@ -9,23 +9,18 @@ namespace goalsFluentDesignRevamp.Model
 
     public class speech
     {
-        const string ukCommandSet = "TrackGoalsCommandSet_en-gb";
-        const string usCommandSet = "TrackGoalsCommandSet_en-us";
-        static VoiceCommandDefinition dab;
+        
         public async static void updatePhraseList()
         {
             List<string> goalNames = getGoalNames();
             //repeat FOREACH commandset
-            List<string> commandSetNames = new List<string> { ukCommandSet, usCommandSet };
-            foreach (string commandSetName in commandSetNames)
+          
+             List<VoiceCommandDefinition> voiceCommandDefinitions = VoiceCommandDefinitionManager.InstalledCommandDefinitions.Values.ToList();
+            foreach (var voiceCommandDefinition in voiceCommandDefinitions)
             {
-                if (VoiceCommandDefinitionManager.InstalledCommandDefinitions.TryGetValue(commandSetName, out dab))
-                {
-                    await dab.SetPhraseListAsync("goalInProgress", goalNames);
-
-                }
-
+                await voiceCommandDefinition.SetPhraseListAsync("goalInProgress", goalNames);
             }
+           
 
         }
 

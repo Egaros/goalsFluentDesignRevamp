@@ -40,7 +40,7 @@ ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
                 titleBar.Opacity = 0;
                 formGrid.Opacity = 0;
                 goalImage.Opacity = 0;
-
+                imageGrid.Opacity = 0;
 
                 // Wait for image opened. In future Insider Preview releases, this won't be necessary.
                 goalImage.ImageOpened += (sender_, e_) =>
@@ -52,7 +52,7 @@ ConnectedAnimationService.GetForCurrentView().GetAnimation("image");
 
                     titleBar.Opacity = 1;
                     formGrid.Opacity = 1;
-
+                    imageGrid.Opacity = 1;
                 };
 
 
