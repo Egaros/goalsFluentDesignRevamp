@@ -288,6 +288,8 @@ namespace goalsFluentDesignRevamp
 
 
                 var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                setLaunchViewSize(appView);
+                setMinAppSize(appView);
                 if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
                 {
 
@@ -313,7 +315,8 @@ namespace goalsFluentDesignRevamp
 
                 }
 
-                appView.SetPreferredMinSize(new Size(400, 400));
+              
+                
 
 
             }
@@ -426,14 +429,23 @@ namespace goalsFluentDesignRevamp
 // Ensure the current window is active
             Window.Current.Activate();
             }
-                
 
+        private void setLaunchViewSize(ApplicationView appView)
+        {
+            Windows.UI.ViewManagement.ApplicationView.PreferredLaunchViewSize = new Size(480,800);
+            Windows.UI.ViewManagement.ApplicationView.PreferredLaunchWindowingMode = Windows.UI.ViewManagement.ApplicationViewWindowingMode.PreferredLaunchViewSize;
+        }
+
+        private void setMinAppSize(ApplicationView appView)
+        {
+            appView.SetPreferredMinSize(new Size(480, 800));
+            var coreWindow = Windows.UI.Core.CoreWindow.GetForCurrentThread();
             
             
+            
+        }
 
-
-
-        
+     
 
         private string SemanticInterpretation(string interpretationKey, SpeechRecognitionResult speechRecognitionResult)
         {
@@ -584,6 +596,9 @@ namespace goalsFluentDesignRevamp
 
 
             var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+            setLaunchViewSize(appView);
+            setMinAppSize(appView);
+
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
 
@@ -609,7 +624,7 @@ namespace goalsFluentDesignRevamp
 
             }
 
-            appView.SetPreferredMinSize(new Size(400, 400));
+            
 
 
 
