@@ -320,29 +320,9 @@ namespace goalsFluentDesignRevamp
         private async void showTheDialog()
         {
             //Release Version App Review/Feedback System
-            //if (App.localSettings.Values["askReviewsCounter"] == null)
-            //{
-            //    App.localSettings.Values["askReviewsCounter"] = 1;
-            //    reviewDialog.CloseButtonText = "Maybe Later";
-            //    await reviewDialog.ShowAsync();
-            //}
-            //else if ((int)App.localSettings.Values["askReviewsCounter"] > 0)
-            //{
-            //    int oldCounterValue = (int)App.localSettings.Values["askReviewsCounter"];
-            //    int newCounterValue = oldCounterValue - 1;
-            //    App.localSettings.Values["askReviewsCounter"] = newCounterValue;
-            //}
-            //else
-            //{
-            //    App.localSettings.Values["askReviewsCounter"] = 1;
-            //    reviewDialog.CloseButtonText = "Maybe Later";
-            //    await reviewDialog.ShowAsync();
-            //}
-
-            //Beta Version App Review/Feedback System
             if (App.localSettings.Values["askReviewsCounter"] == null)
             {
-                App.localSettings.Values["askReviewsCounter"] = 2;
+                App.localSettings.Values["askReviewsCounter"] = 1;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
@@ -354,10 +334,30 @@ namespace goalsFluentDesignRevamp
             }
             else
             {
-                App.localSettings.Values["askReviewsCounter"] = 2;
+                App.localSettings.Values["askReviewsCounter"] = 1;
                 reviewDialog.CloseButtonText = "Maybe Later";
                 await reviewDialog.ShowAsync();
             }
+
+            //Beta Version App Review/Feedback System
+            //if (App.localSettings.Values["askReviewsCounter"] == null)
+            //{
+            //    App.localSettings.Values["askReviewsCounter"] = 2;
+            //    reviewDialog.CloseButtonText = "Maybe Later";
+            //    await reviewDialog.ShowAsync();
+            //}
+            //else if ((int)App.localSettings.Values["askReviewsCounter"] > 0)
+            //{
+            //    int oldCounterValue = (int)App.localSettings.Values["askReviewsCounter"];
+            //    int newCounterValue = oldCounterValue - 1;
+            //    App.localSettings.Values["askReviewsCounter"] = newCounterValue;
+            //}
+            //else
+            //{
+            //    App.localSettings.Values["askReviewsCounter"] = 2;
+            //    reviewDialog.CloseButtonText = "Maybe Later";
+            //    await reviewDialog.ShowAsync();
+            //}
 
             //Website Review Version App Review/Feedback System (Empty loool)
 
